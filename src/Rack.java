@@ -32,6 +32,7 @@ public class Rack {
     /**
      * The addTile method adds a tile that is drawn from the tile bag
      * to the player's rack.
+     * @author Pathum Danthanarayana, 101181411
      */
     public void addTile()
     {
@@ -52,6 +53,7 @@ public class Rack {
      * The removeTile method removes a tile from the player's rack that corresponds
      * to the specified letter. If no tile matching the specified letter exists, the
      * method returns false. If successful, the method returns true.
+     * @author Pathum Danthanarayana, 101181411
      *
      * @param letter - The letter of the tile that will be removed from the player's rack
      * @return true if removing the corresponding tile was successful, false otherwise
@@ -76,6 +78,7 @@ public class Rack {
     /**
      * The hasTile method returns true if a tile with the specified letter exists
      * in the player's rack. If not, the method returns false.
+     * @author Pathum Danthanarayana, 101181411
      *
      * @param letter - The letter of the tile that will be searched for in the player's rack
      * @return true if a tile with the specified letter exists, and false otherwise
@@ -98,6 +101,7 @@ public class Rack {
     /**
      * The fillRack method fills the player's rack with exactly 7 tiles,
      * by drawing 7 tiles from the tile bag and adding them to the player's rack.
+     * @author Pathum Danthanarayana, 101181411
      *
      * The player's rack will be filled with 7 tiles only if the player's rack is
      * completely empty.
@@ -119,6 +123,7 @@ public class Rack {
     /**
      * The toString method overrides the default toString method to return a String describing
      * the player's rack.
+     * @author Pathum Danthanarayana, 101181411
      *
      * @return a String describing the player's rack
      */
