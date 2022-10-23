@@ -37,6 +37,7 @@ public class TileBag {
      * The prepareTiles method prepares all the tiles by assigning
      * the appropriate frequency and point values to each letter
      * that will be present in the tile bag.
+     * @author Pathum Danthanarayana, 101181411
      */
     private void prepareTiles()
     {
@@ -125,6 +126,7 @@ public class TileBag {
 
     /**
      * The prepareTileBag method creates and adds all the necessary tiles for the tile bag.
+     * @author Pathum Danthanarayana, 101181411
      */
     private void prepareTileBag()
     {
@@ -150,6 +152,8 @@ public class TileBag {
 
     /**
      * The dealTile method deals a tile from the tile bag to the player.
+     * @author Pathum Danthanarayana, 101181411
+     *
      * @return a tile that will be dealt to the corresponding player
      */
     public Tile dealTile()
@@ -168,6 +172,8 @@ public class TileBag {
 
     /**
      * The addTile method adds a tile to the tile bag.
+     * @author Pathum Danthanarayana, 101181411
+     *
      * @param tile - The tile that will be added to the tile bag
      */
     public void addBag(Tile tile)
@@ -179,6 +185,7 @@ public class TileBag {
     /**
      * The toString method overrides the default toString method to return a String
      * describing the tile bag, including all the tiles within the bag.
+     * @author Pathum Danthanarayana, 101181411
      *
      * @return a String describing the tile bag
      */
@@ -196,14 +203,5 @@ public class TileBag {
             counter += 1;
         }
         return tileBagStr;
-    }
-
-    /** Main method (for testing) **/
-    public static void main(String[] args)
-    {
-        // Create a tile bag
-        TileBag tileBag = new TileBag();
-        // Print out all the tiles in the tile bag
-        System.out.print(tileBag);
     }
 }

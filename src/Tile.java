@@ -24,6 +24,8 @@ public class Tile {
 
     /**
      * The getLetter method returns a String containing the tile's corresponding letter.
+     * @author Pathum Danthanarayana, 101181411
+     *
      * @return a String containing the letter of the current tile
      */
     public Character getLetter()
@@ -33,6 +35,8 @@ public class Tile {
 
     /**
      * The getValue method returns an integer containing the tile's corresponding point value.
+     * @author Pathum Danthanarayana, 101181411
+     *
      * @return an integer containing the point value of the current tile
      */
     public int getValue()
