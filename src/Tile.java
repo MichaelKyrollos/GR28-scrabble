@@ -43,4 +43,19 @@ public class Tile {
     {
         return this.pointValue;
     }
+
+    /**
+     * The toString method overrides the default toString method to
+     * describe a tile by its letter.
+     * @author Pathum Danthanarayana, 101181411
+     *
+     * @return a String that describes a tile
+     */
+    @Override
+    public String toString()
+    {
+        String tileStr = "";
+        tileStr += this.getLetter();
+        return tileStr;
+    }
 }
