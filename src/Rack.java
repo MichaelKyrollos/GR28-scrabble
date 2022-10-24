@@ -79,7 +79,7 @@ public class Rack {
     }
 
     /**
-     * The hasTile method returns the tile from the rack that corresponds
+     * The getTile method returns the tile from the rack that corresponds
      * to the specified letter. If no matching tile was found, the method returns null.
      * @author Pathum Danthanarayana, 101181411
      *
