@@ -79,14 +79,15 @@ public class Rack {
     }
 
     /**
-     * The hasTile method returns true if a tile with the specified letter exists
-     * in the player's rack. If not, the method returns false.
+     * The hasTile method returns the tile from the rack that corresponds
+     * to the specified letter. If no matching tile was found, the method returns null.
      * @author Pathum Danthanarayana, 101181411
      *
      * @param letter - The letter of the tile that will be searched for in the player's rack
-     * @return true if a tile with the specified letter exists, and false otherwise
+     * @return the tile that corresponds to the specified letter, and return null if no matching
+     * tile was found
      */
-    public boolean hasTile(Character letter)
+    public Tile getTile(Character letter)
     {
         // Traverse through all the tiles in the player's rack
         for (Tile tile : tiles)
@@ -94,11 +95,12 @@ public class Rack {
             // Check if the current tile's letter is the same as the specified letter
             if (tile.getLetter() == letter)
             {
-                return true;
+                // If so, return the tile
+                return tile;
             }
         }
-        // If no match was found, return false
-        return false;
+        // If no match was found, return null
+        return null;
     }
 
     /**
