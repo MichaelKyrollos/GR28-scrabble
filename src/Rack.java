@@ -51,14 +51,15 @@ public class Rack {
 
     /**
      * The removeTile method removes a tile from the player's rack that corresponds
-     * to the specified letter. If no tile matching the specified letter exists, the
-     * method returns false. If successful, the method returns true.
+     * to the specified letter, and returns it. If no tile matching the specified
+     * letter exists, the method returns null.
      * @author Pathum Danthanarayana, 101181411
      *
      * @param letter - The letter of the tile that will be removed from the player's rack
-     * @return true if removing the corresponding tile was successful, false otherwise
+     * @return the tile that will be removed from the player's rack, and return null if a tile with
+     * the specified letter does not exist in the player's rack
      */
-    public boolean removeTile(Character letter)
+    public Tile removeTile(Character letter)
     {
         // Traverse through all the tiles in the player's rack
         for (Tile tile : tiles)
@@ -66,13 +67,15 @@ public class Rack {
             // Check if the current tile's letter is the same as the specified letter
             if (tile.getLetter() == letter)
             {
-                // If so, remove the tile from the player's rack
+                // If so, store a reference to the tile that will be removed
+                Tile removedTile = tile;
+                // Remove the tile from the player's rack
                 tiles.remove(tile);
-                return true;
+                return removedTile;
             }
         }
-        // If no match was found, return false
-        return false;
+        // If no match was found, return null
+        return null;
     }
 
     /**
