@@ -1,8 +1,11 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * This class represents a player of the scrabble game.
  *
+ * @author Amin Zeina 101186297
+ * @version 1.1
  */
 public class Player {
 
@@ -36,32 +39,39 @@ public class Player {
      * the "e" and "o" are already on the board in the correct location, thus the player won't need to have an e or o
      * tile to play this word.
      *
-     * @param word The word to be placed
-     * @param coord the coordinates of the word to be placed
+     * @param command The command entered by the user to play a word
      * @return true if the word was successfully placed, false otherwise
      */
-    public boolean playWord(String word, String coord) {
+    public boolean playWord(Command command) {
+
+        ArrayList<Tile> tilesToPlay = new ArrayList<>();
+
         // remove letters that are already on the board - i.e. letters between ( )
+        String word = command.getSecondWord();
         String playerLetters = word.replaceAll("\\(.*?\\)", "");
         String[] split = playerLetters.split("");
         for (String s : split) {
-            if (!(rack.hasTile(s))) {
+            Tile tile = rack.getTile(s.charAt(0)) != null;
+            if (tile != null) {
+                tilesToPlay.add(tile);
+            } else {
                 // user doesn't have a tile with the required letter
                 System.out.println("Invalid word, you do not have a \"" + s + "\" tile.");
                 return false;
             }
         }
+
         // User has all required tiles
         // validate word legality and placement
-        if (game.validateWord(word, coord)) {
+
+        if (game.validateWord(command, tilesToPlay)) {
             // word is valid and has been placed, so remove the tiles from player's rack
             for (String s: split) {
-                rack.removeTile(s);
+                rack.removeTile(s.charAt(0));
             }
             rack.fillRack(); //refill rack
             System.out.println("Word placed, rack has been refilled");
             System.out.println(rack);
-
             return true;
         } else {
             System.out.println("Word cannot be placed");
@@ -79,7 +89,7 @@ public class Player {
         Scanner in = new Scanner(System.in);
         for(int i = 0; i < numNewTiles; i++){
             System.out.println("Enter the letter you want to redraw: ");
-            String letter = in.nextLine();
+            Character letter = in.nextLine().charAt(0);
             if (rack.removeTile(letter)) {
                 // the user entered a valid letter to remove
                 System.out.println("Tile \"" + letter + "\" has been removed");

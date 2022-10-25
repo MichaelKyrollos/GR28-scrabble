@@ -32,6 +32,7 @@ public class Rack {
     /**
      * The addTile method adds a tile that is drawn from the tile bag
      * to the player's rack.
+     * @author Pathum Danthanarayana, 101181411
      */
     public void addTile()
     {
@@ -50,13 +51,15 @@ public class Rack {
 
     /**
      * The removeTile method removes a tile from the player's rack that corresponds
-     * to the specified letter. If no tile matching the specified letter exists, the
-     * method returns false. If successful, the method returns true.
+     * to the specified letter, and returns it. If no tile matching the specified
+     * letter exists, the method returns null.
+     * @author Pathum Danthanarayana, 101181411
      *
      * @param letter - The letter of the tile that will be removed from the player's rack
-     * @return true if removing the corresponding tile was successful, false otherwise
+     * @return the tile that will be removed from the player's rack, and return null if a tile with
+     * the specified letter does not exist in the player's rack
      */
-    public boolean removeTile(Character letter)
+    public Tile removeTile(Character letter)
     {
         // Traverse through all the tiles in the player's rack
         for (Tile tile : tiles)
@@ -64,23 +67,27 @@ public class Rack {
             // Check if the current tile's letter is the same as the specified letter
             if (tile.getLetter() == letter)
             {
-                // If so, remove the tile from the player's rack
+                // If so, store a reference to the tile that will be removed
+                Tile removedTile = tile;
+                // Remove the tile from the player's rack
                 tiles.remove(tile);
-                return true;
+                return removedTile;
             }
         }
-        // If no match was found, return false
-        return false;
+        // If no match was found, return null
+        return null;
     }
 
     /**
-     * The hasTile method returns true if a tile with the specified letter exists
-     * in the player's rack. If not, the method returns false.
+     * The getTile method returns the tile from the rack that corresponds
+     * to the specified letter. If no matching tile was found, the method returns null.
+     * @author Pathum Danthanarayana, 101181411
      *
      * @param letter - The letter of the tile that will be searched for in the player's rack
-     * @return true if a tile with the specified letter exists, and false otherwise
+     * @return the tile that corresponds to the specified letter, and return null if no matching
+     * tile was found
      */
-    public boolean hasTile(Character letter)
+    public Tile getTile(Character letter)
     {
         // Traverse through all the tiles in the player's rack
         for (Tile tile : tiles)
@@ -88,16 +95,18 @@ public class Rack {
             // Check if the current tile's letter is the same as the specified letter
             if (tile.getLetter() == letter)
             {
-                return true;
+                // If so, return the tile
+                return tile;
             }
         }
-        // If no match was found, return false
-        return false;
+        // If no match was found, return null
+        return null;
     }
 
     /**
      * The fillRack method fills the player's rack with exactly 7 tiles,
      * by drawing 7 tiles from the tile bag and adding them to the player's rack.
+     * @author Pathum Danthanarayana, 101181411
      *
      * The player's rack will be filled with 7 tiles only if the player's rack is
      * completely empty.
@@ -119,6 +128,7 @@ public class Rack {
     /**
      * The toString method overrides the default toString method to return a String describing
      * the player's rack.
+     * @author Pathum Danthanarayana, 101181411
      *
      * @return a String describing the player's rack
      */
