@@ -7,14 +7,16 @@ import java.util.Scanner;
  * A text file containing a list of words can be used to create the dictionary,
  * but this class assumes that all words in the text file are valid and only contain letters from the alphabet.
  * @author Yehan De Silva
- * @version 1.0 October 23, 2022
+ * @version 1.0
+ * @date October 23, 2022
  */
 public class ScrabbleDictionary {
 
     /**
      * This class represents the data structure used to store the dictionary.
      * @author Yehan De Silva
-     * @version 1.0 October 23, 2022
+     * @version 1.0
+     * @date October 23, 2022
      */
     class DictionaryNode {
 
@@ -36,9 +38,10 @@ public class ScrabbleDictionary {
         private boolean terminal;
 
         /**
-         * Constructor to create a default instance of a DictionaryNode.
+         * Constructor to create an instance of a DictionaryNode.
          * @author Yehan De Silva
-         * @version 1.0 October 23, 2022
+         * @version 1.0
+         * @date October 23, 2022
          */
         public DictionaryNode() {
             children = new DictionaryNode[MAX_LETTER_COUNT];
@@ -50,7 +53,8 @@ public class ScrabbleDictionary {
          * @param letter Letter to be converted.
          * @return Numerical representation of the letter.
          * @author Yehan De Silva
-         * @version 1.0 October 23, 2022
+         * @version 1.0
+         * @date October 23, 2022
          */
         private int charToInt(char letter) {
             return (int) (letter - FIRST_LETTER);
@@ -60,7 +64,8 @@ public class ScrabbleDictionary {
          * Adds a specified word to the dictionary structure.
          * @param word Word to be added to the dictionary.
          * @author Yehan De Silva
-         * @version 1.0 October 23, 2022
+         * @version 1.0
+         * @date October 23, 2022
          */
         private void addWord(char[] word) {
             int charNumericalValue;
@@ -83,7 +88,8 @@ public class ScrabbleDictionary {
          * @param word Word to check if it is in the dictionary structure.
          * @return True if word is in the dictionary structure, false otherwise.
          * @author Yehan De Silva
-         * @version 1.0 October 23, 2022
+         * @version 1.0
+         * @date October 23, 2022
          */
         private boolean isWordInDictionary(char[] word) {
             int charNumericalValue;
@@ -98,7 +104,8 @@ public class ScrabbleDictionary {
                 }
                 curNode = curNode.children[charNumericalValue]; //Go to the next node corresponding to the next letter
             }
-            return curNode.terminal; //Return the terminal flag of the last node, which specifies end of word
+            //Return the terminal flag of the last node, which specifies end of word has been reached
+            return curNode.terminal;
         }
     }
 
@@ -114,6 +121,9 @@ public class ScrabbleDictionary {
 
     /**
      * Constructor to instantiate a default dictionary.
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date October 23, 2022
      */
     public ScrabbleDictionary() {
         this(DEFAULT_DICTIONARY);
@@ -123,7 +133,8 @@ public class ScrabbleDictionary {
      * Constructor to instantiate a dictionary with the given file.
      * @param file File to be used to create the dictionary.
      * @author Yehan De Silva
-     * @version 1.0 October 23, 2022
+     * @version 1.0
+     * @date October 23, 2022
      */
     public ScrabbleDictionary(File file) {
         dictionary = new DictionaryNode();
@@ -134,7 +145,8 @@ public class ScrabbleDictionary {
      * Creates the dictionary.
      * @param file Text file containing all valid words for the dictionary.
      * @author Yehan De Silva
-     * @version 1.0 October 23, 2022
+     * @version 1.0
+     * @date October 23, 2022
      */
     private void createDictionary(File file) {
         //Reads the text file
@@ -158,7 +170,8 @@ public class ScrabbleDictionary {
      * @param word Word to check if it is in the dictionary.
      * @return True if the word is in the dictionary, false otherwise.
      * @author Yehan De Silva
-     * @version 1.0 October 23, 2022
+     * @version 1.0
+     * @date October 23, 2022
      */
     public boolean validateWord(String word) {
         return dictionary.isWordInDictionary(word.toCharArray());
