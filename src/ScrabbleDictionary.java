@@ -143,7 +143,7 @@ public class ScrabbleDictionary {
             scanner = new Scanner(file);
         }
         catch (Exception e) {
-            System.out.println("Failed to open file " + file);
+            System.out.println("Error: " + e);
             System.exit(1);
         }
 
