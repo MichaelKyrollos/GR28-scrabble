@@ -219,8 +219,8 @@ public class ScrabbleGame {
     {
         System.out.println("You need help");
         System.out.println("Format to insert word: 'play [word_to_insert] [location_on_board]'");
-        System.out.println();
         System.out.println("Word to insert and location on board must be entered in uppercase");
+        System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
     }
