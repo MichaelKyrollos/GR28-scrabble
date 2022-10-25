@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-import static java.lang.Character.toUpperCase;
-
 /**
  * Parser will continuously read for commands
  *
@@ -45,19 +43,15 @@ public class Parser
                 }
             }
         }
+
         return new Command(commands.getCommandWord(word1), word2, word3);
     }
 
     /**
      * Print out a list of valid command words.
-     *
-     * @author Michael Kyrollos
-     * @version 1.0
      */
     public void showCommands()
     {
         commands.showAll();
     }
-
-
 }
