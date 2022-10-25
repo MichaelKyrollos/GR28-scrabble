@@ -109,5 +109,3 @@ public class ScrabbleGame {
         newGame.play();
 
     }
-
-}
