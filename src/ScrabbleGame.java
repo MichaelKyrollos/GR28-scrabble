@@ -168,6 +168,9 @@ public class ScrabbleGame {
             case REDRAW:
                 redraw(command);
                 return false;
+
+            case SKIP:
+                //run skip
         }
         return false;
     }

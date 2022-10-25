@@ -8,7 +8,7 @@
 public enum CommandWord {
 
     //    Each string has its own value
-    PLAY("play"), QUIT("quit"), HELP("help"), INVALID("invalid"), REDRAW("redraw");
+    PLAY("play"), QUIT("quit"), HELP("help"), INVALID("invalid"), REDRAW("redraw"), SKIP("skip");
 
     private String inputString;
 
