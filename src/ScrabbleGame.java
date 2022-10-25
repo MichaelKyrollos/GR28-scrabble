@@ -166,19 +166,33 @@ public class ScrabbleGame {
         return false;
     }
 
-    public void playWord(Command command) {
-//        Do not remove, for testing purposes.
-//        ArrayList<Tile> tilesToPlay = new ArrayList<>();
-//        tilesToPlay.add(GAME_TILE_BAG.dealTile());
-//        tilesToPlay.add(GAME_TILE_BAG.dealTile());
-//        tilesToPlay.add(GAME_TILE_BAG.dealTile());
-//        tilesToPlay.add(GAME_TILE_BAG.dealTile());
-//        tilesToPlay.add(GAME_TILE_BAG.dealTile());
-//        gameBoard.placeWord(command,tilesToPlay);
+    /**
+     * Plays a word that was entered by the player, using the "play" command.
+     *
+     * This method checks that the word entered is a valid english word, using ScrabbleDictionary. Then, it checks
+     * that the player can actually play the word (has the tiles + valid placement on board), using Player.
+     *
+     * @param command the command entered by the player, containing the word and coordinates
+     * @return true if the word was played successfully, false otherwise
+     * @author Amin Zeina
+     * @date October 25, 2022
+     */
+    public boolean playWord(Command command) {
+        String word = command.getSecondWord();
+        Player currentPlayer = players.get(currentTurn);
 
-        //check in player first - check for tiles: playWord
-        // playWord();
-        //
+        // check that the word is a valid english scrabble word
+        if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", ""))) {
+            // check if the word can actually be played
+            if (currentPlayer.playWord(command)) {
+                System.out.println("You have successfully played \"" + word + "\". You now have "
+                        + currentPlayer.getScore() + " points!");
+                return true;
+            }
+        } else {
+            System.out.println(word + " is not a valid word. Try again.");
+        }
+        return false;
     }
 
     public Boolean validateWord(Command command, ArrayList<Tile> tilesToPlay) {
