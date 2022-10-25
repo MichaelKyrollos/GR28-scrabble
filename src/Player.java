@@ -90,7 +90,7 @@ public class Player {
         for(int i = 0; i < numNewTiles; i++){
             System.out.println("Enter the letter you want to redraw: ");
             Character letter = in.nextLine().charAt(0);
-            if (rack.removeTile(letter)) {
+            if (rack.removeTile(letter) != null) {
                 // the user entered a valid letter to remove
                 System.out.println("Tile \"" + letter + "\" has been removed");
                 System.out.println(rack);
