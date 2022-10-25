@@ -51,7 +51,7 @@ public class Player {
         String playerLetters = word.replaceAll("\\(.*?\\)", "");
         String[] split = playerLetters.split("");
         for (String s : split) {
-            Tile tile = rack.getTile(s.charAt(0)) != null;
+            Tile tile = rack.getTile(s.charAt(0));
             if (tile != null) {
                 tilesToPlay.add(tile);
             } else {
