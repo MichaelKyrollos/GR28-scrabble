@@ -141,7 +141,7 @@ public class TileBag {
                 // Repeatedly add the tile to the tile bag according to its frequency value
                 for (int i = 0; i < tileFrequency; i++)
                 {
-                    this.addBag(tile);
+                    this.addTile(tile);
                 }
             }
         }
@@ -170,7 +170,7 @@ public class TileBag {
      *
      * @param tile - The tile that will be added to the tile bag
      */
-    public void addBag(Tile tile)
+    public void addTile(Tile tile)
     {
         // Add the specified tile to the tile bag
         tiles.add(tile);
