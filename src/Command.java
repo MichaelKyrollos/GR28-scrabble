@@ -1,3 +1,5 @@
+import static java.lang.Character.getNumericValue;
+
 /**
  * This class holds information about a command that was issued by the user.
  *
@@ -52,5 +54,20 @@ public class Command
         return thirdWord;
     }
 
-}
+    public boolean secondWordExist() {
+        return secondWord != null;
+    }
 
+    /**
+     * Return int representation of the ith character of the second word
+     * for a 2 word command
+     * @author Michael Kyrollos, 101183521
+     * @version 1.0
+     *
+     * @param i The character of the second word to be converted to int
+     * @return int value of the character
+     */
+    public int getCharSecondWord(int i) {
+        return  getNumericValue(this.getSecondWord().charAt(i));
+    }
+}

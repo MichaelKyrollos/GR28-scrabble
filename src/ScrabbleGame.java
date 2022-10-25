@@ -1,5 +1,7 @@
 import java.util.*;
 
+import static java.lang.Character.getNumericValue;
+
 /**
  * Milestone 1 of the SYSC 3110 Project.
  * A text-based playable version of the game "Scrabble", where players play the game through the console using the keyboard.
@@ -162,6 +164,10 @@ public class ScrabbleGame {
             case QUIT:
                 quitGame();
                 return true;
+
+            case REDRAW:
+                redraw(command);
+                return false;
         }
         return false;
     }
@@ -203,16 +209,46 @@ public class ScrabbleGame {
     /**
      * Print out help information. list of commands and intro
      *
-     * @author - Michael Kyrollos, 101183521
+     * @author Michael Kyrollos, 101183521
+     * @version  1.0
      */
     public void help()
     {
         System.out.println("You need help");
+        System.out.println("Format to insert word: 'play [word_to_insert] [location_on_board]'");
         System.out.println();
+        System.out.println("Word to insert and location on board must be entered in uppercase");
         System.out.println("Your command words are:");
         parser.showCommands();
     }
 
+    /**
+     * Called when a user is requesting redraw of tiles.
+     * If there is no second word i.e. the user didn't
+     * enter the number of tiles to redraw, the user will be
+     * prompted for input again.
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version  1.0
+     *
+     * @param command The number of tiles the user would like to redraw
+     */
+    public void redraw(Command command) {
+        if (!command.secondWordExist()) {
+            System.out.println("How many tiles would you like to redraw from the rack below?");
+            return;
+        }
+        players.get(currentTurn).playRedraw( command.getCharSecondWord(0));
+    }
+
+    /**
+     * Function for quitting game.
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version  1.0
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.1
+     */
     private void quitGame()
     {
         this.gameRunning = false;
