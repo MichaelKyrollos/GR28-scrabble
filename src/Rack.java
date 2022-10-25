@@ -105,31 +105,6 @@ public class Rack {
     }
 
     /**
-     * The getTile method returns the tile from the rack that corresponds
-     * to the specified letter. If no matching tile was found, the method returns null.
-     * @author Pathum Danthanarayana, 101181411
-     *
-     * @param letter - The letter of the tile that will be searched for in the player's rack
-     * @return the tile that corresponds to the specified letter, and return null if no matching
-     * tile was found
-     */
-    public Tile getTile(char letter)
-    {
-        // Traverse through all the tiles in the player's rack
-        for (Tile tile : tiles)
-        {
-            // Check if the current tile's letter is the same as the specified letter
-            if (tile.getLetter() == letter)
-            {
-                // If so, return the tile
-                return tile;
-            }
-        }
-        // If no match was found, return null
-        return null;
-    }
-
-    /**
      * The fillRack method fills the player's rack with up to 7 tiles.
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva

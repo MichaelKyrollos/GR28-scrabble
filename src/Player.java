@@ -5,26 +5,42 @@ import java.util.Scanner;
  * This class represents a player of the scrabble game.
  *
  * @author Amin Zeina 101186297
- * @version 1.1
+ * @author Yehan De Silva
+ * @version 1.2
+ * @date October 25, 2022
  */
 public class Player {
 
+    /**
+     * Name of the player.
+     */
     private String name;
+    /**
+     * Score of the player.
+     */
     private int score;
+    /**
+     * The player's tile rack.
+     */
     private Rack rack;
-    private ScrabbleGame game;
+    /**
+     * The board the player is playing on.
+     */
+    private Board board;
 
     /**
-     * Constructs a new Player with a given name who is playing in a given game. The player's score is initially
-     * zero.
-     * Author - Amin Zeina
+     * Constructs a new Player with a given name. The player's score is initially zero.
+     * @author Amin Zeina
+     * @author Yehan De Silva
+     * @version 1.1
+     * @date October 25, 2022
      *
      * @param name the name of the player
-     * @param game the ScrabbleGame that the player is playing in
+     * @param board the board the player is playing on
      */
-    public Player(String name, ScrabbleGame game) {
+    public Player(String name, Board board) {
         this.name = name;
-        this.game = game;
+        this.board = board;
         this.score = 0;
         this.rack = new Rack();
         this.rack.fillRack();
@@ -32,12 +48,15 @@ public class Player {
 
     /**
      * Plays the given word entered by the user at the given coordinates. Returns true if the word was successfully
-     * placed (i.e. the user had the necessary tiles, the word was valid, and the placement of the word on the board
-     * was valid)
+     * placed (i.e. the user had the necessary tiles and the placement of the word on the board was valid)
      *
-     * words are entered as strings with preplaced letters enclosed in (). For example, placing "h(e)ll(o)" states that
-     * the "e" and "o" are already on the board in the correct location, thus the player won't need to have an e or o
+     * Words are entered as strings with preplaced letters enclosed in (). For example, placing "h(e)ll(o)" states that
+     * the "e" and "o" are already on the board in the correct location, thus the player doesn't need to have an e or o
      * tile to play this word.
+     * @author Amin Zeina
+     * @author Yehan De Silva
+     * @version 1.1
+     * @date October 25, 2022
      *
      * @param command The command entered by the user to play a word
      * @return true if the word was successfully placed, false otherwise
@@ -46,34 +65,36 @@ public class Player {
 
         ArrayList<Tile> tilesToPlay = new ArrayList<>();
 
-        // remove letters that are already on the board - i.e. letters between ( )
         String word = command.getSecondWord();
+        // remove letters that are already on the board - i.e. letters between ( )
         String playerLetters = word.replaceAll("\\(.*?\\)", "");
-        String[] split = playerLetters.split("");
-        for (String s : split) {
-            Tile tile = rack.getTile(s.charAt(0));
+        char[] individualPlayerLetters = playerLetters.toCharArray();
+        //Loop through each letter to ensure player has the letter in their rack
+        for (char c : individualPlayerLetters) {
+            Tile tile = rack.removeTile(c);
             if (tile != null) {
                 tilesToPlay.add(tile);
             } else {
                 // user doesn't have a tile with the required letter
-                System.out.println("Invalid word, you do not have a \"" + s + "\" tile.");
+                rack.addTiles(tilesToPlay); //Add all previously removed tiles back to the rack
+                System.out.println("Invalid word, you do not have a \"" + c + "\" tile.");
                 return false;
             }
         }
 
         // User has all required tiles
-        // validate word legality and placement
+        // Validate word placement on board
 
-        if (game.validateWord(command, tilesToPlay)) {
-            // word is valid and has been placed, so remove the tiles from player's rack
-            for (String s: split) {
-                rack.removeTile(s.charAt(0));
-            }
+        if (board.placeWord(command, tilesToPlay)) {
+            //Word is valid and has been played
             rack.fillRack(); //refill rack
             System.out.println("Word placed, rack has been refilled");
             System.out.println(rack);
             return true;
-        } else {
+        }
+        else {
+            //Otherwise, return the tiles back to the rack
+            rack.addTiles(tilesToPlay);
             System.out.println("Word cannot be placed");
             return false;
         }
@@ -81,17 +102,24 @@ public class Player {
 
     /**
      * Called when the player has chosen to redraw their tiles. Replaces numNewTiles tiles in the player's rack
-     * Author - Amin Zeina
+     * @author Amin Zeina
+     * @author Yehan De Silva
+     * @version 1.1
+     * @date October 25, 2022
      *
      * @param numNewTiles the number of tiles to replace
      */
     public void playRedraw(int numNewTiles) {
+        Tile removedTile;
         Scanner in = new Scanner(System.in);
+
         for(int i = 0; i < numNewTiles; i++){
             System.out.println("Enter the letter you want to redraw: ");
-            Character letter = in.nextLine().charAt(0);
-            if (rack.removeTile(letter) != null) {
-                // the user entered a valid letter to remove
+            char letter = in.nextLine().charAt(0);
+            removedTile = rack.removeTile(letter);
+            if (removedTile != null) {
+                // User entered a valid letter to remove
+                ScrabbleGame.GAME_TILE_BAG.addTile(removedTile);
                 System.out.println("Tile \"" + letter + "\" has been removed");
                 System.out.println(rack);
 
@@ -106,7 +134,7 @@ public class Player {
 
     /**
      * Adds scoreToAdd points to the current score of this player, then returns the new score
-     * Author - Amin Zeina
+     * @author Amin Zeina
      *
      * @param scoreToAdd the amount of points that must be added to the player's score
      * @return the player's new, increased score
@@ -128,7 +156,7 @@ public class Player {
 
     /**
      * Returns the name of this player
-     * Author - Amin Zeina
+     * @ Amin Zeina
      *
      * @return The name of the player
      */

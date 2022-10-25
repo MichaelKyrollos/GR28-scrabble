@@ -1,17 +1,93 @@
 import java.util.*;
 
+/**
+ * Milestone 1 of the SYSC 3110 Project.
+ * A text-based playable version of the game "Scrabble", where players play the game through the console using the keyboard.
+ * This scrabble game is compatible for 2-4 players.
+ *
+ * @author Michael Kyrollos, 101183521
+ * @author Yehan De Silva
+ * @version 1.1
+ * @date October 25, 2022
+ */
 public class ScrabbleGame {
+    /**
+     * Parser used to parse information from player.
+     */
     private Parser parser;
 
+    /**
+     * Board the game is being played on.
+     */
     private Board gameBoard;
 
+    /**
+     * Players of the scrabble game.
+     */
+    private List<Player> players;
+
+    /**
+     * The tile bag used to store all the tiles for this Scrabble game.
+     */
     public static final TileBag GAME_TILE_BAG = new TileBag();
 
+    /**
+     * The dictionary used to validate words for this Scrabble game.
+     */
+    public static final ScrabbleDictionary SCRABBLE_DICTIONARY= new ScrabbleDictionary();
+
+    /**
+     * Creates a new scrabble game.
+     * @author Michael Kyrollos, 101183521
+     * @author Yehan De Silva
+     * @version 1.1
+     * @date October 25, 2022
+     */
     public ScrabbleGame() {
         parser = new Parser();
         gameBoard = new Board();
+        players = new ArrayList<>();
+        initializePlayers();
     }
 
+    /**
+     * Initializes the list of players playing this scrabble game at the start of the game.
+     */
+    private void initializePlayers() {
+        String playerName;
+        int numberPlayers = 0;
+        Scanner in = new Scanner(System.in);
+        boolean validNumberPlayers = false;
+
+        //Keep looping till valid number of players (Between 2-4) is chosen by user
+        while (!validNumberPlayers) {
+            try {
+                System.out.println("Please enter the number of players (Between 2-4): ");
+                numberPlayers = in.nextInt();
+            }
+            catch (Exception e) {
+                in.next();
+                continue;
+            }
+            //Stop looping once a valid integer is given
+            if (numberPlayers <= 4 && numberPlayers >= 2) {validNumberPlayers = true;}
+        }
+
+        //Loop to get name of each player and add them to the game
+        for (int i = 1; i <= numberPlayers; i++) {
+            System.out.println("Please enter the name of Player " + i + ":");
+            playerName = in.next();
+            players.add(new Player(playerName, gameBoard));
+        }
+    }
+
+    /**
+     * Starts the Scrabble game.
+     * @author Michael Kyrollos, 101183521
+     * @author Yehan De Silva
+     * @version 1.1
+     * @date October 25, 2022
+     */
     public void play()
     {
 
@@ -105,8 +181,10 @@ public class ScrabbleGame {
     }
 
     public static void main(String[] args) {
+        /*
         ScrabbleGame newGame = new ScrabbleGame();
         newGame.play();
+         */
     }
 
 }
