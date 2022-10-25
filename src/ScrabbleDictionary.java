@@ -155,7 +155,7 @@ public class ScrabbleDictionary {
             scanner = new Scanner(file);
         }
         catch (Exception e) {
-            System.out.println("Failed to open file " + file);
+            System.out.println("Failed to open file " + file + ": " + e);
             System.exit(1);
         }
 
@@ -175,5 +175,9 @@ public class ScrabbleDictionary {
      */
     public boolean validateWord(String word) {
         return dictionary.isWordInDictionary(word.toCharArray());
+    }
+
+    public static void main (String[] args) {
+        Dictionary d = new Dictionary();
     }
 }

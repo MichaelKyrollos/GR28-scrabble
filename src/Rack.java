@@ -33,38 +33,46 @@ public class Rack {
      * The addTile method adds a tile that is drawn from the tile bag
      * to the player's rack.
      * @author Pathum Danthanarayana, 101181411
+     * @author Yehan De Silva
+     * @version 1.1
+     *
+     * @return True if tile is added to rack, false otherwise
      */
-    public void addTile()
+    public boolean addTile()
     {
         // Check if the player's rack is not full of tiles
         if (tiles.size() < 7)
         {
             // If so, draw a tile from the tile bag and add it to the player's rack
             tiles.add(bag.dealTile());
+            return true;
         }
-        else
-        {
-            // Otherwise, notify the player that their rack is currently full
-            System.out.println("You cannot draw a tile from the bag. Your rack is currently full of tiles.");
-        }
+        // Otherwise, notify the player that their rack is currently full
+        System.out.println("You cannot draw a tile from the bag. Your rack is currently full of tiles.");
+        return false;
     }
 
     /**
-     * The addTiles method adds the specified ArrayList of tiles back on to
-     * the player's rack. The specified ArrayList of tiles contains the tiles that
-     * the player initially removed from the rack to place a word on to the board.
+     * The addTiles method adds the specified ArrayList of tiles to
+     * the player's rack.
      * @author Pathum Danthanarayana, 101181411
+     * @author Yehan De Silva
+     * @version 1.1
      *
-     * @param tiles - the ArrayList of tiles that will be added back on to the player's rack
+     * @param tiles - the ArrayList of tiles that will be to the player's rack
+     * @return True if the all the tiles are added to the rack, false otherwise
      */
-    public void addTiles(ArrayList<Tile> tiles)
+    public boolean addTiles(ArrayList<Tile> tiles)
     {
         // Traverse through the provided tiles
         for (Tile tile : tiles)
         {
             // Add the tile to the player's rack
-            this.tiles.add(tile);
+            if(!(this.tiles.add(tile))) {
+                return false;
+            }
         }
+        return true;
     }
 
     /**
@@ -77,7 +85,7 @@ public class Rack {
      * @return the tile that will be removed from the player's rack, and return null if a tile with
      * the specified letter does not exist in the player's rack
      */
-    public Tile removeTile(Character letter)
+    public Tile removeTile(char letter)
     {
         // Traverse through all the tiles in the player's rack
         for (Tile tile : tiles)
@@ -105,7 +113,7 @@ public class Rack {
      * @return the tile that corresponds to the specified letter, and return null if no matching
      * tile was found
      */
-    public Tile getTile(Character letter)
+    public Tile getTile(char letter)
     {
         // Traverse through all the tiles in the player's rack
         for (Tile tile : tiles)
@@ -122,24 +130,16 @@ public class Rack {
     }
 
     /**
-     * The fillRack method fills the player's rack with exactly 7 tiles,
-     * by drawing 7 tiles from the tile bag and adding them to the player's rack.
+     * The fillRack method fills the player's rack with up to 7 tiles.
      * @author Pathum Danthanarayana, 101181411
-     *
-     * The player's rack will be filled with 7 tiles only if the player's rack is
-     * completely empty.
+     * @author Yehan De Silva
+     * @version 1.1
      */
     public void fillRack()
     {
-        // Check if the player's rack is currently empty
-        if (tiles.size() == 0)
-        {
-            // Draw 7 tiles from the tile bag and add it to the player's rack
-            for (int i = 0; i < MAX_TILES; i++)
-            {
-                // Add the drawn tile to the player's rack
-                this.addTile();
-            }
+        //Keep adding tiles to the rack while it is not full
+        while(tiles.size() < 7) {
+            this.addTile();
         }
     }
 
@@ -160,9 +160,10 @@ public class Rack {
         // Traverse through each tile in the player's rack
         for (Tile tile : tiles)
         {
-            rackStr += "#" + counter + " Tile letter: " + tile.getLetter() + " Points: " + tile.getValue() + "\n";
+            rackStr += "#" + counter + " Tile letter: " + tile.getLetter() + ", Points: " + tile.getValue() + "\n";
             counter += 1;
         }
         return rackStr;
     }
+
 }

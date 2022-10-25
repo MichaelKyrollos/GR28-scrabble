@@ -81,7 +81,7 @@ public class ScrabbleGame {
         //
     }
 
-    private Boolean validateWord(Command command, ArrayList<Tile> tilesToPlay) {
+    public Boolean validateWord(Command command, ArrayList<Tile> tilesToPlay) {
 //        call dictionary validate & board validate
         return true;
     }
@@ -104,8 +104,9 @@ public class ScrabbleGame {
         System.out.println(board);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         ScrabbleGame newGame = new ScrabbleGame();
         newGame.play();
-
     }
+
+}

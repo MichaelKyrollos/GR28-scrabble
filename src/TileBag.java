@@ -8,21 +8,36 @@ import java.util.*;
  * point value associated with them.
  *
  * @author Pathum Danthanarayana, 101181411
- * @version 1.0
+ * @version 1.1
  * @date October 22, 2022
  */
 public class TileBag {
 
     /** Fields **/
     private ArrayList<Tile> tiles;
-    private static final Map<Character, Integer> frequencyValues = new HashMap<>();
-    private static final Map<Integer, ArrayList<Character>> pointValues = new HashMap<>();
+    private static final Map<Character, Integer> FREQUENCY_VALUES = new HashMap<>();
+    private static final Map<Integer, ArrayList<Character>> POINT_VALUES = new HashMap<>();
+
+    /** Point values for each letter according to Hasbro.com */
+    private static final int[] POSSIBLE_POINT_VALUES = {1,2,3,4,5,8,10}; //*Note - Add 0 for support for blank tiles (Milestone 3)
+    private static final List<char[]> LETTERS_WITH_POINT = new ArrayList<>();
+    //private static final char[] LETTERS_WITH_POINT_0 = {'-'}; *Note - Uncomment for support for blank tiles (Milestone 3)
+    private static final char[] LETTERS_WITH_POINT_1 = {'A', 'E', 'I', 'O', 'U', 'L', 'N', 'S', 'T', 'R'};
+    private static final char[] LETTERS_WITH_POINT_2 = {'D','G'};
+    private static final char[] LETTERS_WITH_POINT_3 = {'B','C', 'M', 'P'};
+    private static final char[] LETTERS_WITH_POINT_4 = {'F','H', 'V', 'W', 'Y'};
+    private static final char[] LETTERS_WITH_POINT_5 = {'K'};
+    private static final char[] LETTERS_WITH_POINT_8 = {'J','X'};
+    private static final char[] LETTERS_WITH_POINT_10 = {'Q','Z'};
 
     /** Constructor **/
     public TileBag()
     {
         // Initialize ArrayList of tiles
         tiles = new ArrayList<>();
+
+        // Prepare the letter points
+        this.constructLetterPoints();
 
         // Prepare the tiles
         this.prepareTiles();
@@ -34,94 +49,76 @@ public class TileBag {
     /** Methods **/
 
     /**
+     * Constructs an ArrayList containing all the letters corresponding to a point value
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date October 25, 2022
+     */
+    private void constructLetterPoints() {
+        //LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_0); *Note - Uncomment for support for blank tiles (Milestone 3)
+        LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_1);
+        LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_2);
+        LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_3);
+        LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_4);
+        LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_5);
+        LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_8);
+        LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_10);
+    }
+
+    /**
      * The prepareTiles method prepares all the tiles by assigning
      * the appropriate frequency and point values to each letter
      * that will be present in the tile bag.
      * @author Pathum Danthanarayana, 101181411
+     * @author Yehan De Silva
+     * @version 1.1
+     * @date October 25, 2022
      */
     private void prepareTiles()
     {
         // Set up frequency values
-        frequencyValues.put('A', 9);
-        frequencyValues.put('B', 2);
-        frequencyValues.put('C', 2);
-        frequencyValues.put('D', 4);
-        frequencyValues.put('E', 12);
-        frequencyValues.put('F', 2);
-        frequencyValues.put('G', 3);
-        frequencyValues.put('H', 2);
-        frequencyValues.put('I', 9);
-        frequencyValues.put('J', 1);
-        frequencyValues.put('K', 1);
-        frequencyValues.put('L', 4);
-        frequencyValues.put('M', 2);
-        frequencyValues.put('N', 6);
-        frequencyValues.put('O', 8);
-        frequencyValues.put('P', 2);
-        frequencyValues.put('Q', 1);
-        frequencyValues.put('R', 6);
-        frequencyValues.put('S', 4);
-        frequencyValues.put('T', 6);
-        frequencyValues.put('U', 4);
-        frequencyValues.put('V', 2);
-        frequencyValues.put('W', 2);
-        frequencyValues.put('X', 1);
-        frequencyValues.put('Y', 2);
-        frequencyValues.put('Z', 1);
-        frequencyValues.put(' ', 2);
+        FREQUENCY_VALUES.put('A', 9);
+        FREQUENCY_VALUES.put('B', 2);
+        FREQUENCY_VALUES.put('C', 2);
+        FREQUENCY_VALUES.put('D', 4);
+        FREQUENCY_VALUES.put('E', 12);
+        FREQUENCY_VALUES.put('F', 2);
+        FREQUENCY_VALUES.put('G', 3);
+        FREQUENCY_VALUES.put('H', 2);
+        FREQUENCY_VALUES.put('I', 9);
+        FREQUENCY_VALUES.put('J', 1);
+        FREQUENCY_VALUES.put('K', 1);
+        FREQUENCY_VALUES.put('L', 4);
+        FREQUENCY_VALUES.put('M', 2);
+        FREQUENCY_VALUES.put('N', 6);
+        FREQUENCY_VALUES.put('O', 8);
+        FREQUENCY_VALUES.put('P', 2);
+        FREQUENCY_VALUES.put('Q', 1);
+        FREQUENCY_VALUES.put('R', 6);
+        FREQUENCY_VALUES.put('S', 4);
+        FREQUENCY_VALUES.put('T', 6);
+        FREQUENCY_VALUES.put('U', 4);
+        FREQUENCY_VALUES.put('V', 2);
+        FREQUENCY_VALUES.put('W', 2);
+        FREQUENCY_VALUES.put('X', 1);
+        FREQUENCY_VALUES.put('Y', 2);
+        FREQUENCY_VALUES.put('Z', 1);
+        /*Blank tiles left for Milestone 3
+        FREQUENCY_VALUES.put(' ', 2);
+         */
 
         // Set up all possible point values
-        pointValues.put(0, new ArrayList<>());
-        pointValues.put(1, new ArrayList<>());
-        pointValues.put(2, new ArrayList<>());
-        pointValues.put(3, new ArrayList<>());
-        pointValues.put(4, new ArrayList<>());
-        pointValues.put(5, new ArrayList<>());
-        pointValues.put(8, new ArrayList<>());
-        pointValues.put(10, new ArrayList<>());
+        for(int i = 0; i < POSSIBLE_POINT_VALUES.length; i++) {
+            POINT_VALUES.put(POSSIBLE_POINT_VALUES[i], new ArrayList<>());
+        }
 
-        // Letters with 0 points (blank tile)
-        pointValues.get(0).add(' ');
-
-        // Letters with 1 point
-        pointValues.get(1).add('A');
-        pointValues.get(1).add('E');
-        pointValues.get(1).add('I');
-        pointValues.get(1).add('O');
-        pointValues.get(1).add('U');
-        pointValues.get(1).add('L');
-        pointValues.get(1).add('N');
-        pointValues.get(1).add('S');
-        pointValues.get(1).add('T');
-        pointValues.get(1).add('R');
-
-        // Letters with 2 points
-        pointValues.get(2).add('D');
-        pointValues.get(2).add('G');
-
-        // Letters with 3 points
-        pointValues.get(3).add('B');
-        pointValues.get(3).add('C');
-        pointValues.get(3).add('M');
-        pointValues.get(3).add('P');
-
-        // Letters with 4 points
-        pointValues.get(4).add('F');
-        pointValues.get(4).add('H');
-        pointValues.get(4).add('V');
-        pointValues.get(4).add('W');
-        pointValues.get(4).add('Y');
-
-        // Letters with 5 points
-        pointValues.get(5).add('K');
-
-        // Letters with 8 points
-        pointValues.get(8).add('J');
-        pointValues.get(8).add('X');
-
-        // Letters with 10 points
-        pointValues.get(10).add('Q');
-        pointValues.get(10).add('Z');
+        //Loop through each possible point value
+        for (int pointValueIndex = 0; pointValueIndex < POSSIBLE_POINT_VALUES.length; pointValueIndex++) {
+            //Add each letter corresponding to the point value
+            for (int letterIndex = 0; letterIndex < LETTERS_WITH_POINT.get(pointValueIndex).length; letterIndex++) {
+                POINT_VALUES.get(POSSIBLE_POINT_VALUES[pointValueIndex]).add(LETTERS_WITH_POINT.get(pointValueIndex)[letterIndex]);
+            }
+        }
     }
 
     /**
@@ -131,15 +128,15 @@ public class TileBag {
     private void prepareTileBag()
     {
         // Traverse through each point value
-        for (Integer pointValue : pointValues.keySet())
+        for (Integer pointValue : POINT_VALUES.keySet())
         {
             // Traverse through each letter for the current point value
-            for (Character letter : pointValues.get(pointValue))
+            for (char letter : POINT_VALUES.get(pointValue))
             {
                 // Create a Tile object using the current letter and point value
                 Tile tile = new Tile(letter, pointValue);
                 // Determine the frequency of the tile
-                int tileFrequency = frequencyValues.get(letter);
+                int tileFrequency = FREQUENCY_VALUES.get(letter);
 
                 // Repeatedly add the tile to the tile bag according to its frequency value
                 for (int i = 0; i < tileFrequency; i++)
@@ -158,9 +155,6 @@ public class TileBag {
      */
     public Tile dealTile()
     {
-        // Shuffle the tile bag before dealing a tile to the player
-        Collections.shuffle(tiles);
-
         // Create new instance of Random
         Random random = new Random();
         // Generate a random valid index
@@ -199,9 +193,10 @@ public class TileBag {
         // Traverse through all the tiles in the tile bag
         for (Tile tile : tiles)
         {
-            tileBagStr += "#" + counter + " Tile letter: " + tile.getLetter() + " Points: " + tile.getValue() + "\n";
+            tileBagStr += "#" + counter + " Tile letter: " + tile.getLetter() + ", Points: " + tile.getValue() + "\n";
             counter += 1;
         }
         return tileBagStr;
     }
+
 }

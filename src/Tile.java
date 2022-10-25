@@ -9,11 +9,11 @@
 public class Tile {
 
     /** Fields **/
-    private Character letter;
+    private char letter;
     private int pointValue;
 
     /** Constructor **/
-    public Tile(Character letter, int pointValue)
+    public Tile(char letter, int pointValue)
     {
         // Initialize the tile's letter and point value to the specified letter and point value
         this.letter = letter;
@@ -26,9 +26,9 @@ public class Tile {
      * The getLetter method returns a String containing the tile's corresponding letter.
      * @author Pathum Danthanarayana, 101181411
      *
-     * @return a String containing the letter of the current tile
+     * @return a Character containing the letter of the current tile
      */
-    public Character getLetter()
+    public char getLetter()
     {
         return this.letter;
     }
@@ -37,7 +37,7 @@ public class Tile {
      * The getValue method returns an integer containing the tile's corresponding point value.
      * @author Pathum Danthanarayana, 101181411
      *
-     * @return an integer containing the point value of the current tile
+     * @return an Integer containing the point value of the current tile
      */
     public int getValue()
     {
@@ -48,14 +48,15 @@ public class Tile {
      * The toString method overrides the default toString method to
      * describe a tile by its letter.
      * @author Pathum Danthanarayana, 101181411
+     * @author Yehan De Silva
+     * @version 1.1
+     * @date October 25, 2022
      *
      * @return a String that describes a tile
      */
     @Override
     public String toString()
     {
-        String tileStr = "";
-        tileStr += this.getLetter();
-        return tileStr;
+        return String.valueOf(this.getLetter());
     }
 }
