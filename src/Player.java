@@ -164,4 +164,15 @@ public class Player {
         return this.name;
     }
 
+    /**
+     * The getRack method returns the player's rack.
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date October 25, 2022
+     */
+    public Rack getRack()
+    {
+        return this.rack;
+    }
+
 }

@@ -27,6 +27,16 @@ public class ScrabbleGame {
     private List<Player> players;
 
     /**
+     * The current turn of the scrabble game.
+     */
+    private int currentTurn;
+
+    /**
+     * The current status of the game.
+     */
+    private boolean gameRunning;
+
+    /**
      * The tile bag used to store all the tiles for this Scrabble game.
      */
     public static final TileBag GAME_TILE_BAG = new TileBag();
@@ -48,6 +58,11 @@ public class ScrabbleGame {
         gameBoard = new Board();
         players = new ArrayList<>();
         initializePlayers();
+        // Make the first player in the ArrayList have the first turn
+        currentTurn = 0;
+        // Start running the game
+        gameRunning = true;
+        play();
     }
 
     /**
@@ -85,20 +100,34 @@ public class ScrabbleGame {
      * Starts the Scrabble game.
      * @author Michael Kyrollos, 101183521
      * @author Yehan De Silva
+     * @author Pathum Danthanarayana, 101181411
      * @version 1.1
      * @date October 25, 2022
      */
     public void play()
     {
-
-        boolean finished = false;
         System.out.println("Welcome to Scrabble!");
 
-        while (!finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
+        // Run the game until a player has ended the game
+        while (gameRunning) {
+
+            boolean turnUsed = false;
+            // Get the player who has the current turn
+            Player currentPlayer = players.get(currentTurn);
+
+            // Continue prompting the player during their turn for a valid play
+            while (!turnUsed)
+            {
+                // Print the player's name and rack
+                System.out.println("\n" + currentPlayer.getName() + "'s turn:\n" + currentPlayer.getRack() + "Enter a command: ");
+                // Get and process the player's command
+                Command command = parser.getCommand();
+                turnUsed = processCommand(command);
+            }
+
+            // Determine the next turn
+            currentTurn = (currentTurn + 1) % players.size();
         }
-        System.out.println("Thank you. Good bye.");
     }
 
 
@@ -106,6 +135,9 @@ public class ScrabbleGame {
      * Process the given command
      *
      * @author Michael Kyrollos, 101183521
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.1
+     * @date October 25, 2022
      *
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
@@ -113,64 +145,29 @@ public class ScrabbleGame {
      */
     private boolean processCommand(Command command)
     {
-        boolean quitting = false;
-
         CommandWord commandWord = command.getFirstWord();
 
         switch (commandWord) {
             case INVALID:
                 System.out.println("Enter a valid command");
-                break;
+                return false;
 
             case HELP:
                 this.help();
-                break;
-
-            case START:
-                this.startGame();
-                break;
+                return false;
 
             case PLAY:
-                this.playWord(command);
-
-                break;
+                return this.playWord(command);
 
             case QUIT:
-                quitting = true;
-                break;
-        }
-        return quitting;
-    }
-
-    /**
-     * Plays a word that was entered by the player, using the "play" command.
-     *
-     * This method checks that the word entered is a valid english word, using ScrabbleDictionary. Then, it checks
-     * that the player can actually play the word (has the tiles + valid placement on board), using Player.
-     *
-     * @param command the command entered by the player, containing the word and coordinates
-     * @return true if the word was played successfully, false otherwise
-     * @author Amin Zeina
-     * @date October 25, 2022
-     */
-    public boolean playWord(Command command) {
-        String word = command.getSecondWord();
-        Player currentPlayer = players.get(currentTurn);
-
-        // check that the word is a valid english scrabble word
-        if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", ""))) {
-            // check if the word can actually be played
-            if (currentPlayer.playWord(command)) {
-                System.out.println("You have successfully played \"" + word + "\". You now have "
-                        + currentPlayer.getScore() + " points!");
+                quitGame();
                 return true;
-            }
-        } else {
-            System.out.println(word + " is not a valid word. Try again.");
         }
         return false;
+    }
 
-        //        Do not remove, for testing purposes.
+    public void playWord(Command command) {
+//        Do not remove, for testing purposes.
 //        ArrayList<Tile> tilesToPlay = new ArrayList<>();
 //        tilesToPlay.add(GAME_TILE_BAG.dealTile());
 //        tilesToPlay.add(GAME_TILE_BAG.dealTile());
@@ -182,6 +179,11 @@ public class ScrabbleGame {
         //check in player first - check for tiles: playWord
         // playWord();
         //
+    }
+
+    public Boolean validateWord(Command command, ArrayList<Tile> tilesToPlay) {
+//        call dictionary validate & board validate
+        return true;
     }
 
     /**
@@ -197,16 +199,16 @@ public class ScrabbleGame {
         parser.showCommands();
     }
 
-    public void startGame(){
-        Board board = new Board();
-        System.out.println(board);
-    }
+    private void quitGame()
+    {
+        this.gameRunning = false;
+        System.out.println("Thank you. Good bye.");
 
+    }
     public static void main(String[] args) {
-        /*
+
         ScrabbleGame newGame = new ScrabbleGame();
         newGame.play();
-         */
     }
 
 }
