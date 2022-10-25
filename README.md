@@ -13,7 +13,7 @@ Current Milestone - Milestone 1:
   
 
 Known issues:
-
+  - If the player enters a lowercase coordiante, the game will crash
 
 Changes since pervious deliverable: 
   - N/A, this is the first milestone
