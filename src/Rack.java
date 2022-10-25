@@ -50,6 +50,24 @@ public class Rack {
     }
 
     /**
+     * The addTiles method adds the specified ArrayList of tiles back on to
+     * the player's rack. The specified ArrayList of tiles contains the tiles that
+     * the player initially removed from the rack to place a word on to the board.
+     * @author Pathum Danthanarayana, 101181411
+     *
+     * @param tiles - the ArrayList of tiles that will be added back on to the player's rack
+     */
+    public void addTiles(ArrayList<Tile> tiles)
+    {
+        // Traverse through the provided tiles
+        for (Tile tile : tiles)
+        {
+            // Add the tile to the player's rack
+            this.tiles.add(tile);
+        }
+    }
+
+    /**
      * The removeTile method removes a tile from the player's rack that corresponds
      * to the specified letter, and returns it. If no tile matching the specified
      * letter exists, the method returns null.
