@@ -27,11 +27,6 @@ public class ScrabbleGame {
     private List<Player> players;
 
     /**
-     * The current player (the player whose turn it is)
-     */
-    private Player currentPlayer;
-
-    /**
      * The tile bag used to store all the tiles for this Scrabble game.
      */
     public static final TileBag GAME_TILE_BAG = new TileBag();
@@ -160,6 +155,7 @@ public class ScrabbleGame {
      */
     public boolean playWord(Command command) {
         String word = command.getSecondWord();
+        Player currentPlayer = players.get(currentTurn);
 
         // check that the word is a valid english scrabble word
         if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", ""))) {
