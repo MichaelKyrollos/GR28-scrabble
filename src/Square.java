@@ -5,13 +5,26 @@ public class Square {
      * TODO Each square can have points
      *
      * @author Michael Kyrollos, 101183521
-     * @version 1.0
+     * @version 1.1
      * @date October 22, 2022
      */
 
     private Tile tile;
     public Square() {
 
+    }
+
+    /**
+     * Deep copy constructor for Square
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date October 24, 2022
+     * @param otherSquare - Another Square object where its field(s) (a Tile object)
+     *                    will be copied to the current Square's field(s).
+     */
+    public Square(Square otherSquare)
+    {
+        this.tile = otherSquare.tile;
     }
 
 
