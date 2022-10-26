@@ -6,12 +6,18 @@ import java.util.*;
  * Squares contain a game Tile
  *
  * @author Michael Kyrollos, 101183521
- * @version 1.1
- * @date October 22, 2022
+ * @author Pathum Danthanarayana, 101181411
+ * @author Amin Zeina, 101186297
+ * @version 1.2
+ * @date October 25, 2022
  */
 
 
 import java.lang.*;
+
+/**
+ * Constructs a board object, which contains a 2-D array of Squares
+ */
 public class Board {
     public static final int SIZE = 15;
     private Square squares[][];
@@ -31,29 +37,30 @@ public class Board {
      *
      * @author Michael Kyrollos, ID: 101183521
      * @author Pathum Danthanarayana, 101181411
-     * @version 1.1
-     * @date October 22, 2022
+     * @author Amin Zeina, 101186297
+     * @version 1.2
+     * @date October 25, 2022
      *
-     * @return True if word has been placed, False otherwise.
+     * @return the score of the word, if placed successfully. Return -1 if unsuccessful
      *
      */
-    public Boolean placeWord(Command command,ArrayList<Tile> tilesToPlay){
-        HashMap<Character,Integer> column = new HashMap<>();
-        column.put('A',0);
-        column.put('B',1);
-        column.put('C',2);
-        column.put('D',3);
-        column.put('E',4);
-        column.put('F',5);
-        column.put('G',6);
-        column.put('H',7);
-        column.put('I',8);
-        column.put('J',9);
-        column.put('K',10);
-        column.put('L',11);
-        column.put('M',12);
-        column.put('N',13);
-        column.put('O',14);
+    public int placeWord(Command command,ArrayList<Tile> tilesToPlay){
+        HashMap<Character,Integer> columnMap = new HashMap<>();
+        columnMap.put('A',0);
+        columnMap.put('B',1);
+        columnMap.put('C',2);
+        columnMap.put('D',3);
+        columnMap.put('E',4);
+        columnMap.put('F',5);
+        columnMap.put('G',6);
+        columnMap.put('H',7);
+        columnMap.put('I',8);
+        columnMap.put('J',9);
+        columnMap.put('K',10);
+        columnMap.put('L',11);
+        columnMap.put('M',12);
+        columnMap.put('N',13);
+        columnMap.put('O',14);
 
         // Save the state of the board before placing any tiles
         // (create a copy of the array of squares)
@@ -69,6 +76,27 @@ public class Board {
                 savedSquares[i][j] = new Square(squares[i][j]);
             }
         }
+        // Keep track of the score of the word
+        int tempScore = 0;
+
+        // adjust String word so that all existing letters (already on the board) are uppercase
+        // e.g if word == h(e)llo -> hEllo
+        char[] wordChars = command.getSecondWord().toLowerCase().toCharArray();
+        boolean withinBracket = false;
+        for (int c = 0; c < wordChars.length; c++) {
+            if (withinBracket) {
+                wordChars[c] = Character.toUpperCase(wordChars[c]);
+            }
+            if (wordChars[c] == '(') {
+                withinBracket = true;
+            }
+            if (wordChars[c] == ')') {
+                withinBracket = false;
+            }
+        }
+        String word = new String(wordChars);
+        word = word.replaceAll("[()]", ""); //remove brackets
+
 
         // Store first character of command
         char firstChar = command.getThirdWord().charAt(0);
@@ -84,21 +112,33 @@ public class Board {
             if (isDigit(firstChar))
             {
                 //System.out.println("Printing horizontally for double-digit row!");
-                int rows = Character.getNumericValue(firstChar + secondChar) - 1;
-                int i = column.get(thirdChar);
-                for (int j = rows; j < tilesToPlay.size() + rows ; j++) {
-                    try
-                    {
-                        // Attempt to place the tile on the square
-                        squares[i][j].placeSquare(tilesToPlay.get(j-rows));
-                    }
-                    catch (Exception e)
-                    {
-                        System.out.println("Cannot place word. A letter has gone out of bounds.");
-                        // Reset the state of the board
-                        this.squares = savedSquares;
-
-                        return false;
+                int row = Character.getNumericValue(firstChar + secondChar) - 1;
+                int col = columnMap.get(thirdChar);
+                int tilesPlayed = 0;
+                for (int currCol = col; currCol < word.length() + col ; currCol++) {
+                    if (squares[row][currCol].getTile() == null) {
+                        // Square is empty -> attempt to place tile
+                        if (!attemptSquarePlacement(row, currCol, tilesToPlay.get(tilesPlayed))) {
+                            // Reset the state of the board
+                            this.squares = savedSquares;
+                            return -1;
+                        } else {
+                            // tile placed successfully -> increase score
+                            tempScore += tilesToPlay.get(tilesPlayed).getValue();
+                            tilesPlayed++;
+                        }
+                    } else {
+                        // Square not empty -> validate that existing tile is the same as entered in the user's word
+                        char letter = squares[row][currCol].getTile().getLetter();
+                        if (letter != word.charAt(currCol-col)) {
+                            // existing tile is not the same as the user entered
+                            System.out.println("There is an existing tile in the way; this placement is invalid.");
+                            this.squares = savedSquares;
+                            return -1;
+                        } else {
+                            // existing tile is the same as the user entered -> increase score
+                            tempScore += squares[row][currCol].getTile().getValue();
+                        }
                     }
                 }
                 // Print out the updated board
@@ -109,21 +149,33 @@ public class Board {
             else
             {
                 //System.out.println("Printing vertically for double-digit row!");
-                int j =  column.get(firstChar);
-                int columns = Character.getNumericValue(secondChar + thirdChar) - 1;
-                for (int i = columns; i < tilesToPlay.size() + columns ; i++) {
-                    try
-                    {
-                        // Attempt to place the tile on the square
-                        squares[i][j].placeSquare(tilesToPlay.get(i-columns));
-                    }
-                    catch (Exception e)
-                    {
-                        System.out.println("Cannot place word. A letter has gone out of bounds.");
-                        // Reset the state of the board
-                        this.squares = savedSquares;
-
-                        return false;
+                int col = columnMap.get(firstChar);
+                int row = Character.getNumericValue(secondChar + thirdChar) - 1;
+                int tilesPlayed = 0;
+                for (int currRow = row; currRow < word.length() + row ; currRow++) {
+                    if (squares[currRow][col].getTile() == null) {
+                        // Square is empty -> attempt to place tile
+                        if (!attemptSquarePlacement(currRow, col, tilesToPlay.get(tilesPlayed))) {
+                            // Reset the state of the board
+                            this.squares = savedSquares;
+                            return -1;
+                        } else {
+                            // tile placed successfully -> increase score
+                            tempScore += tilesToPlay.get(tilesPlayed).getValue();
+                            tilesPlayed++;
+                        }
+                    } else {
+                        // Square not empty -> validate that existing tile is the same as entered in the user's word
+                        char letter = squares[currRow][col].getTile().getLetter();
+                        if (letter != word.charAt(currRow-row)) {
+                            // existing tile is not the same as the user entered
+                            System.out.println("There is an existing tile in the way; this placement is invalid.");
+                            this.squares = savedSquares;
+                            return -1;
+                        } else {
+                            // existing tile is the same as the user entered -> increase score
+                            tempScore += squares[currRow][col].getTile().getValue();
+                        }
                     }
                 }
                 // Print the updated board
@@ -137,21 +189,33 @@ public class Board {
             // Check if the first character is an integer (e.g. player has entered 6A)
             if (isDigit(firstChar)){
                 //System.out.println("Printing horizontally!");
-                int rows = Character.getNumericValue(firstChar) - 1;
-                int i = column.get(secondChar);
-                for (int j = rows; j < tilesToPlay.size() + rows ; j++) {
-                    try
-                    {
-                        // Attempt to place the tile on the square
-                        squares[i][j].placeSquare(tilesToPlay.get(j-rows));
-                    }
-                    catch (Exception e)
-                    {
-                        System.out.println("Cannot place word. A letter has gone out of bounds.");
-                        // Reset the state of the board
-                        this.squares = savedSquares;
-
-                        return false;
+                int row = Character.getNumericValue(firstChar) - 1;
+                int col = columnMap.get(secondChar);
+                int tilesPlayed = 0;
+                for (int currCol = col; currCol < word.length() + col ; currCol++) {
+                    if (squares[row][currCol].getTile() == null) {
+                        // Square is empty -> attempt to place tile
+                        if (!attemptSquarePlacement(row, currCol, tilesToPlay.get(tilesPlayed))) {
+                            // Reset the state of the board
+                            this.squares = savedSquares;
+                            return -1;
+                        } else {
+                            // tile placed successfully -> increase score
+                            tempScore += tilesToPlay.get(tilesPlayed).getValue();
+                            tilesPlayed++;
+                        }
+                    } else {
+                        // Square not empty -> validate that existing tile is the same as entered in the user's word
+                        char letter = squares[row][currCol].getTile().getLetter();
+                        if (letter != word.charAt(currCol-col)) {
+                            // existing tile is not the same as the user entered
+                            System.out.println("There is an existing tile in the way; this placement is invalid.");
+                            this.squares = savedSquares;
+                            return -1;
+                        } else {
+                            // existing tile is the same as the user entered -> increase score
+                            tempScore += squares[row][currCol].getTile().getValue();
+                        }
                     }
                 }
                 // Print out the updated board
@@ -159,30 +223,61 @@ public class Board {
             }
             else {
                 //System.out.println("Printing vertically!");
-                int j =  column.get(firstChar);
-                int columns = Character.getNumericValue(secondChar) - 1;
-                for (int i = columns; i < tilesToPlay.size() + columns ; i++) {
-                    try
-                    {
-                        // Attempt to place the tile on the square
-                        squares[i][j].placeSquare(tilesToPlay.get(i-columns));
-                    }
-                    catch (Exception e)
-                    {
-                        System.out.println("Cannot place word. A letter has gone out of bounds.");
-                        // Reset the state of the board
-                        this.squares = savedSquares;
-
-                        return false;
+                int col =  columnMap.get(firstChar);
+                int row = Character.getNumericValue(secondChar) - 1;
+                int tilesPlayed = 0;
+                for (int currRow = row; currRow < word.length() + row ; currRow++) {
+                    if (squares[currRow][col].getTile() == null) {
+                        // Square is empty -> attempt to place tile
+                        if (!attemptSquarePlacement(currRow, col, tilesToPlay.get(tilesPlayed))) {
+                            // Reset the state of the board
+                            this.squares = savedSquares;
+                            return -1;
+                        } else {
+                            // tile placed successfully -> increase score
+                            tempScore += tilesToPlay.get(tilesPlayed).getValue();
+                            tilesPlayed++;
+                        }
+                    } else {
+                        // Square not empty -> validate that existing tile is the same as entered in the user's word
+                        char letter = squares[currRow][col].getTile().getLetter();
+                        if (letter != word.charAt(currRow-row)) {
+                            // existing tile is not the same as the user entered
+                            System.out.println("There is an existing tile in the way; this placement is invalid.");
+                            this.squares = savedSquares;
+                            return -1;
+                        } else {
+                            // existing tile is the same as the user entered -> increase score
+                            tempScore += squares[currRow][col].getTile().getValue();
+                        }
                     }
                 }
                 // Print out the updated board
                 System.out.println(this);
             }
         }
-        return true;
+        // Entire word placed Successfully
+        return tempScore;
     }
 
+    /**
+     * Attempts to place a tile in the square at a given location on the board.
+     *
+     * @param i the row of the square to place the tile
+     * @param j the column of the square to place the tile
+     * @param tile the tile to place
+     * @return true if the tile was placed, false otherwise
+     * @author Amin Zeina
+     */
+    private boolean attemptSquarePlacement(int i, int j, Tile tile) {
+        try {
+            squares[i][j].placeSquare(tile);
+        } catch (Exception e) {
+            System.out.println("Cannot place word. A letter has gone out of bounds.");
+            return false;
+        }
+        return true;
+    }
 
     /**
      *

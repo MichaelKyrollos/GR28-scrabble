@@ -53,6 +53,7 @@ public class Player {
      * Words are entered as strings with preplaced letters enclosed in (). For example, placing "h(e)ll(o)" states that
      * the "e" and "o" are already on the board in the correct location, thus the player doesn't need to have an e or o
      * tile to play this word.
+     *
      * @author Amin Zeina
      * @author Yehan De Silva
      * @version 1.1
@@ -84,12 +85,12 @@ public class Player {
 
         // User has all required tiles
         // Validate word placement on board
-
-        if (board.placeWord(command, tilesToPlay)) {
+        int wordScore = board.placeWord(command, tilesToPlay);
+        if ( wordScore != -1) {
             //Word is valid and has been played
             rack.fillRack(); //refill rack
             System.out.println("Word placed, rack has been refilled");
-            System.out.println(rack);
+            this.score += wordScore;
             return true;
         }
         else {
@@ -133,20 +134,8 @@ public class Player {
     }
 
     /**
-     * Adds scoreToAdd points to the current score of this player, then returns the new score
-     * @author Amin Zeina
-     *
-     * @param scoreToAdd the amount of points that must be added to the player's score
-     * @return the player's new, increased score
-     */
-    public int increaseScore(int scoreToAdd) {
-        this.score += scoreToAdd;
-        return this.score;
-    }
-
-    /**
      * Returns the current score of this player.
-     * Author - Amin Zeina
+     * @Author Amin Zeina
      *
      * @return The current score of the player
      */
@@ -167,6 +156,7 @@ public class Player {
     /**
      * The getRack method returns the player's rack.
      * @author Pathum Danthanarayana, 101181411
+     *
      * @version 1.0
      * @date October 25, 2022
      */
