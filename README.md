@@ -46,5 +46,4 @@ I am getting a warning that my project .class is either outdated or a newer vers
   
 Code is unexpectedly not running 
    - navigate to File->Project Structure, and ensure the settings are the same as the picture below 
-   ![image](https://user-images.githubusercontent.com/83596468/197912023-ac10729b-7b27-4795-9d06-eee395772c73.png)
-
+![image](https://user-images.githubusercontent.com/83596468/197912247-346bfddf-e590-463d-a137-1e8f4f48a2c7.png)
