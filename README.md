@@ -38,6 +38,7 @@ Authors:
 
 
 FAQ:
+
 I am getting a warning that my project .class is either outdated or a newer version
   - delete .class files in your directory (within your file explorer), navigating to GR28-scrabble\out\production\G28-Scrabble\resources
   - In IntellJ, navigate to menu item Build->Recompile
