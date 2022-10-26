@@ -9,6 +9,7 @@ import static java.lang.Character.getNumericValue;
  *
  * @author Michael Kyrollos, 101183521
  * @author Yehan De Silva
+ * @author Pathum Danthanarayana, 101181411
  * @version 1.1
  * @date October 25, 2022
  */
@@ -52,6 +53,7 @@ public class ScrabbleGame {
      * Creates a new scrabble game.
      * @author Michael Kyrollos, 101183521
      * @author Yehan De Silva
+     * @author Pathum Danthanarayana, 101181411
      * @version 1.1
      * @date October 25, 2022
      */
@@ -69,6 +71,9 @@ public class ScrabbleGame {
 
     /**
      * Initializes the list of players playing this scrabble game at the start of the game.
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date October 25, 2022
      */
     private void initializePlayers() {
         String playerName;
@@ -167,10 +172,10 @@ public class ScrabbleGame {
 
             case REDRAW:
                 redraw(command);
-                return false;
+                return true;
 
             case SKIP:
-                //run skip
+                return true;
         }
         return false;
     }
@@ -191,7 +196,7 @@ public class ScrabbleGame {
         Player currentPlayer = players.get(currentTurn);
 
         // check that the word is a valid english scrabble word
-        if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", ""))) {
+        if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", "").toLowerCase())) {
             // check if the word can actually be played
             if (currentPlayer.playWord(command)) {
                 System.out.println("You have successfully played \"" + word + "\". You now have "
@@ -202,11 +207,6 @@ public class ScrabbleGame {
             System.out.println(word + " is not a valid word. Try again.");
         }
         return false;
-    }
-
-    public Boolean validateWord(Command command, ArrayList<Tile> tilesToPlay) {
-//        call dictionary validate & board validate
-        return true;
     }
 
     /**
@@ -232,16 +232,35 @@ public class ScrabbleGame {
      * prompted for input again.
      *
      * @author Michael Kyrollos, 101183521
-     * @version  1.0
+     * @author Yehan De Silva
+     * @version  1.1
+     * @date October 25, 2022
      *
      * @param command The number of tiles the user would like to redraw
      */
     public void redraw(Command command) {
         if (!command.secondWordExist()) {
-            System.out.println("How many tiles would you like to redraw from the rack below?");
-            return;
+            boolean validInput = false;
+            Scanner in = new Scanner(System.in);
+            int numTiles = 0;
+            //Keep looping until a user enters a valid number of tiles to redraw
+            while (!validInput) {
+                try {
+                    System.out.println("How many tiles would you like to redraw from the rack (1-7)?");
+                    numTiles = in.nextInt();
+                }
+                catch (Exception e) {
+                    in.next();
+                    continue;
+                }
+                //Stop looping once a valid integer is given
+                if (numTiles <= 7 && numTiles >= 1) {validInput= true;}
+            }
+            players.get(currentTurn).playRedraw(numTiles);
         }
-        players.get(currentTurn).playRedraw( command.getCharSecondWord(0));
+        else {
+            players.get(currentTurn).playRedraw( command.getCharSecondWord(0));
+        }
     }
 
     /**

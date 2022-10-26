@@ -84,8 +84,13 @@ The game is played on a 15x15 board and uses [this list of words](https://www.mi
 | Hashmaps | Used to map frequncy values (Character-Integer) and point values (Integer-ArrayList of chars) for all the tiles in a TileBag |
 | CommandWord | Contains enums for commands (E.g. redraw, skip, play, quit, etc). |
 
+
 ## FAQ:
 I am getting a warning that my project .class is either outdated or a newer version.
 1. Delete .class files in your directory (within your file explorer), navigating to GR28-scrabble\out\production\G28-Scrabble\resources
 2. In IntellJ, navigate to menu item Build->Recompile
 3. If above does not work, do Build->Rebuild
+  
+Code is unexpectedly not running 
+   - navigate to File->Project Structure, and ensure the settings are the same as the picture below 
+![image](https://user-images.githubusercontent.com/83596468/197912247-346bfddf-e590-463d-a137-1e8f4f48a2c7.png)
