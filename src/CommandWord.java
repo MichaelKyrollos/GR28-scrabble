@@ -7,14 +7,16 @@
  */
 public enum CommandWord {
 
-//    Each string has its own value
-    PLAY("play"),START("start"), QUIT("quit"), HELP("help"), INVALID("invalid");
+    //    Each string has its own value
+    PLAY("play"), QUIT("quit"), HELP("help"), INVALID("invalid"), REDRAW("redraw"), SKIP("skip");
 
     private String inputString;
 
     /**
      *
      * Initialise this with a inputString
+     *
+     * @author Michael Kyrollos, 101183521
      *
      * @param commandString the inputString
      */
@@ -24,6 +26,8 @@ public enum CommandWord {
     }
 
     /**
+     * @author Michael Kyrollos, 101183521
+     *
      * @return The input word as a string.
      */
     public String toString()
