@@ -170,7 +170,7 @@ public class ScrabbleGame {
                 return false;
 
             case SKIP:
-                //run skip
+                return true;
         }
         return false;
     }
