@@ -57,7 +57,15 @@ public class Square {
         }
         return s;
     }
-
+    /**
+     * getter method for tile field
+     *
+     * @return the tile associated with this sqaure
+     * @author Amin Zeina
+     */
+    public Tile getTile() {
+        return this.tile;
+    }
 
 
 }

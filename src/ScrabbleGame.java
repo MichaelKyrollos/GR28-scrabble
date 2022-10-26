@@ -191,7 +191,7 @@ public class ScrabbleGame {
         Player currentPlayer = players.get(currentTurn);
 
         // check that the word is a valid english scrabble word
-        if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", ""))) {
+        if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", "").toLowerCase())) {
             // check if the word can actually be played
             if (currentPlayer.playWord(command)) {
                 System.out.println("You have successfully played \"" + word + "\". You now have "
