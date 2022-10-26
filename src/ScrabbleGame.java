@@ -9,6 +9,7 @@ import static java.lang.Character.getNumericValue;
  *
  * @author Michael Kyrollos, 101183521
  * @author Yehan De Silva
+ * @author Pathum Danthanarayana, 101181411
  * @version 1.1
  * @date October 25, 2022
  */
@@ -52,6 +53,7 @@ public class ScrabbleGame {
      * Creates a new scrabble game.
      * @author Michael Kyrollos, 101183521
      * @author Yehan De Silva
+     * @author Pathum Danthanarayana, 101181411
      * @version 1.1
      * @date October 25, 2022
      */
@@ -69,6 +71,9 @@ public class ScrabbleGame {
 
     /**
      * Initializes the list of players playing this scrabble game at the start of the game.
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date October 25, 2022
      */
     private void initializePlayers() {
         String playerName;
@@ -202,11 +207,6 @@ public class ScrabbleGame {
             System.out.println(word + " is not a valid word. Try again.");
         }
         return false;
-    }
-
-    public Boolean validateWord(Command command, ArrayList<Tile> tilesToPlay) {
-//        call dictionary validate & board validate
-        return true;
     }
 
     /**
