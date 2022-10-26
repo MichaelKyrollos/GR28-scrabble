@@ -42,3 +42,8 @@ I am getting a warning that my project .class is either outdated or a newer vers
   - delete .class files in your directory (within your file explorer), navigating to GR28-scrabble\out\production\G28-Scrabble\resources
   - In IntellJ, navigate to menu item Build->Recompile
   - If above does not work, do Build->Rebuild
+  
+Code is unexpectedly not running 
+   - navigate to File->Project Structure, and ensure the settings are the same as the picture below 
+   ![image](https://user-images.githubusercontent.com/83596468/197912023-ac10729b-7b27-4795-9d06-eee395772c73.png)
+
