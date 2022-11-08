@@ -59,14 +59,14 @@ public class Player {
      * @version 1.1
      * @date October 25, 2022
      *
-     * @param command The command entered by the user to play a word
+     * @param word the word to play (must be uppercase)
+     * @param coords the coordinate of the word to be played (must be uppercase)
      * @return true if the word was successfully placed, false otherwise
      */
-    public boolean playWord(Command command) {
+    public boolean playWord(String word, String coords) {
 
         ArrayList<Tile> tilesToPlay = new ArrayList<>();
 
-        String word = command.getSecondWord();
         // remove letters that are already on the board - i.e. letters between ( )
         String playerLetters = word.replaceAll("\\(.*?\\)", "");
         char[] individualPlayerLetters = playerLetters.toCharArray();
@@ -85,8 +85,8 @@ public class Player {
 
         // User has all required tiles
         // Validate word placement on board
-        int wordScore = board.placeWord(command, tilesToPlay);
-        if ( wordScore != -1) {
+        int wordScore = board.placeWord(word, coords, tilesToPlay);
+        if (wordScore != -1) {
             //Word is valid and has been played
             rack.fillRack(); //refill rack
             System.out.println("Word placed, rack has been refilled");

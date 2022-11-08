@@ -8,8 +8,8 @@ import java.util.*;
  * @author Michael Kyrollos, 101183521
  * @author Pathum Danthanarayana, 101181411
  * @author Amin Zeina, 101186297
- * @version 1.2
- * @date October 25, 2022
+ * @version 2.1
+ * @date November 6, 2022
  */
 
 
@@ -41,10 +41,13 @@ public class Board {
      * @version 1.2
      * @date October 25, 2022
      *
+     * @param word the word to play (must be uppercase)
+     * @param coords the coordinate of the word to be played (must be uppercase)
+     * @param tilesToPlay the new tiles to add to the board
      * @return the score of the word, if placed successfully. Return -1 if unsuccessful
      *
      */
-    public int placeWord(Command command,ArrayList<Tile> tilesToPlay){
+    public int placeWord(String word, String coords,  ArrayList<Tile> tilesToPlay){
         HashMap<Character,Integer> columnMap = new HashMap<>();
         columnMap.put('A',0);
         columnMap.put('B',1);
@@ -64,24 +67,14 @@ public class Board {
 
         // Save the state of the board before placing any tiles
         // (create a copy of the array of squares)
-        Square[][] savedSquares;
-        savedSquares = new Square[SIZE][SIZE];
+        Square[][] savedSquares = copyBoardSquares();
 
-        // Traverse through each square on the current board
-        for (int i = 0; i < squares.length; i++)
-        {
-            for (int j = 0; j < squares[i].length; j++)
-            {
-                // Save a copy of the current square
-                savedSquares[i][j] = new Square(squares[i][j]);
-            }
-        }
         // Keep track of the score of the word
         int tempScore = 0;
 
         // adjust String word so that all existing letters (already on the board) are uppercase
         // e.g if word == h(e)llo -> hEllo
-        char[] wordChars = command.getSecondWord().toLowerCase().toCharArray();
+        char[] wordChars = word.toLowerCase().toCharArray();
         boolean withinBracket = false;
         for (int c = 0; c < wordChars.length; c++) {
             if (withinBracket) {
@@ -94,20 +87,20 @@ public class Board {
                 withinBracket = false;
             }
         }
-        String word = new String(wordChars);
+        word = new String(wordChars);
         word = word.replaceAll("[()]", ""); //remove brackets
 
 
         // Store first character of command
-        char firstChar = command.getThirdWord().charAt(0);
+        char firstChar = coords.charAt(0);
         // Store second character of command
-        char secondChar = command.getThirdWord().charAt(1);
+        char secondChar = coords.charAt(1);
 
         // Check if the player has specified a double-digit row (e.g. 10, 11, 12, 13, 14)
-        if (command.getThirdWord().length() == 3)
+        if (coords.length() == 3)
         {
             // Store the third character of command
-            char thirdChar = command.getThirdWord().charAt(2);
+            char thirdChar = coords.charAt(2);
             // Check if the first character is an integer (e.g. player has entered 10A)
             if (isDigit(firstChar))
             {
@@ -267,7 +260,7 @@ public class Board {
      * @param j the column of the square to place the tile
      * @param tile the tile to place
      * @return true if the tile was placed, false otherwise
-     * @author Amin Zeina
+     * @author Amin Zeina, 101186297
      */
     private boolean attemptSquarePlacement(int i, int j, Tile tile) {
         try {
@@ -277,6 +270,31 @@ public class Board {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Returns a copy of the board's current state (it's 2D array of Squares)
+     *
+     * @return a copy of the board's current Squares
+     * @author Pathum Danthanarayana, 101181411
+     * @author Amin Zeina, 101186297
+     *
+     */
+    private Square[][] copyBoardSquares() {
+        // Save the state of the board before placing any tiles
+        // (create a copy of the array of squares)
+        Square[][] savedSquares = new Square[SIZE][SIZE];
+
+        // Traverse through each square on the current board
+        for (int i = 0; i < squares.length; i++)
+        {
+            for (int j = 0; j < squares[i].length; j++)
+            {
+                // Save a copy of the current square
+                savedSquares[i][j] = new Square(squares[i][j]);
+            }
+        }
+        return savedSquares;
     }
 
     /**

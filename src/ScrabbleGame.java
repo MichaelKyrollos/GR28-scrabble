@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.*;
 
 import static java.lang.Character.getNumericValue;
@@ -70,6 +71,24 @@ public class ScrabbleGame {
     }
 
     /**
+     * Returns the Player whose currently playing their turn
+     *
+     * @return the current player
+     */
+    private Player getCurrentPlayer() {
+        return players.get(currentTurn % players.size());
+    }
+
+    /**
+     * Returns the current turn number
+     *
+     * @return the current turn number
+     */
+    public int getCurrentTurn() {
+        return currentTurn;
+    }
+
+    /**
      * Initializes the list of players playing this scrabble game at the start of the game.
      * @author Yehan De Silva
      * @version 1.0
@@ -120,7 +139,7 @@ public class ScrabbleGame {
 
             boolean turnUsed = false;
             // Get the player who has the current turn
-            Player currentPlayer = players.get(currentTurn);
+            Player currentPlayer = getCurrentPlayer();
 
             // Continue prompting the player during their turn for a valid play
             while (!turnUsed)
@@ -133,7 +152,7 @@ public class ScrabbleGame {
             }
 
             // Determine the next turn
-            currentTurn = (currentTurn + 1) % players.size();
+            currentTurn++;
         }
     }
 
@@ -164,7 +183,7 @@ public class ScrabbleGame {
                 return false;
 
             case PLAY:
-                return this.playWord(command);
+                return this.playWord(command.getSecondWord(), command.getThirdWord()); //temporary change
 
             case QUIT:
                 quitGame();
@@ -181,24 +200,32 @@ public class ScrabbleGame {
     }
 
     /**
-     * Plays a word that was entered by the player, using the "play" command.
+     * Plays a word that was entered by the player, using the "play" button.
      *
      * This method checks that the word entered is a valid english word, using ScrabbleDictionary. Then, it checks
      * that the player can actually play the word (has the tiles + valid placement on board), using Player.
      *
-     * @param command the command entered by the player, containing the word and coordinates
+     * @param word the word to play (must be uppercase)
+     * @param coords the coordinate of the word to be played (must be uppercase)
      * @return true if the word was played successfully, false otherwise
      * @author Amin Zeina
-     * @date October 25, 2022
+     * @date November 6, 2022
      */
-    public boolean playWord(Command command) {
-        String word = command.getSecondWord();
-        Player currentPlayer = players.get(currentTurn);
+    public boolean playWord(String word, String coords) {
+        Player currentPlayer = getCurrentPlayer();
+
+        // check that the word includes at least 1 prexisting tile (as long as its not the first turn)
+        if (currentTurn != 0) {
+            if(!(word.matches(".*\\(.+?\\).*"))) {
+                System.out.println("Illegal word placement: word must include an existing letter on the board");
+                return false;
+            }
+        }
 
         // check that the word is a valid english scrabble word
-        if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", "").toLowerCase())) {
+        if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", ""))) {
             // check if the word can actually be played
-            if (currentPlayer.playWord(command)) {
+            if (currentPlayer.playWord(word, coords)) {
                 System.out.println("You have successfully played \"" + word + "\". You now have "
                         + currentPlayer.getScore() + " points!");
                 return true;
@@ -256,10 +283,10 @@ public class ScrabbleGame {
                 //Stop looping once a valid integer is given
                 if (numTiles <= 7 && numTiles >= 1) {validInput= true;}
             }
-            players.get(currentTurn).playRedraw(numTiles);
+            getCurrentPlayer().playRedraw(numTiles);
         }
         else {
-            players.get(currentTurn).playRedraw( command.getCharSecondWord(0));
+            getCurrentPlayer().playRedraw( command.getCharSecondWord(0));
         }
     }
 
