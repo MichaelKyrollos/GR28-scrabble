@@ -227,7 +227,7 @@ public class ScrabbleDictionary {
      * @date October 23, 2022
      */
     public boolean validateWord(String word) {
-        return dictionary.isWordInDictionary(word.toCharArray());
+        return dictionary.isWordInDictionary(word.toLowerCase().toCharArray());
     }
 
     /**
