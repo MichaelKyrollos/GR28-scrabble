@@ -7,8 +7,8 @@ import java.util.Scanner;
  * A text file containing a list of words can be used to create the dictionary,
  * but this class assumes that all words in the text file are valid and only contain letters from the alphabet.
  * @author Yehan De Silva
- * @version 1.1
- * @date October 25, 2022
+ * @version 1.2
+ * @date October November 09, 2022
  */
 public class ScrabbleDictionary {
 
@@ -18,7 +18,7 @@ public class ScrabbleDictionary {
      * @version 1.1
      * @date October 25, 2022
      */
-    class DictionaryNode {
+    private class DictionaryNode {
 
         /**
          *The max amount of different letters in the dictionary.
@@ -43,7 +43,7 @@ public class ScrabbleDictionary {
          * @version 1.0
          * @date October 23, 2022
          */
-        public DictionaryNode() {
+        private DictionaryNode() {
             children = new DictionaryNode[MAX_LETTER_COUNT];
             terminal = false;
         }
@@ -165,7 +165,7 @@ public class ScrabbleDictionary {
     /**
      * The default dictionary file to be used.
      */
-    public static final File DEFAULT_DICTIONARY = new File(new File("").getAbsolutePath() + "/src/resources/default_dictionary.txt");
+    public static final File DEFAULT_DICTIONARY = new File(new File("").getAbsolutePath() + "/GR28-scrabble/src/resources/default_dictionary.txt");
 
     /**
      * The dictionary structure to hold the dictionary.
@@ -198,8 +198,8 @@ public class ScrabbleDictionary {
      * Creates the dictionary.
      * @param file Text file containing all valid words for the dictionary.
      * @author Yehan De Silva
-     * @version 1.0
-     * @date October 23, 2022
+     * @version 1.1
+     * @date November 09, 2022
      */
     private void createDictionary(File file) {
         //Reads the text file
@@ -214,7 +214,7 @@ public class ScrabbleDictionary {
 
         //For each word, add it to the dictionary structure
         while(scanner.hasNext()) {
-            dictionary.addWord(scanner.next().trim().toLowerCase().toCharArray());
+            dictionary.addWord(scanner.next().trim().toCharArray());
         }
     }
 
@@ -223,11 +223,11 @@ public class ScrabbleDictionary {
      * @param word Word to check if it is in the dictionary.
      * @return True if the word is in the dictionary, false otherwise.
      * @author Yehan De Silva
-     * @version 1.0
-     * @date October 23, 2022
+     * @version 1.1
+     * @date November 09, 2022
      */
     public boolean validateWord(String word) {
-        return dictionary.isWordInDictionary(word.toCharArray());
+        return dictionary.isWordInDictionary(word.toLowerCase().toCharArray());
     }
 
     /**
