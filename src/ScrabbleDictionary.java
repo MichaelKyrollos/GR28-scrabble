@@ -165,7 +165,7 @@ public class ScrabbleDictionary {
     /**
      * The default dictionary file to be used.
      */
-    public static final File DEFAULT_DICTIONARY = new File(new File("").getAbsolutePath() + "/GR28-scrabble/src/resources/default_dictionary.txt");
+    public static final File DEFAULT_DICTIONARY = new File(new File("").getAbsolutePath() + "/src/resources/default_dictionary.txt");
 
     /**
      * The dictionary structure to hold the dictionary.

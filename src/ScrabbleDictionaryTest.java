@@ -10,7 +10,7 @@ class ScrabbleDictionaryTest {
     /**
      * The favorite games dictionary file to be used.
      */
-    public static final File FAV_GAME_DICTIONARY = new File(new File("").getAbsolutePath() + "/GR28-scrabble/src/resources/favorite_games_test_dictionary.txt");
+    public static final File FAV_GAME_DICTIONARY = new File(new File("").getAbsolutePath() + "/src/resources/favorite_games_test_dictionary.txt");
 
     /**
      * The default dictionary to be tested.
