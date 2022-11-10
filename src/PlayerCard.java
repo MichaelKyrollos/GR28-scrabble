@@ -70,4 +70,40 @@ public class PlayerCard extends JPanel {
         // Add the rack to the bottom of the panel
         this.add(rackPanel, BorderLayout.SOUTH);
     }
+
+    /**
+     * The updateScore method updates the player's score to the specified score.
+     * @param score - The player's new score
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date November 10th, 2022
+     */
+    public void updateScore(int score)
+    {
+        this.playerScore.setText("Score:   " + score);
+    }
+
+    /**
+     * The updateRack method updates the letters in the player's rack
+     * according to the specified array of characters.
+     * @param letters - The new letters for the player's rack
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date November 10th, 2022
+     */
+    public void updateRack(char[] letters)
+    {
+        // Check if 7 letters were provided
+        if (letters.length == 7)
+        {
+            // Traverse through each button and letter
+            for (int i = 0; i < RACK_SIZE; i++)
+            {
+                // Set the current button's text to the current letter
+                this.rackLetters[i].setText(String.valueOf(letters[i]));
+            }
+        }
+    }
 }

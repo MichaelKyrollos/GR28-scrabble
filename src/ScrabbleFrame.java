@@ -21,6 +21,7 @@ public class ScrabbleFrame extends JFrame implements ActionListener
     /** Fields **/
     private JButton[][] squares;
     private ArrayList<String> playerNames;
+    private ArrayList<PlayerCard> playerCards;
     private Container contentPane;
     private JPanel boardPanel;
     private JPanel playerPanel;
@@ -201,6 +202,8 @@ public class ScrabbleFrame extends JFrame implements ActionListener
         {
             // Create a player card using the player's name
             PlayerCard playerCard = new PlayerCard(playerName);
+            // Keep a reference to the player card
+            this.playerCards.add(playerCard);
             // Add the player card to the JPanel
             playerPanel.add(playerCard);
             // Add spacing beneath the player card
