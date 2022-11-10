@@ -60,7 +60,7 @@ public class ScrabbleGame {
      */
     public ScrabbleGame() {
         parser = new Parser();
-        gameBoard = new Board();
+        gameBoard = new Board(this);
         players = new ArrayList<>();
         initializePlayers();
         // Make the first player in the ArrayList have the first turn
@@ -213,14 +213,6 @@ public class ScrabbleGame {
      */
     public boolean playWord(String word, String coords) {
         Player currentPlayer = getCurrentPlayer();
-
-        // check that the word includes at least 1 prexisting tile (as long as its not the first turn)
-        if (currentTurn != 0) {
-            if(!(word.matches(".*\\(.+?\\).*"))) {
-                System.out.println("Illegal word placement: word must include an existing letter on the board");
-                return false;
-            }
-        }
 
         // check that the word is a valid english scrabble word
         if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", ""))) {
