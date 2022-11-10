@@ -134,6 +134,9 @@ public class ScrabbleFrame extends JFrame implements ActionListener
      */
     private void startGame()
     {
+        // Initialize ArrayList of player cards
+        this.playerCards = new ArrayList<>();
+
         // Remove all elements from the ContentPane
         this.contentPane.removeAll();
         // Repaint the JFrame
@@ -174,6 +177,7 @@ public class ScrabbleFrame extends JFrame implements ActionListener
         // Add the buttons to the JPanel
         this.addButtons(new String[]{"Skip", "Help", "Quit"});
 
+        /* ADD ONCE MODEL AND CONTROLLER IS IMPLEMENTED */
         //ScrabbleModel model = new ScrabbleModel();
         //model.addScrabbleView(this);
 
@@ -284,6 +288,24 @@ public class ScrabbleFrame extends JFrame implements ActionListener
     }
 
     /**
+     * The update method updates the Scrabble GUI according to the specified event.
+     * @param e - The event in which the GUI (view) will be updated for
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     */
+    /**
+    @Override
+    public void update(ScrabbleEvent e)
+    {
+        TODO
+        //buttons[e.getX()][e.getY()].setText(e.getLetter);
+    }
+    **/
+
+    /**
+     * NOTE: REMOVE THIS METHOD AND MAKE SCRABBLEFRAME NOT EXTEND
+     * ACTIONLISTENER ONCE CONTROLLER IS IMPLEMENTED.
      * The actionPerformed method is invoked when an action occurs.
      *
      * @param e - The event to be processed
