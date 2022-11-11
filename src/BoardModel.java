@@ -4,25 +4,26 @@ import static java.lang.Character.isUpperCase;
 import java.util.*;
 import java.lang.*;
 /**
- * The Board class models a typical board of Scrabble.
+ * The BoardModel class models a typical board of Scrabble.
  * The board is composed of 15 X 15 Squares. Each of these
  * Squares contain a game Tile
  *
  * @author Michael Kyrollos, 101183521
  * @author Pathum Danthanarayana, 101181411
  * @author Amin Zeina, 101186297
- * @version 2.2
+ * @author Yehan De Silva, 101185388
+ * @version 2.3
  * @date November 9, 2022
  */
-public class Board {
+public class BoardModel {
     public static final int SIZE = 15;
     private Square squares[][];
 
-    private ScrabbleGame game;
+    private ScrabbleGameModel game;
     /**
      * Constructs a board object, which contains a 2-D array of Squares
      */
-    public Board(ScrabbleGame game) {
+    public BoardModel(ScrabbleGameModel game) {
         this.game = game;
 
         squares = new Square[SIZE][SIZE];
@@ -31,6 +32,18 @@ public class Board {
                 squares[i][j] = new Square();
             }
         }
+    }
+
+    /**
+     * Returns the 2D array of squares making up the board.
+     * @return 2D array of squares making up the board.
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 11, 2022
+     */
+    public Square[][] getSquares() {
+        return this.squares;
     }
 
     /**

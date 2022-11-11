@@ -1,6 +1,6 @@
 public class Square {
     /**
-     * The Square class models a Square on a Scrabble Board.
+     * The Square class models a Square on a Scrabble BoardModel.
      * Each square has the possibility to have a tile placed
      * TODO Each square can have points
      *
@@ -10,6 +10,7 @@ public class Square {
      */
 
     private Tile tile;
+
     public Square() {
 
     }
@@ -60,7 +61,7 @@ public class Square {
     /**
      * getter method for tile field
      *
-     * @return the tile associated with this sqaure
+     * @return the tile associated with this square
      * @author Amin Zeina
      */
     public Tile getTile() {
