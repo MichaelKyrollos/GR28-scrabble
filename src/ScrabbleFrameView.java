@@ -150,7 +150,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         contentPane.setLayout(new FlowLayout());
 
         // JPanel #1: Scrabble BoardModel
-        boardPanel = new BoardPanelView(scrabbleModel.getGameBoard());
+        boardPanel = new BoardPanelView(scrabbleModel.getGameBoard(), scrabbleController);
 
         // JPanel #2: PlayerModel Panel
         playerPanel = new JPanel();
@@ -191,7 +191,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private void addPlayerCards()
     {
         for (PlayerModel player : scrabbleModel.getPlayers()) {
-            PlayerCardView playerCard = new PlayerCardView(player);
+            PlayerCardView playerCard = new PlayerCardView(player, scrabbleController);
             // Keep a reference to the player card
             this.playerCards.add(playerCard);
             playerPanel.add(playerCard);

@@ -1,0 +1,12 @@
+backgammon
+battleship
+checkers
+chess
+clue
+life
+monopoly
+risk
+scrabble
+stratego
+
+

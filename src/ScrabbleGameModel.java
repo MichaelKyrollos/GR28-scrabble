@@ -11,7 +11,7 @@ import java.util.*;
  * @version 2.0
  * @date November 11, 2022
  */
-public class ScrabbleGameModel {
+public class ScrabbleGameModel extends ScrabbleModel {
 
     //TODO Remove parser
     private Parser parser;
@@ -73,7 +73,7 @@ public class ScrabbleGameModel {
      * @version 1.0
      * @date November 11, 2022
      */
-    private PlayerModel getCurrentPlayer() {
+    public PlayerModel getCurrentPlayer() {
         return players.get(currentTurn % players.size());
     }
 
@@ -308,5 +308,4 @@ public class ScrabbleGameModel {
         ScrabbleGameModel newGame = new ScrabbleGameModel();
         newGame.play();
     }
-
 }
