@@ -79,10 +79,6 @@ public class RackPanelView extends JPanel implements ScrabbleView {
         System.out.println(rackLetters);
         for (int i = 0; i < rackLetters.size(); i++) {
             Tile tile = rackLetters.get(i);
-            tile.setBackground(ScrabbleFrameView.ACCENT_COLOR);
-            tile.setFocusPainted(false);
-            tile.setForeground(Color.WHITE);
-            tile.setFont(ScrabbleFrameView.PLAYER_BODY_FONT);
             tile.addActionListener(scrabbleController);
             this.add(tile);
         }
