@@ -15,7 +15,7 @@ The game is played on a 15x15 board and uses [this list of words](https://www.mi
 
 ## How to Run Project: 
 1. Compile and build project 
-2. Run the program (Can be done from any menu, or from ScrabbleGame.java)
+2. Run the program (Can be done from any menu, or from ScrabbleGameModel.java)
 3. User will be prompted the number of players
       - Must be an integer between 2-4
       - The program will keep asking for input until the user enters a valid input
@@ -23,13 +23,13 @@ The game is played on a 15x15 board and uses [this list of words](https://www.mi
 6. Game will be started once the number of players and their names have been entered and processed. 
 7. The game will cycle between all players, so each of them gets a turn
 
-## Player Options During Their Turn
+## PlayerModel Options During Their Turn
 | Syntax      | Description |
 | ----------- | ----------- |
 | help        | Prints a list of valid commands a player can choose from |   
 | quit        | Ends the scrabble game |
 | skip        | Skips player's turn and starts the next player's turn |
-| redraw      | Allows player to redraw tiles from the bag <br><br> Player must then speficy the number of tiles to redraw <br><br> Finally, they must specify each tile they want to redraw |
+| redraw      | Allows player to redraw tiles from the bag <br><br> PlayerModel must then speficy the number of tiles to redraw <br><br> Finally, they must specify each tile they want to redraw |
 | redraw NUMBER| Redraws the specified number of tiles (NUMBER) from the bag <br><br> They must then specify each tile they want to redraw |
 | play WORD LOCATION | Plays the specified word on the board to gain points. <br><br> Format: <ul><li> Must specify all 3 instructions with spaces in between </li> <li>WORD must be in all capitals. </li><li>LOCATION  must be in all capitals </li><li>LOCATION must contain row (Number) and column (Letter) of the start square of the word.</li><li>Rows go from 1-15, Columns go from A-O</li><li>If row is specified first, the word is placed horizontally</li><li>If column is specified first, the word is placed vertically</li></ui><br><br>Example: play JOKER 6D|
 
@@ -63,7 +63,7 @@ The game is played on a 15x15 board and uses [this list of words](https://www.mi
 ⚠️ 5. Doesn't check validity of any new adjacent words formed by placing a new word  
 ⚠️ 6. Doesn't add the score of any new adjacent words formed by placing a new word.  
 ⚠️ 7. User input regarding commands and tiles are type sensitive, and may not work if the wrong type-case is used.  
-⚠️ 8. Entering a Player's name with spaces in between creates multiple players.
+⚠️ 8. Entering a PlayerModel's name with spaces in between creates multiple players.
 
 ## Design Decisions Made  
 1. Delegation was used to ensure each class performs its rightful responsibilites and have high cohesion.
@@ -78,7 +78,7 @@ The game is played on a 15x15 board and uses [this list of words](https://www.mi
 | ----------- | ----------- |
 | DictionaryNode | A dictionary node contains a boolean flag called **terminal** and an array of DictionaryNodes. <br><br> A word is created by going down the data structure and adding each letter at the correct spot in the array. <br><br>This ensures that common operations such as adding a new word or seraching for a word is O(n) where n depends on the length of the word, and not the length of the dictionary.|
 | 2D array of Square Objects | Easy to represent and access indiviudal squares on the scrabble board. |
-| Rack | Used to store the list of tiles a player currently has in their hand. |
+| RackModel | Used to store the list of tiles a player currently has in their hand. |
 | Tile | Ties together a letter and point value for all tiles in the Scrabble game. |
 | TileBag| An ArrayList containing all the tiles of the game. |
 | Hashmaps | Used to map frequncy values (Character-Integer) and point values (Integer-ArrayList of chars) for all the tiles in a TileBag |

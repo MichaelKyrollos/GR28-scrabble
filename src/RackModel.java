@@ -1,50 +1,59 @@
-// Import libraries
 import java.util.ArrayList;
 
 /**
- * The Rack class models a player's rack in the game of Scrabble.
+ * The RackModel class models a player's rack in the game of Scrabble.
  * A rack contains a maximum of 7 tiles. Whenever the rack is empty,
  * the player must fill the rack by drawing 7 tiles from the tile bag.
  *
  * @author Pathum Danthanarayana, 101181411
+ * @author Yehan De Silva
  * @version 1.0
- * @date October 22, 2022
+ * @date November 11, 2022
  */
-public class Rack {
+public class RackModel extends ScrabbleModel {
 
     /** Fields **/
     private ArrayList<Tile> tiles;
     private TileBag bag;
-    private static final int MAX_TILES = 7;
+    public static final int MAX_TILES = 7;
 
     /** Constructor **/
-    public Rack()
+    public RackModel()
     {
         // Initialize ArrayList with a size of 7 tiles
-        tiles = new ArrayList<>(7);
+        tiles = new ArrayList<>(MAX_TILES);
 
         // Initialize the tile bag to the same tile bag of the game
-        bag = ScrabbleGame.GAME_TILE_BAG;
+        bag = ScrabbleGameModel.GAME_TILE_BAG;
     }
 
     /** Methods **/
+
+    /**
+     * Returns the tiles in the rack.
+     * @return The tiles in the rack.
+     */
+    public ArrayList<Tile> getTiles() {
+        return this.tiles;
+    }
 
     /**
      * The addTile method adds a tile that is drawn from the tile bag
      * to the player's rack.
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
-     * @version 1.1
+     * @version 1.2
      *
      * @return True if tile is added to rack, false otherwise
      */
     public boolean addTile()
     {
         // Check if the player's rack is not full of tiles
-        if (tiles.size() < 7)
+        if (tiles.size() < MAX_TILES)
         {
             // If so, draw a tile from the tile bag and add it to the player's rack
             tiles.add(bag.dealTile());
+            updateScrabbleViews();
             return true;
         }
         // Otherwise, notify the player that their rack is currently full
@@ -97,6 +106,7 @@ public class Rack {
                 Tile removedTile = tile;
                 // Remove the tile from the player's rack
                 tiles.remove(tile);
+                updateScrabbleViews();
                 return removedTile;
             }
         }
@@ -113,7 +123,7 @@ public class Rack {
     public void fillRack()
     {
         //Keep adding tiles to the rack while it is not full
-        while(tiles.size() < 7) {
+        while(tiles.size() < MAX_TILES) {
             this.addTile();
         }
     }

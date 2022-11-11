@@ -6,10 +6,10 @@ import java.util.Scanner;
  *
  * @author Amin Zeina 101186297
  * @author Yehan De Silva
- * @version 1.2
- * @date October 25, 2022
+ * @version 2.0
+ * @date November 11, 2022
  */
-public class Player {
+public class PlayerModel extends ScrabbleModel{
 
     /**
      * Name of the player.
@@ -22,14 +22,14 @@ public class Player {
     /**
      * The player's tile rack.
      */
-    private Rack rack;
+    private RackModel rack;
     /**
      * The board the player is playing on.
      */
-    private Board board;
+    private BoardModel board;
 
     /**
-     * Constructs a new Player with a given name. The player's score is initially zero.
+     * Constructs a new PlayerModel with a given name. The player's score is initially zero.
      * @author Amin Zeina
      * @author Yehan De Silva
      * @version 1.1
@@ -38,11 +38,11 @@ public class Player {
      * @param name the name of the player
      * @param board the board the player is playing on
      */
-    public Player(String name, Board board) {
+    public PlayerModel(String name, BoardModel board) {
         this.name = name;
         this.board = board;
         this.score = 0;
-        this.rack = new Rack();
+        this.rack = new RackModel();
         this.rack.fillRack();
     }
 
@@ -120,7 +120,7 @@ public class Player {
             removedTile = rack.removeTile(letter);
             if (removedTile != null) {
                 // User entered a valid letter to remove
-                ScrabbleGame.GAME_TILE_BAG.addTile(removedTile);
+                ScrabbleGameModel.GAME_TILE_BAG.addTile(removedTile);
                 System.out.println("Tile \"" + letter + "\" has been removed");
                 System.out.println(rack);
 
@@ -160,7 +160,7 @@ public class Player {
      * @version 1.0
      * @date October 25, 2022
      */
-    public Rack getRack()
+    public RackModel getRack()
     {
         return this.rack;
     }

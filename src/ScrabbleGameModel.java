@@ -1,34 +1,29 @@
-import javax.swing.*;
 import java.util.*;
 
-import static java.lang.Character.getNumericValue;
-
 /**
- * Milestone 1 of the SYSC 3110 Project.
- * A text-based playable version of the game "Scrabble", where players play the game through the console using the keyboard.
+ * Milestone 2 of the SYSC 3110 Project.
+ * A GUI-based playable version of the game "Scrabble", where players play the game through an interactive GUI.
  * This scrabble game is compatible for 2-4 players.
  *
  * @author Michael Kyrollos, 101183521
  * @author Yehan De Silva
  * @author Pathum Danthanarayana, 101181411
- * @version 1.1
- * @date October 25, 2022
+ * @version 2.0
+ * @date November 11, 2022
  */
-public class ScrabbleGame {
-    /**
-     * Parser used to parse information from player.
-     */
-    private Parser parser;
+public class ScrabbleGameModel {
 
+    //TODO Remove parser
+    private Parser parser;
     /**
-     * Board the game is being played on.
+     * BoardModel the game is being played on.
      */
-    private Board gameBoard;
+    private BoardModel gameBoard;
 
     /**
      * Players of the scrabble game.
      */
-    private List<Player> players;
+    private List<PlayerModel> players;
 
     /**
      * The current turn of the scrabble game.
@@ -55,27 +50,30 @@ public class ScrabbleGame {
      * @author Michael Kyrollos, 101183521
      * @author Yehan De Silva
      * @author Pathum Danthanarayana, 101181411
-     * @version 1.1
+     * @version 2.1
      * @date October 25, 2022
      */
-    public ScrabbleGame() {
+    public ScrabbleGameModel() {
+        //TODO Remove parser
         parser = new Parser();
-        gameBoard = new Board(this);
+        gameBoard = new BoardModel(this);
         players = new ArrayList<>();
-        initializePlayers();
         // Make the first player in the ArrayList have the first turn
         currentTurn = 0;
         // Start running the game
         gameRunning = true;
-        play();
     }
 
     /**
-     * Returns the Player whose currently playing their turn
+     * Returns the PlayerModel whose currently playing their turn
      *
      * @return the current player
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 11, 2022
      */
-    private Player getCurrentPlayer() {
+    private PlayerModel getCurrentPlayer() {
         return players.get(currentTurn % players.size());
     }
 
@@ -83,46 +81,53 @@ public class ScrabbleGame {
      * Returns the current turn number
      *
      * @return the current turn number
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 11, 2022
      */
     public int getCurrentTurn() {
         return currentTurn;
     }
 
     /**
-     * Initializes the list of players playing this scrabble game at the start of the game.
+     * Returns the list of players playing this Scrabble Game.
+     * @return List of players
+     *
      * @author Yehan De Silva
      * @version 1.0
-     * @date October 25, 2022
+     * @date November 11, 2022
      */
-    private void initializePlayers() {
-        String playerName;
-        int numberPlayers = 0;
-        Scanner in = new Scanner(System.in);
-        boolean validNumberPlayers = false;
+    public List<PlayerModel> getPlayers() {return this.players;}
 
-        //Keep looping till valid number of players (Between 2-4) is chosen by user
-        while (!validNumberPlayers) {
-            try {
-                System.out.println("Please enter the number of players (Between 2-4): ");
-                numberPlayers = in.nextInt();
-            }
-            catch (Exception e) {
-                in.next();
-                continue;
-            }
-            //Stop looping once a valid integer is given
-            if (numberPlayers <= 4 && numberPlayers >= 2) {validNumberPlayers = true;}
-        }
+    /**
+     * Returns the game board this Scrabble game is being played on.
+     * @return The game board.
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 11, 2022
+     */
+    public BoardModel getGameBoard() {return this.gameBoard;}
 
-        //Loop to get name of each player and add them to the game
-        for (int i = 1; i <= numberPlayers; i++) {
-            System.out.println("Please enter the name of Player " + i + ":");
-            playerName = in.next();
-            players.add(new Player(playerName, gameBoard));
+    /**
+     * Adds a player to this scrabble game. Only 4 players may be playing at one time.
+     * @param playerName Name of player.
+     * @return True if player was added, false otherwise.
+     * @author Yehan De Silva
+     * @version 2.1
+     * @date November 11, 2022
+     */
+    public boolean addPlayer(String playerName) {
+        if (players.size() <= 4) {
+            players.add(new PlayerModel(playerName, gameBoard));
+            return true;
         }
+        return false;
     }
 
     /**
+     * TODO Remove parser and text-based implementation of the game.
      * Starts the Scrabble game.
      * @author Michael Kyrollos, 101183521
      * @author Yehan De Silva
@@ -139,7 +144,7 @@ public class ScrabbleGame {
 
             boolean turnUsed = false;
             // Get the player who has the current turn
-            Player currentPlayer = getCurrentPlayer();
+            PlayerModel currentPlayer = getCurrentPlayer();
 
             // Continue prompting the player during their turn for a valid play
             while (!turnUsed)
@@ -158,6 +163,7 @@ public class ScrabbleGame {
 
 
     /**
+     * TODO Remove parser and text-based implementation of the game.
      * Process the given command
      *
      * @author Michael Kyrollos, 101183521
@@ -203,7 +209,7 @@ public class ScrabbleGame {
      * Plays a word that was entered by the player, using the "play" button.
      *
      * This method checks that the word entered is a valid english word, using ScrabbleDictionary. Then, it checks
-     * that the player can actually play the word (has the tiles + valid placement on board), using Player.
+     * that the player can actually play the word (has the tiles + valid placement on board), using PlayerModel.
      *
      * @param word the word to play (must be uppercase)
      * @param coords the coordinate of the word to be played (must be uppercase)
@@ -212,7 +218,7 @@ public class ScrabbleGame {
      * @date November 6, 2022
      */
     public boolean playWord(String word, String coords) {
-        Player currentPlayer = getCurrentPlayer();
+        PlayerModel currentPlayer = getCurrentPlayer();
 
         // check that the word is a valid english scrabble word
         if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", ""))) {
@@ -241,6 +247,7 @@ public class ScrabbleGame {
         System.out.println("Word to insert and location on board must be entered in uppercase");
         System.out.println();
         System.out.println("Your command words are:");
+        //TODO Remove parser
         parser.showCommands();
     }
 
@@ -298,7 +305,7 @@ public class ScrabbleGame {
     }
     public static void main(String[] args) {
 
-        ScrabbleGame newGame = new ScrabbleGame();
+        ScrabbleGameModel newGame = new ScrabbleGameModel();
         newGame.play();
     }
 
