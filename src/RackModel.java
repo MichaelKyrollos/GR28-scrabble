@@ -81,6 +81,7 @@ public class RackModel extends ScrabbleModel {
                 return false;
             }
         }
+        updateScrabbleViews();
         return true;
     }
 
@@ -149,20 +150,6 @@ public class RackModel extends ScrabbleModel {
             counter += 1;
         }
         return rackStr;
-    }
-
-    /**
-     * Temporary method for fix for RackPanelView.addTilesToPanel(), adds the specified tile to the rack
-     */
-    public void tempAddTile(Tile tile) {
-        tiles.add(tile);
-    }
-
-    /**
-     * Temporary method for fix for RackPanelView.addTilesToPanel(), removes the specified tile from the rack
-     */
-    public void tempRemoveTile(Tile tile) {
-        tiles.remove(tile);
     }
 
 }

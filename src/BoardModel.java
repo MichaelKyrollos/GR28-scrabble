@@ -1,8 +1,10 @@
-import static java.lang.Character.isDigit;
-import static java.lang.Character.isUpperCase;
+import javax.swing.*;
 
 import java.util.*;
 import java.lang.*;
+
+import static java.lang.Character.*;
+
 /**
  * The BoardModel class models a typical board of Scrabble.
  * The board is composed of 15 X 15 Squares. Each of these
@@ -32,7 +34,7 @@ public class BoardModel extends ScrabbleModel{
         squares = new Square[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                squares[i][j] = new Square();
+                squares[i][j] = new Square(i,j);
             }
         }
         copiedSquares = null; // not needed until a play occurs
@@ -51,179 +53,72 @@ public class BoardModel extends ScrabbleModel{
     }
 
     /**
-     *
-     * Returns True if word has been placed on board by player, false otherwise.
+     * Validates the placement of the word on the board. Returns the score of the word, if placement is valid.
+     * Return -1 if invalid.
      *
      * @author Michael Kyrollos, ID: 101183521
      * @author Pathum Danthanarayana, 101181411
      * @author Amin Zeina, 101186297
-     * @version 2.2
-     * @date November 9, 2022
+     * @version 2.3
+     * @date November 12, 2022
      *
-     * @param word the word to play (must be uppercase)
-     * @param coords the coordinate of the word to be played (must be uppercase)
-     * @param tilesToPlay the new tiles to add to the board
+     * @param playEvent the PlayWordEvent that was generated to play this word
      * @return the score of the word, if placed successfully. Return -1 if unsuccessful
      *
      */
-    public int placeWord(String word, String coords,  ArrayList<Tile> tilesToPlay){
-        HashMap<String,Integer> columnMap = new HashMap<>();
-        columnMap.put("A",0);
-        columnMap.put("B",1);
-        columnMap.put("C",2);
-        columnMap.put("D",3);
-        columnMap.put("E",4);
-        columnMap.put("F",5);
-        columnMap.put("G",6);
-        columnMap.put("H",7);
-        columnMap.put("I",8);
-        columnMap.put("J",9);
-        columnMap.put("K",10);
-        columnMap.put("L",11);
-        columnMap.put("M",12);
-        columnMap.put("N",13);
-        columnMap.put("O",14);
-
-        // Save the state of the board before placing any tiles
-        // (create a copy of the array of squares)
-        this.copyBoardSquares();
-
-        // Keep track of the score of the word
+    public int placeWord(PlayWordEvent playEvent){
+        boolean isVertical = playEvent.isVerticalPlacement();
+        ArrayList<Square> wordSquares = playEvent.getSquaresInWord();
+        String word = playEvent.getWord();
         int tempScore = 0;
         boolean isConnectedToExistingWord = false;
 
-        word = formatWord(word);
+        if (!playEvent.areSquaresConnected()) {
+            JOptionPane.showMessageDialog(null, "Invalid placement: The selected squares " +
+                    "are not connected in order");
+            revertBoard();
+            return -1;
+        }
 
-        String[] parsedCoords = parseCoords(coords);
+        if (game.getCurrentTurn() == 0 && (squares[7][7].getTile() == null) || word.length() < 2) {
+            JOptionPane.showMessageDialog(null, "Invalid placement: The first word placed must " +
+                    "cover square H8 and be at least 2 letters long.");
+            revertBoard();
+            return -1;
+        }
 
-        if (isDigit(parsedCoords[0].charAt(0))) {
-            // placing horizontal
-            int row = Integer.parseInt(parsedCoords[0]) - 1;
-            int col = columnMap.get(parsedCoords[1]);
-            int tilesPlayed = 0;
-            for (int currCol = col; currCol < word.length() + col ; currCol++) {
-                if (squares[row][currCol].getTile() == null) {
-                    // Check that the user should be placing this tile (i.e., this letter was not entered in (brackets))
-                    if (isUpperCase(word.charAt(currCol-col))) {
-                        // User entered this letter as already on the board, but tile == null, so word placement invalid
-                        System.out.println("Invalid placement: There is no preexisting tile");
-                        this.squares = copiedSquares;
-                        return -1;
-                    }
-                    // Square is empty -> attempt to place tile
-                    try {
-                        squares[row][currCol].placeSquare(tilesToPlay.get(tilesPlayed));
-                        // tile placed successfully -> increase score
-                        tempScore += tilesToPlay.get(tilesPlayed).getValue();
-                        tilesPlayed++;
-                        // a new tile was placed in a horizontal word, so check its possible adjacent vertical words
-                        int adjScore = checkVerticalAdjacentWord(row, currCol, String.valueOf(squares[row][currCol].getTile().getLetter()));
-                        if (adjScore == -1) {
-                            // adjacent tiles don't form a valid word, so word placement invalid
-                            System.out.println("Invalid placement: The adjacent tiles do not form valid words");
-                            this.squares = copiedSquares;
-                            return -1;
-                        } else {
-                            tempScore += adjScore;
-                            if (adjScore > 0) {
-                                // there is a valid adjacent word, so this word is connected to another word
-                                isConnectedToExistingWord = true;
-                            }
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Invalid placement: A letter has gone out of bounds.");
-                        this.squares = copiedSquares;
-                        return -1;
-                    }
-                } else {
-                    // Square not empty -> validate that existing tile is the same as entered in the user's word
-                    char letter = squares[row][currCol].getTile().getLetter();
-                    if (letter != word.charAt(currCol-col)) {
-                        // existing tile is not the same as the user entered
-                        System.out.println("Invalid placement: There is an existing tile in the way.");
-                        this.squares = copiedSquares;
+        if (isVertical) {
+            // placed vertically
+            for (int i = 0; i < wordSquares.size(); i++) {
+                tempScore += wordSquares.get(i).getTile().getValue();
+                if (isLowerCase(word.charAt(i))) {
+                    // this is a new letter, so check its horizontal adjacent words
+                    int adjScore = checkHorizontalAdjacentWord(wordSquares.get(i), String.valueOf(word.charAt(i)));
+                    if (adjScore == -1) {
+                        // adjacent tiles don't form a valid word, so word placement invalid
+                        JOptionPane.showMessageDialog(null, "Invalid placement: The adjacent " +
+                                "tiles do not form valid words");
+                        revertBoard();
                         return -1;
                     } else {
-                        // existing tile is the same as the user entered -> increase score
-                        tempScore += squares[row][currCol].getTile().getValue();
-                        isConnectedToExistingWord = true;
+                        tempScore += adjScore;
+                        if (adjScore > 0) {
+                            // there is a valid adjacent word, so this word is connected to another word
+                            isConnectedToExistingWord = true;
+                        }
                     }
-                }
-            }
-            // check that there isnt a word directly connected to this word horizontally
-            int adjScore = checkHorizontalAdjacentWord(row, col, word);
-            if (adjScore == -1) {
-                // adjacent tiles don't form a valid word, so word placement invalid
-                System.out.println("Invalid placement: The adjacent tiles do not form valid words");
-                this.squares = copiedSquares;
-                return -1;
-            } else {
-                tempScore += adjScore;
-                if (adjScore > 0) {
-                    // there is a valid adjacent word, so this word is connected to another word
+                } else {
+                    // there is an existing tile in the word, no need to check adjacent
                     isConnectedToExistingWord = true;
-                }
-            }
-        } else {
-            // placing vertical
-            int col = columnMap.get(parsedCoords[0]);
-            int row = Integer.parseInt(parsedCoords[1]) - 1;
-            int tilesPlayed = 0;
-            for (int currRow = row; currRow < word.length() + row ; currRow++) {
-                if (squares[currRow][col].getTile() == null) {
-                    // Check that the user should be placing this tile (i.e., this letter was not entered in (brackets))
-                    if (isUpperCase(word.charAt(currRow-row))) {
-                        // User entered this letter as already on the board, but tile == null, so word placement invalid
-                        System.out.println("Invalid placement: There is no preexisting tile");
-                        this.squares = copiedSquares;
-                        return -1;
-                    }
-                    // Square is empty -> attempt to place tile
-                    try {
-                        squares[currRow][col].placeSquare(tilesToPlay.get(tilesPlayed));
-                        // tile placed successfully -> increase score
-                        tempScore += tilesToPlay.get(tilesPlayed).getValue();
-                        tilesPlayed++;
-                        // a new tile was placed in a vertical word, so check its possible adjacent horizontal words
-                        int adjScore = checkHorizontalAdjacentWord(currRow, col, String.valueOf(squares[currRow][col].getTile().getLetter()));
-                        if (adjScore == -1) {
-                            // adjacent tiles don't form a valid word, so word placement invalid
-                            System.out.println("Invalid placement: The adjacent tiles do not form valid words");
-                            this.squares = copiedSquares;
-                            return -1;
-                        } else {
-                            tempScore += adjScore;
-                            if (adjScore > 0) {
-                                // there is a valid adjacent word, so this word is connected to another word
-                                isConnectedToExistingWord = true;
-                            }
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Invalid placement: A letter has gone out of bounds.");
-                        this.squares = copiedSquares;
-                        return -1;
-                    }
-                } else {
-                    // Square not empty -> validate that existing tile is the same as entered in the user's word
-                    char letter = squares[currRow][col].getTile().getLetter();
-                    if (letter != word.charAt(currRow-row)) {
-                        // existing tile is not the same as the user entered
-                        System.out.println("Invalid placement: There is an existing tile in the way.");
-                        this.squares = copiedSquares;
-                        return -1;
-                    } else {
-                        // existing tile is the same as the user entered -> increase score
-                        tempScore += squares[currRow][col].getTile().getValue();
-                        isConnectedToExistingWord = true;
-                    }
                 }
             }
             // check that there isnt a word directly connected to this word vertically
-            int adjScore = checkVerticalAdjacentWord(row, col, word);
+            int adjScore = checkVerticalAdjacentWord(wordSquares.get(0), word);
             if (adjScore == -1) {
                 // adjacent tiles don't form a valid word, so word placement invalid
-                System.out.println("Invalid placement: The adjacent tiles do not form valid words");
-                this.squares = copiedSquares;
+                JOptionPane.showMessageDialog(null, "Invalid placement: The adjacent " +
+                        "tiles do not form valid words");
+                revertBoard();
                 return -1;
             } else {
                 tempScore += adjScore;
@@ -232,24 +127,57 @@ public class BoardModel extends ScrabbleModel{
                     isConnectedToExistingWord = true;
                 }
             }
-        }
 
-        if (game.getCurrentTurn() == 0 && (squares[8][columnMap.get("H")].getTile() == null) || word.length() < 2) {
-            System.out.println("Invalid placement: The first word placed must cover square H8 " +
-                    "and be at least 2 letters long.");
-            this.squares = copiedSquares;
-            return -1;
+        } else {
+            // placed horizontally
+            for (int i = 0; i < wordSquares.size(); i++) {
+                tempScore += wordSquares.get(i).getTile().getValue();
+                if (isLowerCase(word.charAt(i))) {
+                    // this is a new letter, so check its horizontal adjacent words
+                    int adjScore = checkVerticalAdjacentWord(wordSquares.get(i), String.valueOf(word.charAt(i)));
+                    if (adjScore == -1) {
+                        // adjacent tiles don't form a valid word, so word placement invalid
+                        JOptionPane.showMessageDialog(null, "Invalid placement: The adjacent " +
+                                "tiles do not form valid words");
+                        revertBoard();
+                        return -1;
+                    } else {
+                        tempScore += adjScore;
+                        if (adjScore > 0) {
+                            // there is a valid adjacent word, so this word is connected to another word
+                            isConnectedToExistingWord = true;
+                        }
+                    }
+                } else {
+                    // there is an existing tile in the word, no need to check adjacent
+                    isConnectedToExistingWord = true;
+                }
+            }
+            // check that there isnt a word directly connected to this word vertically
+            int adjScore = checkHorizontalAdjacentWord(wordSquares.get(0), word);
+            if (adjScore == -1) {
+                // adjacent tiles don't form a valid word, so word placement invalid
+                JOptionPane.showMessageDialog(null, "Invalid placement: The adjacent " +
+                        "tiles do not form valid words");
+                revertBoard();
+                return -1;
+            } else {
+                tempScore += adjScore;
+                if (adjScore > 0) {
+                    // there is a valid adjacent word, so this word is connected to another word
+                    isConnectedToExistingWord = true;
+                }
+            }
         }
 
         // Check if the placed word is connected to another word on the board
         if (!isConnectedToExistingWord && game.getCurrentTurn() != 0) {
-            System.out.println("Invalid placement: The word is not connected to any existing words");
-            this.squares = copiedSquares;
+            JOptionPane.showMessageDialog(null, "Invalid placement: The word is not " +
+                    "connected to any existing words ");
+            revertBoard();
             return -1;
         }
 
-        // Entire word placed Successfully
-        System.out.println(this);
         return tempScore;
     }
 
@@ -277,79 +205,44 @@ public class BoardModel extends ScrabbleModel{
     }
 
     /**
-     * Helper method for playWord(). Returns an array of two strings containing the coords of the word to be placed
+     * Revert the board back to its copied state
      *
-     * @param coords the coordinates of the word placement
-     * @return an array of strings containing the coordinates of the word to be placed
      * @author Amin Zeina, 101186297
+     * @version 1.0
      */
-    private String[] parseCoords(String coords) {
-        if (coords.length() == 3) {
-            if (isDigit(coords.charAt(0))) {
-                // For example, 11A -> return ["11", "A"]
-                return new String[]{coords.substring(0,2), coords.substring(2)};
-            } else {
-                // For example, A11 -> return ["A", "11"]
-                return new String[]{coords.substring(0,1), coords.substring(1)};
-            }
-        } else {
-            return new String[]{coords.substring(0,1), coords.substring(1)};
-        }
+    public void revertBoard() {
+        this.squares = copiedSquares;
+        copiedSquares = null;
+        updateScrabbleViews();
+        System.out.println(this);
     }
-
+    
     /**
-     * Helper method for playWord(). Returns a formatted String of the word to be played.
-     *
-     * Letters that must be placed (new tiles) are lowercase, and letters that are already placed (existing tiles)
-     * are uppercase. For example, if word == h(e)llo return hEllo
-     *
-     * @param word the unformatted word that is being played
-     * @return a formatted version of the word to be played
-     * @author Amin Zeina, 101186297
-     */
-    private String formatWord(String word) {
-        char[] wordChars = word.toLowerCase().toCharArray();
-        boolean withinBracket = false;
-        for (int c = 0; c < wordChars.length; c++) {
-            if (withinBracket) {
-                wordChars[c] = Character.toUpperCase(wordChars[c]);
-            }
-            if (wordChars[c] == '(') {
-                withinBracket = true;
-            }
-            if (wordChars[c] == ')') {
-                withinBracket = false;
-            }
-        }
-        return new String(wordChars).replaceAll("[()]", ""); //remove brackets;
-    }
-
-    /**
-     * Helper method for playWord(). Checks for vertical words that are adjacent to the square at the given x and y
-     * coordinates. Returns the score of the adjacent word if valid, or returns -1 if the word is invalid, or returns
+     * Helper method for playWord(). Checks for vertical words that are adjacent to the given square. Returns
+     * the score of the adjacent word if valid, or returns -1 if the word is invalid, or returns
      * 0 if there is no adjacent word.
      *
-     * @param x the x coordinate of the square to check
-     * @param y the y coordinate of the square to check
+     * @param initialSquare the square to check the adjacent squares of
      * @param placedWord the word or letter to be placed who's adjacent squares are being checked.
      * @return the score of the adjacent word, or -1 if invalid word, or 0 if there is no adjacent word
      * @author Amin Zeina, 101186297
      */
-    private int checkVerticalAdjacentWord(int x, int y, String placedWord) {
-        int row = x;
-        while (row >= 1 && squares[row - 1][y].getTile() != null) {
+    private int checkVerticalAdjacentWord(Square initialSquare, String placedWord) {
+        int row = initialSquare.getxCoord();
+        int col = initialSquare.getyCoord();
+        while (row >= 1 && squares[row - 1][col].getTile() != null) {
             row--;
         }
         // at this point, row is the row of the highest connected tile in this column
         // Now iterate down until we reach a null tile, and store the results
-        Tile currTile = squares[row][y].getTile();
+        Tile currTile = squares[row][col].getTile();
         String word = "";
         int score = 0;
         while (currTile != null) {
             word += currTile.getLetter();
             score += currTile.getValue();
             row++;
-            currTile = squares[row][y].getTile();
+            currTile = squares[row][col].getTile();
         }
         // ensure there is an adjacent word (not only the tile just placed in playWord(), which is already counted)
         if (word.equals(placedWord.toUpperCase())) {
@@ -364,31 +257,31 @@ public class BoardModel extends ScrabbleModel{
     }
 
     /**
-     * Helper method for playWord(). Checks for horizontal words that are adjacent to the square at the given x and y
-     * coordinates. Returns the score of the adjacent word if valid, or returns -1 if the word is invalid, or returns
+     * Helper method for playWord(). Checks for horizontal words that are adjacent to the given. Returns
+     * the score of the adjacent word if valid, or returns -1 if the word is invalid, or returns
      * 0 if there is no adjacent word.
      *
-     * @param x the x coordinate of the square to check
-     * @param y the y coordinate of the square to check
+     * @param initialSquare the square to check the adjacent squares of
      * @param placedWord the word or letter to be placed who's adjacent squares are being checked.
      * @return the score of the adjacent word, or -1 if invalid word, or 0 if there is no adjacent word
      * @author Amin Zeina, 101186297
      */
-    private int checkHorizontalAdjacentWord(int x, int y, String placedWord) {
-        int col = y;
-        while (col >= 1 && squares[x][col - 1].getTile() != null) {
+    private int checkHorizontalAdjacentWord(Square initialSquare, String placedWord) {
+        int row = initialSquare.getxCoord();
+        int col = initialSquare.getyCoord();
+        while (col >= 1 && squares[row][col - 1].getTile() != null) {
             col--;
         }
         // at this point, col is the column of the leftmost connected tile in this row
         // Now iterate down until we reach a null tile, and store the results
-        Tile currTile = squares[x][col].getTile();
+        Tile currTile = squares[row][col].getTile();
         String word = "";
         int score = 0;
         while (currTile != null) {
             word += currTile.getLetter();
             score += currTile.getValue();
             col++;
-            currTile = squares[x][col].getTile();
+            currTile = squares[row][col].getTile();
         }
         // ensure there is an adjacent word (not only the tile just placed in playWord(), which is already counted)
         if (word.equals(placedWord.toUpperCase())) {

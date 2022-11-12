@@ -54,49 +54,28 @@ public class PlayerModel extends ScrabbleModel{
      * the "e" and "o" are already on the board in the correct location, thus the player doesn't need to have an e or o
      * tile to play this word.
      *
-     * @author Amin Zeina
+     * @author Amin Zeina, 101186297
      * @author Yehan De Silva
-     * @version 1.1
-     * @date October 25, 2022
+     * @version 2.1
+     * @date November 12, 2022
      *
-     * @param word the word to play (must be uppercase)
-     * @param coords the coordinate of the word to be played (must be uppercase)
+     * @param playEvent the PlayWordEvent that was generated to play this word
      * @return true if the word was successfully placed, false otherwise
      */
-    public boolean playWord(String word, String coords) {
+    public boolean playWord(PlayWordEvent playEvent) {
 
-        ArrayList<Tile> tilesToPlay = new ArrayList<>();
-
-        // remove letters that are already on the board - i.e. letters between ( )
-        String playerLetters = word.replaceAll("\\(.*?\\)", "");
-        char[] individualPlayerLetters = playerLetters.toCharArray();
-        //Loop through each letter to ensure player has the letter in their rack
-        for (char c : individualPlayerLetters) {
-            Tile tile = rack.removeTile(c);
-            if (tile != null) {
-                tilesToPlay.add(tile);
-            } else {
-                // user doesn't have a tile with the required letter
-                rack.addTiles(tilesToPlay); //Add all previously removed tiles back to the rack
-                System.out.println("Invalid word, you do not have a \"" + c + "\" tile.");
-                return false;
-            }
-        }
-
-        // User has all required tiles
         // Validate word placement on board
-        int wordScore = board.placeWord(word, coords, tilesToPlay);
+        int wordScore = board.placeWord(playEvent);
         if (wordScore != -1) {
             //Word is valid and has been played
             rack.fillRack(); //refill rack
-            System.out.println("Word placed, rack has been refilled");
             this.score += wordScore;
+            updateScrabbleViews();
             return true;
         }
         else {
             //Otherwise, return the tiles back to the rack
-            rack.addTiles(tilesToPlay);
-            System.out.println("Word cannot be placed");
+            rack.addTiles(playEvent.getTilesPlaced());
             return false;
         }
     }

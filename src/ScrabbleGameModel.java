@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.*;
 
 /**
@@ -189,7 +190,7 @@ public class ScrabbleGameModel extends ScrabbleModel {
                 return false;
 
             case PLAY:
-                return this.playWord(command.getSecondWord(), command.getThirdWord()); //temporary change
+                //return this.playWord(command.getSecondWord(), command.getThirdWord()); //temporary change
 
             case QUIT:
                 quitGame();
@@ -208,30 +209,64 @@ public class ScrabbleGameModel extends ScrabbleModel {
     /**
      * Plays a word that was entered by the player, using the "play" button.
      *
-     * This method checks that the word entered is a valid english word, using ScrabbleDictionary. Then, it checks
-     * that the player can actually play the word (has the tiles + valid placement on board), using PlayerModel.
      *
-     * @param word the word to play (must be uppercase)
-     * @param coords the coordinate of the word to be played (must be uppercase)
+     * @param playEvent the PlayWordEvent that was generated to play this word
      * @return true if the word was played successfully, false otherwise
-     * @author Amin Zeina
-     * @date November 6, 2022
+     * @author Amin Zeina, 101186297
+     * @date November 12, 2022
      */
-    public boolean playWord(String word, String coords) {
+    public boolean playWord(PlayWordEvent playEvent) {
         PlayerModel currentPlayer = getCurrentPlayer();
+        String word = playEvent.getWord();
 
         // check that the word is a valid english scrabble word
-        if (SCRABBLE_DICTIONARY.validateWord(word.replaceAll("[()]", ""))) {
+        if (SCRABBLE_DICTIONARY.validateWord(word)) {
             // check if the word can actually be played
-            if (currentPlayer.playWord(word, coords)) {
-                System.out.println("You have successfully played \"" + word + "\". You now have "
-                        + currentPlayer.getScore() + " points!");
+            if (currentPlayer.playWord(playEvent)) {
+                JOptionPane.showMessageDialog(null, "You have successfully played \"" +
+                        word.toUpperCase() + "\". You now have " + currentPlayer.getScore() + " points!");
+                this.endTurn();
                 return true;
             }
         } else {
-            System.out.println(word + " is not a valid word. Try again.");
+            JOptionPane.showMessageDialog(null, "\""+ word.toUpperCase() +
+                    "\" is not a valid word. Try again.");
+            this.gameBoard.revertBoard();
+            currentPlayer.getRack().addTiles(playEvent.getTilesPlaced());
         }
         return false;
+    }
+
+    /**
+     * Ends the current turn.
+     *
+     * Switches the current player, updates the turn count, updates the view, enables the new current player's rack
+     * tile buttons, and disables the previous player's rack tile buttons.
+     *
+     * @author Amin Zeina, 101186297
+     * @version 1.0
+     */
+    private void endTurn() {
+        PlayerModel currPlayer = this.getCurrentPlayer();
+        for (Tile tile : currPlayer.getRack().getTiles()) {
+            tile.setEnabled(false);
+        }
+        this.currentTurn++;
+        currPlayer = this.getCurrentPlayer();
+        for (Tile tile : currPlayer.getRack().getTiles()) {
+            tile.setEnabled(true);
+        }
+        updateScrabbleViews();
+    }
+
+    public void setupFirstTurn() {
+        // disable rack tile buttons for all but the first player
+        for (int i = 1; i < players.size(); i++) {
+            for (Tile tile : players.get(i).getRack().getTiles()) {
+                tile.setEnabled(false);
+            }
+        }
+
     }
 
     /**

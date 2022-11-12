@@ -177,6 +177,10 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         // Add spacing in between board panel and player panel
         contentPane.add(Box.createRigidArea(MAIN_MIDDLE_SPACING));
         contentPane.add(playerPanel);
+
+        // setup first turn of game by enabling/disabling certain buttons
+        scrabbleModel.setupFirstTurn();
+
     }
 
     /**
