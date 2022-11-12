@@ -30,16 +30,18 @@ public class Square {
 
     /**
      * Places a tile on a square, regardless of the square's state
-     *
+     * @author Michael Kyrollos, 101183521
+     * @version 1.0
+     * @date October 22, 2022
      * @param tile The tile to be placed on the Square
      */
-    public void placeSquare(Tile tile) {
+    public void placeTile(Tile tile) {
         this.tile = tile;
     }
 
     /**
      *
-     * Returns a string representing the current state of the tile.
+     * Returns a string representing the current state of the Square.
      *
      * @author Michael Kyrollos, ID: 101183521
      *
@@ -60,7 +62,7 @@ public class Square {
     /**
      * getter method for tile field
      *
-     * @return the tile associated with this sqaure
+     * @return the tile associated with this square
      * @author Amin Zeina
      */
     public Tile getTile() {

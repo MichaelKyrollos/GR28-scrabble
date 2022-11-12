@@ -141,4 +141,8 @@ public class Rack {
         return rackStr;
     }
 
+    protected ArrayList<Tile> getTiles() {
+        return tiles;
+    }
+
 }
