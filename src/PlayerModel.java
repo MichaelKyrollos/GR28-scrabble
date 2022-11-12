@@ -165,4 +165,16 @@ public class PlayerModel extends ScrabbleModel{
         return this.rack;
     }
 
+    /**
+     * Places the given tile on the given square on the board
+     *
+     * @param square the square to place the tile in
+     * @param tile the tile to place
+     */
+    public void playTile(Square square, Tile tile) {
+        board.playTile(square, tile);
+        rack.removeTile(tile.getLetter());
+
+    }
+
 }

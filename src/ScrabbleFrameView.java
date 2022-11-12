@@ -73,7 +73,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
         scrabbleModel = new ScrabbleGameModel();
         scrabbleController = new ScrabbleController(scrabbleModel, this);
-        currentTurn = new JLabel("Current turn:   " + scrabbleModel.getCurrentTurn());
+        currentTurn = new JLabel();
 
         // Setup the menu to play the game
         this.setupMenu();
@@ -150,7 +150,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         contentPane.setLayout(new FlowLayout());
 
         // JPanel #1: Scrabble BoardModel
-        boardPanel = new BoardPanelView(scrabbleModel.getGameBoard());
+        boardPanel = new BoardPanelView(scrabbleModel.getGameBoard(), scrabbleController);
 
         // JPanel #2: PlayerModel Panel
         playerPanel = new JPanel();
@@ -191,7 +191,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private void addPlayerCards()
     {
         for (PlayerModel player : scrabbleModel.getPlayers()) {
-            PlayerCardView playerCard = new PlayerCardView(player);
+            PlayerCardView playerCard = new PlayerCardView(player, scrabbleController);
             // Keep a reference to the player card
             this.playerCards.add(playerCard);
             playerPanel.add(playerCard);
@@ -239,12 +239,12 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * Updates the current turn text with the name of the current player.
      *
      * @author Yehan De Silva
-     * @version 1.0
+     * @version 1.1
      * @date November 11, 2022
      */
     @Override
     public void update() {
-        currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentTurn());
+        currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer());
     }
 
     /** Main method **/

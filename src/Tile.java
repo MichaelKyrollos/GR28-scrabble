@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * The Tile class models a tile in the game of Scrabble.
  * A tile contains a letter and a point value.
@@ -6,7 +9,7 @@
  * @version 1.0
  * @date October 22, 2022
  */
-public class Tile {
+public class Tile extends JButton {
 
     /** Fields **/
     private char letter;
@@ -15,9 +18,15 @@ public class Tile {
     /** Constructor **/
     public Tile(char letter, int pointValue)
     {
+        super(String.valueOf(letter));
         // Initialize the tile's letter and point value to the specified letter and point value
         this.letter = letter;
         this.pointValue = pointValue;
+
+        this.setBackground(ScrabbleFrameView.ACCENT_COLOR);
+        this.setFocusPainted(false);
+        this.setForeground(Color.WHITE);
+        this.setFont(ScrabbleFrameView.PLAYER_BODY_FONT);
     }
 
     /** Methods **/

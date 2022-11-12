@@ -8,8 +8,9 @@ import java.util.*;
  * point value associated with them.
  *
  * @author Pathum Danthanarayana, 101181411
- * @version 1.1
- * @date October 22, 2022
+ * @author Yehan De Sivla
+ * @version 2.0
+ * @date November 11, 2022
  */
 public class TileBag {
 
@@ -124,6 +125,9 @@ public class TileBag {
     /**
      * The prepareTileBag method creates and adds all the necessary tiles for the tile bag.
      * @author Pathum Danthanarayana, 101181411
+     * @author Yehan De Silva
+     * @version 2.0
+     * @date November 11, 2022
      */
     private void prepareTileBag()
     {
@@ -133,15 +137,13 @@ public class TileBag {
             // Traverse through each letter for the current point value
             for (char letter : POINT_VALUES.get(pointValue))
             {
-                // Create a Tile object using the current letter and point value
-                Tile tile = new Tile(letter, pointValue);
                 // Determine the frequency of the tile
                 int tileFrequency = FREQUENCY_VALUES.get(letter);
 
                 // Repeatedly add the tile to the tile bag according to its frequency value
                 for (int i = 0; i < tileFrequency; i++)
                 {
-                    this.addTile(tile);
+                    this.addTile(new Tile(letter, pointValue));
                 }
             }
         }

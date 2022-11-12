@@ -20,11 +20,15 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
     private JPanel rackPanel;
     private PlayerModel playerModel;
 
+    private ScrabbleController scrabbleController;
+
     /** Constructor **/
-    public PlayerCardView(PlayerModel player)
+    public PlayerCardView(PlayerModel player, ScrabbleController controller)
     {
         // Configure JPanel
         super();
+
+        this.scrabbleController = controller;
         this.playerModel = player;
         this.setMaximumSize((ScrabbleFrameView.PLAYER_CARD_DIMENSIONS));
         this.setBackground(ScrabbleFrameView.PLAYER_CARD_COLOR);
@@ -41,7 +45,7 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
         this.playerScore.setForeground(Color.WHITE);
 
         // Configure the JPanel that will store the letters (buttons) in the rack
-        this.rackPanel = new RackPanelView(player.getRack());
+        this.rackPanel = new RackPanelView(player.getRack(), scrabbleController);
 
         // Add the player name to the top of the panel
         this.add(this.playerName, BorderLayout.NORTH);

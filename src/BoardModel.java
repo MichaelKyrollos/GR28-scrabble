@@ -15,11 +15,14 @@ import java.lang.*;
  * @version 2.3
  * @date November 9, 2022
  */
-public class BoardModel {
+public class BoardModel extends ScrabbleModel{
     public static final int SIZE = 15;
     private Square squares[][];
 
+    private Square copiedSquares[][];
+
     private ScrabbleGameModel game;
+
     /**
      * Constructs a board object, which contains a 2-D array of Squares
      */
@@ -32,6 +35,7 @@ public class BoardModel {
                 squares[i][j] = new Square();
             }
         }
+        copiedSquares = null; // not needed until a play occurs
     }
 
     /**
@@ -82,7 +86,7 @@ public class BoardModel {
 
         // Save the state of the board before placing any tiles
         // (create a copy of the array of squares)
-        Square[][] savedSquares = copyBoardSquares();
+        this.copyBoardSquares();
 
         // Keep track of the score of the word
         int tempScore = 0;
@@ -103,7 +107,7 @@ public class BoardModel {
                     if (isUpperCase(word.charAt(currCol-col))) {
                         // User entered this letter as already on the board, but tile == null, so word placement invalid
                         System.out.println("Invalid placement: There is no preexisting tile");
-                        this.squares = savedSquares;
+                        this.squares = copiedSquares;
                         return -1;
                     }
                     // Square is empty -> attempt to place tile
@@ -117,7 +121,7 @@ public class BoardModel {
                         if (adjScore == -1) {
                             // adjacent tiles don't form a valid word, so word placement invalid
                             System.out.println("Invalid placement: The adjacent tiles do not form valid words");
-                            this.squares = savedSquares;
+                            this.squares = copiedSquares;
                             return -1;
                         } else {
                             tempScore += adjScore;
@@ -128,7 +132,7 @@ public class BoardModel {
                         }
                     } catch (Exception e) {
                         System.out.println("Invalid placement: A letter has gone out of bounds.");
-                        this.squares = savedSquares;
+                        this.squares = copiedSquares;
                         return -1;
                     }
                 } else {
@@ -137,7 +141,7 @@ public class BoardModel {
                     if (letter != word.charAt(currCol-col)) {
                         // existing tile is not the same as the user entered
                         System.out.println("Invalid placement: There is an existing tile in the way.");
-                        this.squares = savedSquares;
+                        this.squares = copiedSquares;
                         return -1;
                     } else {
                         // existing tile is the same as the user entered -> increase score
@@ -151,7 +155,7 @@ public class BoardModel {
             if (adjScore == -1) {
                 // adjacent tiles don't form a valid word, so word placement invalid
                 System.out.println("Invalid placement: The adjacent tiles do not form valid words");
-                this.squares = savedSquares;
+                this.squares = copiedSquares;
                 return -1;
             } else {
                 tempScore += adjScore;
@@ -171,7 +175,7 @@ public class BoardModel {
                     if (isUpperCase(word.charAt(currRow-row))) {
                         // User entered this letter as already on the board, but tile == null, so word placement invalid
                         System.out.println("Invalid placement: There is no preexisting tile");
-                        this.squares = savedSquares;
+                        this.squares = copiedSquares;
                         return -1;
                     }
                     // Square is empty -> attempt to place tile
@@ -185,7 +189,7 @@ public class BoardModel {
                         if (adjScore == -1) {
                             // adjacent tiles don't form a valid word, so word placement invalid
                             System.out.println("Invalid placement: The adjacent tiles do not form valid words");
-                            this.squares = savedSquares;
+                            this.squares = copiedSquares;
                             return -1;
                         } else {
                             tempScore += adjScore;
@@ -196,7 +200,7 @@ public class BoardModel {
                         }
                     } catch (Exception e) {
                         System.out.println("Invalid placement: A letter has gone out of bounds.");
-                        this.squares = savedSquares;
+                        this.squares = copiedSquares;
                         return -1;
                     }
                 } else {
@@ -205,7 +209,7 @@ public class BoardModel {
                     if (letter != word.charAt(currRow-row)) {
                         // existing tile is not the same as the user entered
                         System.out.println("Invalid placement: There is an existing tile in the way.");
-                        this.squares = savedSquares;
+                        this.squares = copiedSquares;
                         return -1;
                     } else {
                         // existing tile is the same as the user entered -> increase score
@@ -219,7 +223,7 @@ public class BoardModel {
             if (adjScore == -1) {
                 // adjacent tiles don't form a valid word, so word placement invalid
                 System.out.println("Invalid placement: The adjacent tiles do not form valid words");
-                this.squares = savedSquares;
+                this.squares = copiedSquares;
                 return -1;
             } else {
                 tempScore += adjScore;
@@ -233,14 +237,14 @@ public class BoardModel {
         if (game.getCurrentTurn() == 0 && (squares[8][columnMap.get("H")].getTile() == null) || word.length() < 2) {
             System.out.println("Invalid placement: The first word placed must cover square H8 " +
                     "and be at least 2 letters long.");
-            this.squares = savedSquares;
+            this.squares = copiedSquares;
             return -1;
         }
 
         // Check if the placed word is connected to another word on the board
         if (!isConnectedToExistingWord && game.getCurrentTurn() != 0) {
             System.out.println("Invalid placement: The word is not connected to any existing words");
-            this.squares = savedSquares;
+            this.squares = copiedSquares;
             return -1;
         }
 
@@ -250,14 +254,12 @@ public class BoardModel {
     }
 
     /**
-     * Returns a copy of the board's current state (it's 2D array of Squares)
+     * Stores a copy of the board's current state (it's 2D array of Squares) in the copiedSquares field
      *
-     * @return a copy of the board's current Squares
      * @author Pathum Danthanarayana, 101181411
      * @author Amin Zeina, 101186297
-     *
      */
-    private Square[][] copyBoardSquares() {
+    public void copyBoardSquares() {
         // Save the state of the board before placing any tiles
         // (create a copy of the array of squares)
         Square[][] savedSquares = new Square[SIZE][SIZE];
@@ -271,7 +273,7 @@ public class BoardModel {
                 savedSquares[i][j] = new Square(squares[i][j]);
             }
         }
-        return savedSquares;
+        this.copiedSquares = savedSquares;
     }
 
     /**
@@ -422,5 +424,15 @@ public class BoardModel {
 
         }
 
+    /**
+     * Places the given tile on the given square on the board
+     *
+     * @param square the square to place the tile in
+     * @param tile the tile to place
+     */
+    public void playTile(Square square, Tile tile) {
+        square.placeSquare(tile);
+        updateScrabbleViews();
+    }
 }
 

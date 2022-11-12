@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * The ScrabbleController implements the Controller in the MVC design pattern. It listens to user-input performed on
@@ -17,6 +18,12 @@ public class ScrabbleController implements ActionListener {
     /** ScrabbleFrame to modify visual elements only**/
     private ScrabbleFrameView scrabbleFrame;
 
+    private Tile selectedTile;
+    private boolean isPlaying;
+
+    private ArrayList<Tile> tilesPlaced;
+    private ArrayList<Square> squaresFilled;
+
     /**
      * Constructs a ScrabbleController object.
      * @param model Corresponding model.
@@ -25,6 +32,10 @@ public class ScrabbleController implements ActionListener {
     public ScrabbleController(ScrabbleGameModel model, ScrabbleFrameView frame) {
         this.scrabbleModel = model;
         this.scrabbleFrame = frame;
+        this.selectedTile = null;
+        this.isPlaying = false;
+        tilesPlaced = new ArrayList<>();
+        squaresFilled = new ArrayList<>();
     }
 
     /**
@@ -33,22 +44,56 @@ public class ScrabbleController implements ActionListener {
      * @param e the event to be processed.
      *
      * @author Yehan De Silva
-     * @version 1.0
+     * @author Amin Zeina 101186297
+     * @version 1.1
      * @date November 11, 2022
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof Tile) {
+            Tile tile = (Tile) e.getSource();
+            if (isPlaying) {
+                selectedTile = tile;
+            }
+        }
+
+        if (e.getSource() instanceof Square) {
+
+            Square square = (Square) e.getSource();
+            if (isPlaying) {
+                if (square.getTile() == null) {
+                    // square is empty, so place the tile
+                    scrabbleModel.getCurrentPlayer().playTile(square, selectedTile);
+                    squaresFilled.add(square);
+                    tilesPlaced.add(selectedTile);
+                    selectedTile = null;
+                } else {
+                    // square not empty, unselect tile and prompt user
+                    selectedTile = null;
+                    JOptionPane.showMessageDialog(null, "That square is already full. Try again");
+                }
+            }
+        }
+
         if (e.getActionCommand().equals("Let's play!")) {
             configurePlayerInformation();
         }
         else if (e.getActionCommand().equals("Play")) {
-            //TODO
+            isPlaying = true;
+            scrabbleModel.getGameBoard().copyBoardSquares();
+            JButton playButton = (JButton) e.getSource();
+            playButton.setText("Submit");
         }
         else if (e.getActionCommand().equals("Redraw")) {
             //TODO
         }
         else if (e.getActionCommand().equals("Skip")) {
             //TODO
+        } else if (e.getActionCommand().equals("Submit")) {
+            isPlaying = false;
+            JButton submitButton = (JButton) e.getSource();
+            submitButton.setText("Play");
+
         }
     }
 

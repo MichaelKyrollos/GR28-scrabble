@@ -1,4 +1,6 @@
-public class Square {
+import javax.swing.*;
+
+public class Square extends JButton {
     /**
      * The Square class models a Square on a Scrabble BoardModel.
      * Each square has the possibility to have a tile placed
@@ -12,7 +14,7 @@ public class Square {
     private Tile tile;
 
     public Square() {
-
+        super(" ");
     }
 
     /**
