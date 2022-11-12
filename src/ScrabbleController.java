@@ -22,7 +22,7 @@ public class ScrabbleController implements ActionListener {
     private boolean isPlaying;
 
     private ArrayList<Tile> tilesPlaced;
-    private ArrayList<Square> squaresFilled;
+    private ArrayList<Square> squaresInWord;
 
     /**
      * Constructs a ScrabbleController object.
@@ -35,7 +35,7 @@ public class ScrabbleController implements ActionListener {
         this.selectedTile = null;
         this.isPlaying = false;
         tilesPlaced = new ArrayList<>();
-        squaresFilled = new ArrayList<>();
+        squaresInWord = new ArrayList<>();
     }
 
     /**
@@ -58,20 +58,27 @@ public class ScrabbleController implements ActionListener {
         }
 
         if (e.getSource() instanceof Square) {
-
             Square square = (Square) e.getSource();
             if (isPlaying) {
-                if (square.getTile() == null) {
+                if (square.getTile() == null && selectedTile != null) {
                     // square is empty, so place the tile
                     scrabbleModel.getCurrentPlayer().playTile(square, selectedTile);
-                    squaresFilled.add(square);
+                    squaresInWord.add(square);
                     tilesPlaced.add(selectedTile);
                     selectedTile = null;
-                } else {
-                    // square not empty, unselect tile and prompt user
+                    square.setEnabled(false);
+                } else if (square.getTile() != null && selectedTile != null) {
+                    // square not empty -> unselect tile and prompt user
                     selectedTile = null;
-                    JOptionPane.showMessageDialog(null, "That square is already full. Try again");
+                    JOptionPane.showMessageDialog(null, "That square is full. Tile unselected.");
+                    System.out.println("LETTER IN WAY: " + square.getTile().getLetter());
+                    System.out.println(scrabbleModel.getGameBoard());
+                } else if (square.getTile() != null && selectedTile == null){
+                    // square not empty but no tile selected -> add existing clicked square to word
+                    squaresInWord.add(square);
+                    square.setEnabled(false);
                 }
+                // otherwise, square empty and no tile selected, do nothing
             }
         }
 
@@ -93,7 +100,12 @@ public class ScrabbleController implements ActionListener {
             isPlaying = false;
             JButton submitButton = (JButton) e.getSource();
             submitButton.setText("Play");
-
+            scrabbleModel.playWord(new PlayWordEvent(scrabbleModel, squaresInWord, tilesPlaced));
+            for (Square square : squaresInWord) {
+                square.setEnabled(true);
+            }
+            squaresInWord.clear();
+            tilesPlaced.clear();
         }
     }
 

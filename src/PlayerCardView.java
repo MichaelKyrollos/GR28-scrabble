@@ -19,7 +19,6 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
     private JLabel playerScore;
     private JPanel rackPanel;
     private PlayerModel playerModel;
-
     private ScrabbleController scrabbleController;
 
     /** Constructor **/
@@ -30,6 +29,7 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
 
         this.scrabbleController = controller;
         this.playerModel = player;
+        this.playerModel.addScrabbleView(this);
         this.setMaximumSize((ScrabbleFrameView.PLAYER_CARD_DIMENSIONS));
         this.setBackground(ScrabbleFrameView.PLAYER_CARD_COLOR);
         this.setLayout(new BorderLayout());

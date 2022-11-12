@@ -63,24 +63,16 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
         {
             for (int j = 0; j < BoardModel.SIZE; j++)
             {
-                // Create and configure a new JButton
-                Square button = new Square();
-                button.setBackground(ScrabbleFrameView.SQUARE_BACKGROUND_COLOR);
-                button.setFont(new Font("Arial", Font.BOLD, 18));
-                button.setFocusPainted(false);
-                // Create and add a border to the button
-                Border border = BorderFactory.createLineBorder(ScrabbleFrameView.SQUARE_BORDER_COLOR);
-                button.setBorder(border);
-                button.setForeground(Color.WHITE);
-
-                // Keep a reference to the button
-                squares[i][j] = button;
-                button.addActionListener(scrabbleController);
+                Square square = squares[i][j];
+                // only add actionListener if there isnt one already
+                if (square.getActionListeners().length == 0) {
+                    squares[i][j].addActionListener(scrabbleController);
+                }
                 // Add the button to the board panel
-                this.add(button);
+                this.add(squares[i][j]);
                 // update board with new copied button
-                // TODO refactor this to solve the issue of buttons not showing correctly unless they are remade here
-                boardModel.getSquares()[i][j] = button;
+                squares[i][j].setText(squares[i][j].toString());
+
             }
         }
     }
@@ -96,14 +88,36 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
      */
     @Override
     public void update() {
+
+        squares = boardModel.getSquares();
+        //Clear all components before adding new
+        Component[] componentList = this.getComponents();
+        for (Component component : componentList) {
+            this.remove(component);
+        }
+
+        this.addSquares();
+        this.revalidate();
+        this.repaint();
+
+
+        /*
         Square[][] tileSquares = boardModel.getSquares();
         for (int i = 0; i < BoardModel.SIZE; i++) {
             for (int j = 0; j < BoardModel.SIZE; j++) {
                 Tile tile = tileSquares[i][j].getTile();
                 if (tile != null) {
                     squares[i][j].setText(Character.toString(tile.getLetter()));
+                } else {
+                    squares[i][j].setText(" ");
                 }
             }
         }
+
+
+        this.revalidate();
+        this.repaint();
+
+         */
     }
 }
