@@ -88,6 +88,7 @@ public class ScrabbleController implements ActionListener {
             if (isPlaying) {
                 if (square.getTile() == null && selectedTile != null) {
                     // square is empty, so place the tile
+                    selectedTile.setBackground(Color.WHITE);
                     scrabbleModel.getCurrentPlayer().playTile(square, selectedTile);
                     squaresInWord.add(square);
                     tilesPlaced.add(selectedTile);
