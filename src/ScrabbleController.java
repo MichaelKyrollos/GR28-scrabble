@@ -157,6 +157,9 @@ public class ScrabbleController implements ActionListener {
                 tilesToRedraw.clear();
             }
         }
+        if (e.getActionCommand().equals("Quit Game")) {
+            scrabbleModel.endGame();
+        }
     }
 
     /**

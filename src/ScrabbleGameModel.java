@@ -226,6 +226,13 @@ public class ScrabbleGameModel extends ScrabbleModel {
             if (currentPlayer.playWord(playEvent)) {
                 JOptionPane.showMessageDialog(null, "You have successfully played \"" +
                         word.toUpperCase() + "\". You now have " + currentPlayer.getScore() + " points!");
+
+                // check if the game should end (rack empty and no tiles in bag)
+                if (currentPlayer.getRack().isEmpty() && GAME_TILE_BAG.isEmpty()) {
+                    // end game
+                    this.endGame();
+                }
+
                 this.endTurn();
                 return true;
             }
@@ -262,6 +269,12 @@ public class ScrabbleGameModel extends ScrabbleModel {
         updateScrabbleViews();
     }
 
+    /**
+     * Sets up the rack tile buttons for the first turn. Disables all players' racks execpt for the first player's
+     *
+     * @author Amin Zeina, 101186297
+     * @version 1.0
+     */
     public void setupFirstTurn() {
         // disable rack tile buttons for all but the first player
         for (int i = 1; i < players.size(); i++) {
@@ -269,7 +282,6 @@ public class ScrabbleGameModel extends ScrabbleModel {
                 tile.setEnabled(false);
             }
         }
-
     }
 
     /**
@@ -305,6 +317,93 @@ public class ScrabbleGameModel extends ScrabbleModel {
     }
 
     /**
+     * Ends the game and displays the winner.
+     *
+     * @author Amin Zeina, 101186297
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    public void endGame() {
+
+        this.calculateEndGameScore();
+
+        ArrayList<PlayerModel> winners = this.determineWinners();
+        if (winners.size() == 1) {
+            PlayerModel winner = winners.get(0);
+            JOptionPane.showMessageDialog(null, "The game has ended.\nPlayer " + winner.getName() +
+                    " is the winner!" + " They had " + winner.getScore() + " points.");
+        } else {
+            String tieMessage = "";
+            for (PlayerModel player: winners) {
+                tieMessage += "\n" + player.getName() + " - " + player.getScore() + " points";
+            }
+            JOptionPane.showMessageDialog(null, "The game has ended. The following players have tied:" + tieMessage);
+         }
+
+        System.exit(0);
+    }
+
+    /**
+     * Helper method for endGame method. Calculates the score of the players at the end of the game, following the
+     * rules given on the Scrabble wiki:
+     *
+     * "When the game ends, each player's score is reduced by the sum of their unused
+     * letters; in addition, if a player has used all of their letters (known as "going out" or "playing out"),
+     * the sum of all other players' unused letters is added to that player's score."
+     *
+     * @author Amin Zeina, 101186297
+     * @version 1.0
+     *
+     */
+    private void calculateEndGameScore() {
+        // get the sum of each player's unused letters
+        ArrayList<Integer> unusedTileScore = new ArrayList<>(players.size());
+        int totalUnusedScore = 0;
+        for (PlayerModel player : players) {
+            int tempSum = 0;
+            for (Tile tile : player.getRack().getTiles()) {
+                tempSum += tile.getValue();
+            }
+            unusedTileScore.add(tempSum);
+            totalUnusedScore += tempSum;
+        }
+        for (int i = 0; i < players.size(); i++) {
+            PlayerModel currPlayer = players.get(i);
+            if (unusedTileScore.get(i) == 0) {
+                // This player has no unused tiles, so add the sum of all other unused tiles to this player's score
+                currPlayer.adjustScore(totalUnusedScore);
+            } else {
+                // This player has unused tiles, so subract the sum of those tiles
+                currPlayer.adjustScore(-1 * unusedTileScore.get(i));
+            }
+        }
+    }
+
+    /**
+     * Helper method for endGame method. Determines the winner of the game, or "winners" if the game is tied.
+     *
+     * If there is a tie, multiple players will be returned.
+     *
+     *
+     * @return a list of players at or tied for the highest score.
+     */
+    private ArrayList<PlayerModel> determineWinners() {
+        ArrayList<PlayerModel> winnerList = new ArrayList<>();
+        int highestScore = -1;
+        for (PlayerModel player : players) {
+            int currScore = player.getScore();
+            if (currScore > highestScore) {
+                winnerList.clear();
+                winnerList.add(player);
+                highestScore = currScore;
+            } else if (currScore == highestScore) {
+                winnerList.add(player);
+            }
+        }
+        return winnerList;
+    }
+
+    /**
      * Function for quitting game.
      *
      * @author Michael Kyrollos, 101183521
@@ -323,4 +422,5 @@ public class ScrabbleGameModel extends ScrabbleModel {
         ScrabbleGameModel newGame = new ScrabbleGameModel();
         newGame.play();
     }
+
 }

@@ -25,6 +25,8 @@ public class BoardModel extends ScrabbleModel{
 
     private ScrabbleGameModel game;
 
+    private boolean isEmpty;
+
     /**
      * Constructs a board object, which contains a 2-D array of Squares
      */
@@ -38,6 +40,7 @@ public class BoardModel extends ScrabbleModel{
             }
         }
         copiedSquares = null; // not needed until a play occurs
+        isEmpty = true;
     }
 
     /**
@@ -80,7 +83,7 @@ public class BoardModel extends ScrabbleModel{
             return -1;
         }
 
-        if (game.getCurrentTurn() == 0 && (squares[7][7].getTile() == null) || word.length() < 2) {
+        if (this.isEmpty && (squares[7][7].getTile() == null || word.length() < 2)) {
             JOptionPane.showMessageDialog(null, "Invalid placement: The first word placed must " +
                     "cover square H8 and be at least 2 letters long.");
             revertBoard();
@@ -171,13 +174,13 @@ public class BoardModel extends ScrabbleModel{
         }
 
         // Check if the placed word is connected to another word on the board
-        if (!isConnectedToExistingWord && game.getCurrentTurn() != 0) {
+        if (!isConnectedToExistingWord && !isEmpty) {
             JOptionPane.showMessageDialog(null, "Invalid placement: The word is not " +
                     "connected to any existing words ");
             revertBoard();
             return -1;
         }
-
+        isEmpty = false;
         return tempScore;
     }
 
@@ -214,7 +217,6 @@ public class BoardModel extends ScrabbleModel{
         this.squares = copiedSquares;
         copiedSquares = null;
         updateScrabbleViews();
-        System.out.println(this);
     }
     
     /**

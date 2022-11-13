@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -134,14 +135,33 @@ public class RackModel extends ScrabbleModel {
      * The fillRack method fills the player's rack with up to 7 tiles.
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
-     * @version 1.1
+     * @author Amin Zeina, 101186297
+     * @version 1.2
      */
     public void fillRack()
     {
         //Keep adding tiles to the rack while it is not full
-        while(tiles.size() < MAX_TILES) {
+        while(tiles.size() < MAX_TILES && !bag.isEmpty()) {
             this.addTile();
         }
+
+        if (tiles.size() < MAX_TILES) {
+            JOptionPane.showMessageDialog(null, "Cannot fill rack completely," +
+                    " the Tile Bag is empty.");
+        }
+    }
+
+    /**
+     * Returns true if the rack is empty, false otherwise
+     *
+     * @author Amin Zeina, 101186297
+     * @version 1.0
+     *
+     * @return true if the rack is empty, false otherwise
+     *
+     */
+    public boolean isEmpty() {
+        return tiles.isEmpty();
     }
 
     /**

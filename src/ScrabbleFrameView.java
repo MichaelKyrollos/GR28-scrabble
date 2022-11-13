@@ -22,6 +22,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JButton playButton;
     private JButton redrawButton;
     private JButton skipButton;
+
+    private JMenuItem quitMenuItem;
     private ScrabbleGameModel scrabbleModel;
     private ScrabbleController scrabbleController;
 
@@ -62,7 +64,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * Constructs a Scrabble Frame.
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
-     * @version 1.2
+     * @author Amin Zeina, 101186297
+     * @version 1.3
      * @date November 13, 2022
      */
     public ScrabbleFrameView()
@@ -86,6 +89,17 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         playButton = new JButton("Play");
         redrawButton = new JButton("Redraw");
         skipButton = new JButton("Skip");
+
+        // Configure Menu
+        JMenuBar menuBar = new JMenuBar();
+        this.setJMenuBar(menuBar);
+
+        JMenu menu = new JMenu("Quit");
+        menuBar.add(menu);
+        quitMenuItem = new JMenuItem("Quit Game");
+        menu.add(quitMenuItem);
+        quitMenuItem.addActionListener(scrabbleController);
+        quitMenuItem.setEnabled(false);
 
         // Setup the menu to play the game
         this.setupMenu();
@@ -162,7 +176,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      *
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
-     * @version 1.2
+     * @author Amin Zeina, 101186297
+     * @version 1.3
      * @date November 13, 2022
      */
     public void startGame()
@@ -175,7 +190,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         // Repaint the JFrame
         this.repaint();
         // Change the size of the JFrame
-        this.setSize(1250, 750);
+        this.setSize(1250, 800);
         // Apply a new layout to the ContentPane
         contentPane.setLayout(new FlowLayout());
 
@@ -211,6 +226,9 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
         // setup first turn of game by enabling/disabling certain buttons
         scrabbleModel.setupFirstTurn();
+
+        // enable quit menu now that the game is running.
+        quitMenuItem.setEnabled(true);
 
     }
 
