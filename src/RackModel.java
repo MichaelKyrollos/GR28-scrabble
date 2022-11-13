@@ -121,12 +121,14 @@ public class RackModel extends ScrabbleModel {
      * @param tiles Tiles to be redrawn.
      *
      * @author Yehan De Silva
-     * @version 1.0
+     * @version 1.1
      * @date November 13, 2022
      */
     public void removeTiles(ArrayList<Tile> tiles) {
         for (Tile tile : tiles) {
             this.tiles.remove(tile);
+            int tileIndex = this.tiles.indexOf(tile);
+            bag.addTile(this.tiles.remove(tileIndex));
         }
         updateScrabbleViews();
     }
