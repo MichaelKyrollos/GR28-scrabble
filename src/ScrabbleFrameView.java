@@ -33,15 +33,15 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     // Spacing dimensions
     public static final Dimension MENU_SPACING = new Dimension(0, 80);
     public static final Dimension BUTTON_SPACING = new Dimension(10, 0);
-    public static final Dimension MAIN_MIDDLE_SPACING = new Dimension(40, 0);
+    public static final Dimension MAIN_MIDDLE_SPACING = new Dimension(30, 0);
     public static final Dimension PLAYER_CARD_SPACING = new Dimension(0, 30);
     public static final Dimension CURRENT_TURN_SPACING = new Dimension(0, 20);
 
     // JPanel dimensions
     public static final Dimension BOARD_DIMENSIONS = new Dimension(650, 650);
-    public static final Dimension PLAYER_PANEL_DIMENSIONS = new Dimension(400, 740);
+    public static final Dimension PLAYER_PANEL_DIMENSIONS = new Dimension(500, 740);
     public static final Dimension BUTTON_PANEL_DIMENSIONS = new Dimension(400, 100);
-    public static final Dimension PLAYER_CARD_DIMENSIONS = new Dimension(400, 125);
+    public static final Dimension PLAYER_CARD_DIMENSIONS = new Dimension(500, 125);
 
     // Fonts
     public static final Font MENU_HEADER_FONT = new Font("Arial", Font.BOLD, 38);
@@ -50,6 +50,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     public static final Font PLAYER_BODY_FONT = new Font("Arial", Font.BOLD, 22);
     public static final Font PLAYER_NAME_FONT = new Font("Arial", Font.BOLD, 28);
     public static final Font BUTTON_FONT = new Font("Arial", Font.PLAIN, 18);
+    public static final Font TILE_FONT = new Font("Arial", Font.BOLD, 18);
 
     /**
      * Constructs a Scrabble Frame.
@@ -145,7 +146,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         // Repaint the JFrame
         this.repaint();
         // Change the size of the JFrame
-        this.setSize(1200, 750);
+        this.setSize(1250, 750);
         // Apply a new layout to the ContentPane
         contentPane.setLayout(new FlowLayout());
 
