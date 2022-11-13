@@ -32,6 +32,9 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     public static final Color SQUARE_BACKGROUND_COLOR = new Color(36, 96, 120);
     public static final Color SQUARE_BORDER_COLOR = new Color(34, 178, 194);
     public static final Color PLAYER_CARD_COLOR = new Color(28, 62, 91);
+    public static final Color SELECTED_TILE_COLOR = new Color(223, 223, 223);
+    public static final Color CENTER_SQUARE_COLOR = new Color(22, 174, 131);
+    public static final Color SELECTED_BUTTON_COLOR = new Color(202, 91, 89);
 
     // Spacing dimensions
     public static final Dimension MENU_SPACING = new Dimension(0, 80);
@@ -52,7 +55,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     public static final Font CURRENT_TURN_FONT = new Font("Arial", Font.PLAIN, 22);
     public static final Font PLAYER_BODY_FONT = new Font("Arial", Font.BOLD, 22);
     public static final Font PLAYER_NAME_FONT = new Font("Arial", Font.BOLD, 28);
-    public static final Font BUTTON_FONT = new Font("Arial", Font.PLAIN, 18);
+    public static final Font BUTTON_FONT = new Font("Arial", Font.BOLD, 18);
     public static final Font TILE_FONT = new Font("Arial", Font.BOLD, 18);
 
     /**

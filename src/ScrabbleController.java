@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -49,7 +50,8 @@ public class ScrabbleController implements ActionListener {
      *
      * @author Yehan De Silva
      * @author Amin Zeina 101186297
-     * @version 1.3
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.4
      * @date November 13, 2022
      */
     @Override
@@ -57,10 +59,20 @@ public class ScrabbleController implements ActionListener {
         if (e.getSource() instanceof Tile) {
             Tile tile = (Tile) e.getSource();
             if (isPlaying) {
+                // Check if a tile is already selected
+                if (selectedTile != null)
+                {
+                    // If so, unselect the currently selected tile
+                    selectedTile.setBackground(Color.WHITE);
+                }
                 selectedTile = tile;
+                // Change background colour of the selected tile to show it has been selected
+                selectedTile.setBackground(ScrabbleFrameView.SELECTED_TILE_COLOR);
             }
             if (isRedrawing) {
                 if(!(tilesToRedraw.contains(tile))) {
+                    // Change background colour of the selected tile to show it has been selected
+                    tile.setBackground(ScrabbleFrameView.SELECTED_TILE_COLOR);
                     tilesToRedraw.add(tile);
                 }
             }
@@ -77,6 +89,8 @@ public class ScrabbleController implements ActionListener {
                     selectedTile = null;
                     square.setEnabled(false);
                 } else if (square.getTile() != null && selectedTile != null) {
+                    // Change colour of tile to show it is unselected
+                    selectedTile.setBackground(Color.WHITE);
                     // square not empty -> unselect tile and prompt user
                     selectedTile = null;
                     JOptionPane.showMessageDialog(null, "That square is full. Tile unselected.");
@@ -101,12 +115,14 @@ public class ScrabbleController implements ActionListener {
             scrabbleModel.getGameBoard().copyBoardSquares();
             JButton playButton = (JButton) e.getSource();
             playButton.setText("Submit");
+            playButton.setBackground(ScrabbleFrameView.SELECTED_BUTTON_COLOR);
         }
         else if (e.getActionCommand().equals("Redraw")) {
             this.isRedrawing = true;
             scrabbleFrame.getPlayButton().setEnabled(false);
             JButton redrawButton = (JButton) e.getSource();
             redrawButton.setText("Submit");
+            redrawButton.setBackground(ScrabbleFrameView.SELECTED_BUTTON_COLOR);
         }
         else if (e.getActionCommand().equals("Skip")) {
             scrabbleModel.endTurn();
@@ -116,6 +132,7 @@ public class ScrabbleController implements ActionListener {
                 scrabbleFrame.getRedrawButton().setEnabled(true);
                 JButton submitButton = (JButton) e.getSource();
                 submitButton.setText("Play");
+                submitButton.setBackground(ScrabbleFrameView.ACCENT_COLOR);
                 scrabbleModel.playWord(new PlayWordEvent(scrabbleModel, squaresInWord, tilesPlaced));
                 for (Square square : squaresInWord) {
                     square.setEnabled(true);
@@ -129,6 +146,8 @@ public class ScrabbleController implements ActionListener {
                 scrabbleFrame.getPlayButton().setEnabled(true);
                 JButton submitButton = (JButton) e.getSource();
                 submitButton.setText("Redraw");
+                submitButton.setBackground(ScrabbleFrameView.ACCENT_COLOR);
+                this.resetRedrawnTilesColour();
                 scrabbleModel.redraw(tilesToRedraw);
                 tilesToRedraw.clear();
             }
@@ -175,5 +194,23 @@ public class ScrabbleController implements ActionListener {
             scrabbleModel.addPlayer(playerName.toUpperCase());
         }
         scrabbleFrame.startGame();
+    }
+
+    /**
+     * The resetRedrawnTilesColour method resets the background colour of the tiles to
+     * be redrawn to white, so that when the same tiles are drawn from the tile bag
+     * by a different player, they will not have the selected background color.
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    private void resetRedrawnTilesColour()
+    {
+        // Traverse through each tile in the tiles to redraw
+        for (Tile tile : tilesToRedraw)
+        {
+            // Set the tile's background colour back to white
+            tile.setBackground(Color.WHITE);
+        }
     }
 }
