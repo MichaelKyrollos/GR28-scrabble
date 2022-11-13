@@ -136,7 +136,7 @@ public class PlayWordEvent extends EventObject {
             for (int i = 1; i < squaresInWord.size(); i++) {
                 Square currSquare = squaresInWord.get(i);
                 Square prevSquare = squaresInWord.get(i - 1);
-                if (currSquare.getyCoord() != prevSquare.getyCoord() + 1 && currSquare.getxCoord() != prevSquare.getxCoord()) {
+                if (currSquare.getyCoord() != prevSquare.getyCoord() + 1 || currSquare.getxCoord() != prevSquare.getxCoord()) {
                     // prev and curr squares are not connected horizontally
                     return false;
                 }
