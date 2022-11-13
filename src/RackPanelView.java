@@ -76,7 +76,6 @@ public class RackPanelView extends JPanel implements ScrabbleView {
         this.rackLetters = rackModel.getTiles();
         for (int i = 0; i < rackLetters.size(); i++) {
             Tile tile = rackLetters.get(i);
-            tile.addActionListener(scrabbleController);
             tile.setEnabled(true);
             this.add(tile);
         }

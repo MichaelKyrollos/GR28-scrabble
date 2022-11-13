@@ -213,4 +213,16 @@ public class TileBag {
         return tileBagStr;
     }
 
+    /**
+     * Returns the tiles within the tile bag.
+     * @return ArrayList of tiles within the tile bag.
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    public ArrayList<Tile> getTiles() {
+        return this.tiles;
+    }
+
 }
