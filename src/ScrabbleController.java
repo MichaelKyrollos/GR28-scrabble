@@ -45,13 +45,12 @@ public class ScrabbleController implements ActionListener {
 
     /**
      * Method is invoked whenever a user performs input that the Controller is listening to.
-     * TODO Finish implemntation of each user input.
      * @param e the event to be processed.
      *
      * @author Yehan De Silva
      * @author Amin Zeina 101186297
      * @author Pathum Danthanarayana, 101181411
-     * @version 1.4
+     * @version 1.5
      * @date November 13, 2022
      */
     @Override
@@ -70,10 +69,16 @@ public class ScrabbleController implements ActionListener {
                 selectedTile.setBackground(ScrabbleFrameView.SELECTED_TILE_COLOR);
             }
             if (isRedrawing) {
+                //Add tile to list of tiles to redraw
                 if(!(tilesToRedraw.contains(tile))) {
                     // Change background colour of the selected tile to show it has been selected
                     tile.setBackground(ScrabbleFrameView.SELECTED_TILE_COLOR);
                     tilesToRedraw.add(tile);
+                }
+                //Remove tile if it is already in the list of tiles to redraw
+                else {
+                    tilesToRedraw.remove(tile);
+                    tile.setBackground(Color.WHITE);
                 }
             }
         }
