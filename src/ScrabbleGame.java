@@ -70,15 +70,6 @@ public class ScrabbleGame {
         play();
     }
 
-    public ScrabbleGame(String test) {
-        parser = new Parser();
-        gameBoard = new Board(this);
-        players = new ArrayList<>();
-        currentTurn = 0;
-        // Start running the game
-        gameRunning = true;
-    }
-
 
     /**
      * Returns the Player whose currently playing their turn
