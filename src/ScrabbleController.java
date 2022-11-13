@@ -113,7 +113,6 @@ public class ScrabbleController implements ActionListener {
 
         if (e.getActionCommand().equals("Let's play!")) {
             configurePlayerInformation();
-            scrabbleFrame.update();
         }
         else if (e.getActionCommand().equals("Play")) {
             isPlaying = true;
@@ -176,8 +175,12 @@ public class ScrabbleController implements ActionListener {
             String numPlayersStr = JOptionPane.showInputDialog(scrabbleFrame, "Please enter the number of players (Between 2-4):");
             // Convert String into integer
             try {
+                //Return if user cancels the input prompt
+                if (numPlayersStr == null) {
+                    return;
+                }
                 numberPlayers = Integer.parseInt(numPlayersStr);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 continue;
             }
             //Stop looping once a valid integer is given
@@ -192,7 +195,7 @@ public class ScrabbleController implements ActionListener {
             String playerName = JOptionPane.showInputDialog(scrabbleFrame, message);
 
             // Check if the user has entered an empty player name
-            if (playerName.isEmpty())
+            if (playerName == null)
             {
                 // If so, assign a default player name to the player
                 playerName = "Player " + (i + 1);
@@ -200,6 +203,7 @@ public class ScrabbleController implements ActionListener {
             scrabbleModel.addPlayer(playerName.toUpperCase());
         }
         scrabbleFrame.startGame();
+        scrabbleFrame.update();
     }
 
     /**
