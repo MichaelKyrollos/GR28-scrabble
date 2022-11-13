@@ -169,4 +169,20 @@ public class PlayerModel extends ScrabbleModel{
 
     }
 
+    /**
+     * Adds the given score to this player's score. To decrease score, param score should be negative. If score becomes
+     * negative after adjustment (score < 0), the player's score is set to 0.
+     *
+     *
+     * @author Amin Zeina, 101186297
+     * @version 1.0
+     *
+     * @param score the score to add to this players score (or to subtract if negative)
+     */
+    public void adjustScore(int score) {
+        this.score += score;
+        if (this.score < 0) {
+            this.score = 0;
+        }
+    }
 }

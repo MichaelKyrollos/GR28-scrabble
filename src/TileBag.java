@@ -179,6 +179,18 @@ public class TileBag {
     }
 
     /**
+     * Returns true if the tile bag is empty, false otherwise
+     *
+     * @author Amin Zeina, 101186297
+     * @version 1.0
+     *
+     * @return true if the tile bag is empty, false otherwise
+     */
+    public boolean isEmpty() {
+        return tiles.isEmpty();
+    }
+
+    /**
      * The toString method overrides the default toString method to return a String
      * describing the tile bag, including all the tiles within the bag.
      * @author Pathum Danthanarayana, 101181411
