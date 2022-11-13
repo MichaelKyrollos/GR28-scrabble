@@ -95,7 +95,7 @@ public class Board {
                     }
                     // Square is empty -> attempt to place tile
                     try {
-                        squares[row][currCol].placeTile(tilesToPlay.get(tilesPlayed));
+                        squares[row][currCol].placeSquare(tilesToPlay.get(tilesPlayed));
                         // tile placed successfully -> increase score
                         tempScore += tilesToPlay.get(tilesPlayed).getValue();
                         tilesPlayed++;
@@ -163,7 +163,7 @@ public class Board {
                     }
                     // Square is empty -> attempt to place tile
                     try {
-                        squares[currRow][col].placeTile(tilesToPlay.get(tilesPlayed));
+                        squares[currRow][col].placeSquare(tilesToPlay.get(tilesPlayed));
                         // tile placed successfully -> increase score
                         tempScore += tilesToPlay.get(tilesPlayed).getValue();
                         tilesPlayed++;
