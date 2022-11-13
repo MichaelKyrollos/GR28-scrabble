@@ -244,9 +244,11 @@ public class ScrabbleGameModel extends ScrabbleModel {
      * tile buttons, and disables the previous player's rack tile buttons.
      *
      * @author Amin Zeina, 101186297
-     * @version 1.0
+     * @auuthor Yehan De Silva
+     * @version 1.1
+     * @date November 12, 2022
      */
-    private void endTurn() {
+    public void endTurn() {
         PlayerModel currPlayer = this.getCurrentPlayer();
         for (Tile tile : currPlayer.getRack().getTiles()) {
             tile.setEnabled(false);

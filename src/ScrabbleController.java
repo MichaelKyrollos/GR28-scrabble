@@ -45,7 +45,7 @@ public class ScrabbleController implements ActionListener {
      *
      * @author Yehan De Silva
      * @author Amin Zeina 101186297
-     * @version 1.1
+     * @version 1.2
      * @date November 11, 2022
      */
     @Override
@@ -84,6 +84,7 @@ public class ScrabbleController implements ActionListener {
 
         if (e.getActionCommand().equals("Let's play!")) {
             configurePlayerInformation();
+            scrabbleFrame.update();
         }
         else if (e.getActionCommand().equals("Play")) {
             isPlaying = true;
@@ -95,7 +96,7 @@ public class ScrabbleController implements ActionListener {
             //TODO
         }
         else if (e.getActionCommand().equals("Skip")) {
-            //TODO
+            scrabbleModel.endTurn();
         } else if (e.getActionCommand().equals("Submit")) {
             isPlaying = false;
             JButton submitButton = (JButton) e.getSource();

@@ -73,6 +73,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
         scrabbleModel = new ScrabbleGameModel();
+        scrabbleModel.addScrabbleView(this);
         scrabbleController = new ScrabbleController(scrabbleModel, this);
         currentTurn = new JLabel();
 
@@ -249,7 +250,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      */
     @Override
     public void update() {
-        currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer());
+        currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer().getName());
     }
 
     /** Main method **/
