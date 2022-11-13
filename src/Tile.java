@@ -18,15 +18,16 @@ public class Tile extends JButton {
     /** Constructor **/
     public Tile(char letter, int pointValue)
     {
-        super(String.valueOf(letter));
+        // Format text as 'Letter_pointValue' (point value as a subscript)
+        super(String.format("<html>%s<sub>%d</sub></html>", String.valueOf(letter), pointValue));
         // Initialize the tile's letter and point value to the specified letter and point value
         this.letter = letter;
         this.pointValue = pointValue;
 
-        this.setBackground(ScrabbleFrameView.ACCENT_COLOR);
+        this.setBackground(Color.WHITE);
         this.setFocusPainted(false);
-        this.setForeground(Color.WHITE);
-        this.setFont(ScrabbleFrameView.PLAYER_BODY_FONT);
+        this.setForeground(Color.BLACK);
+        this.setFont(ScrabbleFrameView.TILE_FONT);
     }
 
     /** Methods **/
@@ -66,6 +67,7 @@ public class Tile extends JButton {
     @Override
     public String toString()
     {
-        return String.valueOf(this.getLetter());
+        // Format Tile string as 'Letter_pointValue' (point value as a subscript)
+        return String.format("<html>%s<sub>%d</sub></html>", String.valueOf(this.letter), this.pointValue);
     }
 }
