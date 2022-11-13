@@ -126,7 +126,6 @@ public class RackModel extends ScrabbleModel {
      */
     public void removeTiles(ArrayList<Tile> tiles) {
         for (Tile tile : tiles) {
-            this.tiles.remove(tile);
             int tileIndex = this.tiles.indexOf(tile);
             bag.addTile(this.tiles.remove(tileIndex));
         }
