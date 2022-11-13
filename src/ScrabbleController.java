@@ -20,8 +20,10 @@ public class ScrabbleController implements ActionListener {
 
     private Tile selectedTile;
     private boolean isPlaying;
+    private boolean isRedrawing;
 
     private ArrayList<Tile> tilesPlaced;
+    private ArrayList<Tile> tilesToRedraw;
     private ArrayList<Square> squaresInWord;
 
     /**
@@ -34,7 +36,9 @@ public class ScrabbleController implements ActionListener {
         this.scrabbleFrame = frame;
         this.selectedTile = null;
         this.isPlaying = false;
+        this.isRedrawing = false;
         tilesPlaced = new ArrayList<>();
+        tilesToRedraw = new ArrayList<>();
         squaresInWord = new ArrayList<>();
     }
 
@@ -45,8 +49,8 @@ public class ScrabbleController implements ActionListener {
      *
      * @author Yehan De Silva
      * @author Amin Zeina 101186297
-     * @version 1.1
-     * @date November 11, 2022
+     * @version 1.3
+     * @date November 13, 2022
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -54,6 +58,11 @@ public class ScrabbleController implements ActionListener {
             Tile tile = (Tile) e.getSource();
             if (isPlaying) {
                 selectedTile = tile;
+            }
+            if (isRedrawing) {
+                if(!(tilesToRedraw.contains(tile))) {
+                    tilesToRedraw.add(tile);
+                }
             }
         }
 
@@ -84,28 +93,45 @@ public class ScrabbleController implements ActionListener {
 
         if (e.getActionCommand().equals("Let's play!")) {
             configurePlayerInformation();
+            scrabbleFrame.update();
         }
         else if (e.getActionCommand().equals("Play")) {
             isPlaying = true;
+            scrabbleFrame.getRedrawButton().setEnabled(false);
             scrabbleModel.getGameBoard().copyBoardSquares();
             JButton playButton = (JButton) e.getSource();
             playButton.setText("Submit");
         }
         else if (e.getActionCommand().equals("Redraw")) {
-            //TODO
+            this.isRedrawing = true;
+            scrabbleFrame.getPlayButton().setEnabled(false);
+            JButton redrawButton = (JButton) e.getSource();
+            redrawButton.setText("Submit");
         }
         else if (e.getActionCommand().equals("Skip")) {
-            //TODO
+            scrabbleModel.endTurn();
         } else if (e.getActionCommand().equals("Submit")) {
-            isPlaying = false;
-            JButton submitButton = (JButton) e.getSource();
-            submitButton.setText("Play");
-            scrabbleModel.playWord(new PlayWordEvent(scrabbleModel, squaresInWord, tilesPlaced));
-            for (Square square : squaresInWord) {
-                square.setEnabled(true);
+            if (isPlaying) {
+                isPlaying = false;
+                scrabbleFrame.getRedrawButton().setEnabled(true);
+                JButton submitButton = (JButton) e.getSource();
+                submitButton.setText("Play");
+                scrabbleModel.playWord(new PlayWordEvent(scrabbleModel, squaresInWord, tilesPlaced));
+                for (Square square : squaresInWord) {
+                    square.setEnabled(true);
+                }
+                squaresInWord.clear();
+                tilesPlaced.clear();
+                tilesToRedraw.clear();
             }
-            squaresInWord.clear();
-            tilesPlaced.clear();
+            else if (isRedrawing) {
+                isRedrawing = false;
+                scrabbleFrame.getPlayButton().setEnabled(true);
+                JButton submitButton = (JButton) e.getSource();
+                submitButton.setText("Redraw");
+                scrabbleModel.redraw(tilesToRedraw);
+                tilesToRedraw.clear();
+            }
         }
     }
 

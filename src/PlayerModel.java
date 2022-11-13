@@ -113,6 +113,19 @@ public class PlayerModel extends ScrabbleModel{
     }
 
     /**
+     * Redraws the given tiles from the player's rack.
+     * @param redrawTiles Tiles to be redrawn.
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    public void redraw(ArrayList<Tile> redrawTiles) {
+        this.rack.removeTiles(redrawTiles);
+        this.rack.fillRack();
+    }
+
+    /**
      * Returns the current score of this player.
      * @Author Amin Zeina
      *

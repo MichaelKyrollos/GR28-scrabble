@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -197,7 +198,7 @@ public class ScrabbleGameModel extends ScrabbleModel {
                 return true;
 
             case REDRAW:
-                redraw(command);
+                //redraw(command);
                 return true;
 
             case SKIP:
@@ -244,9 +245,11 @@ public class ScrabbleGameModel extends ScrabbleModel {
      * tile buttons, and disables the previous player's rack tile buttons.
      *
      * @author Amin Zeina, 101186297
-     * @version 1.0
+     * @auuthor Yehan De Silva
+     * @version 1.1
+     * @date November 12, 2022
      */
-    private void endTurn() {
+    public void endTurn() {
         PlayerModel currPlayer = this.getCurrentPlayer();
         for (Tile tile : currPlayer.getRack().getTiles()) {
             tile.setEnabled(false);
@@ -287,41 +290,18 @@ public class ScrabbleGameModel extends ScrabbleModel {
     }
 
     /**
-     * Called when a user is requesting redraw of tiles.
-     * If there is no second word i.e. the user didn't
-     * enter the number of tiles to redraw, the user will be
-     * prompted for input again.
+     * Redraws the given tiles for the current player.
      *
      * @author Michael Kyrollos, 101183521
      * @author Yehan De Silva
-     * @version  1.1
-     * @date October 25, 2022
+     * @version  2.0
+     * @date November 13, 2022
      *
-     * @param command The number of tiles the user would like to redraw
+     * @param redrawTiles Tiles to be redrawn
      */
-    public void redraw(Command command) {
-        if (!command.secondWordExist()) {
-            boolean validInput = false;
-            Scanner in = new Scanner(System.in);
-            int numTiles = 0;
-            //Keep looping until a user enters a valid number of tiles to redraw
-            while (!validInput) {
-                try {
-                    System.out.println("How many tiles would you like to redraw from the rack (1-7)?");
-                    numTiles = in.nextInt();
-                }
-                catch (Exception e) {
-                    in.next();
-                    continue;
-                }
-                //Stop looping once a valid integer is given
-                if (numTiles <= 7 && numTiles >= 1) {validInput= true;}
-            }
-            getCurrentPlayer().playRedraw(numTiles);
-        }
-        else {
-            getCurrentPlayer().playRedraw( command.getCharSecondWord(0));
-        }
+    public void redraw(ArrayList<Tile> redrawTiles) {
+        this.getCurrentPlayer().redraw(redrawTiles);
+        this.endTurn();
     }
 
     /**

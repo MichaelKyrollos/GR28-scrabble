@@ -8,8 +8,8 @@ import java.util.ArrayList;
  *
  * @author Pathum Danthanarayana, 101181411
  * @author Yehan De Silva
- * @version 1.1
- * @date November 11th, 2022
+ * @version 1.2
+ * @date November 13, 2022
  */
 public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
@@ -19,6 +19,9 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JPanel boardPanel;
     private JPanel playerPanel;
     private JLabel currentTurn;
+    private JButton playButton;
+    private JButton redrawButton;
+    private JButton skipButton;
     private ScrabbleGameModel scrabbleModel;
     private ScrabbleController scrabbleController;
 
@@ -56,8 +59,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * Constructs a Scrabble Frame.
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
-     * @version 1.1
-     * @date November 11, 2022
+     * @version 1.2
+     * @date November 13, 2022
      */
     public ScrabbleFrameView()
     {
@@ -73,13 +76,36 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
         scrabbleModel = new ScrabbleGameModel();
+        scrabbleModel.addScrabbleView(this);
         scrabbleController = new ScrabbleController(scrabbleModel, this);
         currentTurn = new JLabel();
+
+        playButton = new JButton("Play");
+        redrawButton = new JButton("Redraw");
+        skipButton = new JButton("Skip");
 
         // Setup the menu to play the game
         this.setupMenu();
         this.setVisible(true);
     }
+
+    /**
+     * Returns the frame's play button.
+     * @return frame's play button.
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    public JButton getPlayButton() {return this.playButton;}
+
+    /**
+     * Returns the frame's redraw button.
+     * @return frame's redraw button.
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    public JButton getRedrawButton() {return this.redrawButton;}
 
     /**
      * The setupMenu method sets up the initial menu of the
@@ -133,8 +159,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      *
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
-     * @version 1.1
-     * @date November 11, 2022
+     * @version 1.2
+     * @date November 13, 2022
      */
     public void startGame()
     {
@@ -171,7 +197,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         // Add the player cards to the JPanel
         this.addPlayerCards();
         // Add the buttons to the JPanel
-        this.addButtons(new String[]{"Play", "Redraw", "Skip"});
+        JButton[] buttonsToAdd = new JButton[]{playButton, redrawButton, skipButton};
+        this.addButtons(buttonsToAdd);
 
         // Add all the JPanels to ContentPane
         contentPane.add(boardPanel);
@@ -205,18 +232,17 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     }
 
     /**
-     * The addButtons method adds important function buttons
-     * (e.g. Play, Redraw, Skip, etc.) to the player panel in
-     * the Scrabble game. The method creates a button for each
-     * String in the specified array of Strings.
+     * The addButtons method adds the given buttons to the player panel in
+     * the Scrabble game.
      *
-     * @param buttonNames - An array of Strings containing the names of the buttons
+     * @param buttons - An array of Buttons to be added
      *
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
-     * @version 1.1
+     * @version 1.2
+     * @date November 13, 2022
      */
-    private void addButtons(String[] buttonNames)
+    private void addButtons(JButton[] buttons)
     {
         // Create and configure JPanel to store the buttons
         JPanel buttonsPanel = new JPanel();
@@ -224,9 +250,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         buttonsPanel.setMaximumSize(BUTTON_PANEL_DIMENSIONS);
         buttonsPanel.setBackground(BOARD_COLOR);
 
-        for (String buttonName : buttonNames) {
+        for (JButton button : buttons) {
             // Create and configure a new JButton
-            JButton button = new JButton(buttonName);
             button.setBackground(ACCENT_COLOR);
             button.setFocusPainted(false);
             button.setForeground(Color.WHITE);
@@ -249,7 +274,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      */
     @Override
     public void update() {
-        currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer());
+        currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer().getName());
     }
 
     /** Main method **/
