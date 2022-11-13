@@ -116,6 +116,21 @@ public class RackModel extends ScrabbleModel {
     }
 
     /**
+     * Removes list of tiles from player's rack.
+     * @param tiles Tiles to be redrawn.
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    public void removeTiles(ArrayList<Tile> tiles) {
+        for (Tile tile : tiles) {
+            this.tiles.remove(tile);
+        }
+        updateScrabbleViews();
+    }
+
+    /**
      * The fillRack method fills the player's rack with up to 7 tiles.
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
