@@ -53,7 +53,7 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
      * @author Amin Zeina, 101186297
-     * @version 1.2
+     * @version 1.3
      * @date November 11, 2022
      */
     private void addSquares()
@@ -72,6 +72,12 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
                 this.add(squares[i][j]);
                 // update board with new copied button
                 squares[i][j].setText(squares[i][j].toString());
+
+                // Check if the current square is the center square on the board
+                if (i == ((BoardModel.SIZE - 1) / 2) && j == ((BoardModel.SIZE - 1) / 2))
+                {
+                    squares[i][j].setBackground(ScrabbleFrameView.CENTER_SQUARE_COLOR);
+                }
 
             }
         }
