@@ -35,7 +35,7 @@ public class Square {
      * @date October 22, 2022
      * @param tile The tile to be placed on the Square
      */
-    public void placeTile(Tile tile) {
+    public void placeSquare(Tile tile) {
         this.tile = tile;
     }
 
