@@ -41,6 +41,7 @@ public class ScrabbleController implements ActionListener {
         tilesPlaced = new ArrayList<>();
         tilesToRedraw = new ArrayList<>();
         squaresInWord = new ArrayList<>();
+        addControllerToGameTiles();
     }
 
     /**
@@ -224,6 +225,19 @@ public class ScrabbleController implements ActionListener {
         {
             // Set the tile's background colour back to white
             tile.setBackground(Color.WHITE);
+        }
+    }
+
+    /**
+     * Adds this ScrabbleController as a listener to all game tiles.
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    private void addControllerToGameTiles() {
+        for (Tile tile : scrabbleModel.GAME_TILE_BAG.getTiles()) {
+            tile.addActionListener(this);
         }
     }
 }
