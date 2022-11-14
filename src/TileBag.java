@@ -225,12 +225,10 @@ public class TileBag {
     {
         for (Tile tile : tiles)
         {
-
             if (letter == tile.getLetter()) {
                 return tile;
 
             }
-
         }
         return null;
     }
