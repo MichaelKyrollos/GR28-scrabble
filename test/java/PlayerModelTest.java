@@ -74,6 +74,8 @@ class PlayerModelTest {
      */
     @Test
     void testEntireRackRefilled() {
+        TEST_TILE_BAG = new TileBag();
+
 //      Create 2 lists, one original, one with the tiles to redraw
         ArrayList<Tile> redrawTiles;
         ArrayList<Tile> originalTiles;
@@ -98,6 +100,8 @@ class PlayerModelTest {
      */
     @Test
     void testSomeOfRackRefilled() {
+        TEST_TILE_BAG = new TileBag();
+
 //      Create 2 lists, one original, one with the tiles to redraw
         ArrayList<Tile> redrawTiles = new ArrayList<>();
         ArrayList<Tile> originalTiles;
@@ -119,6 +123,7 @@ class PlayerModelTest {
      */
     @Test
     void testPlayWordHorizontalInitialPlacement() {
+
         tiles.add(TEST_TILE_BAG.takeTile('A'));
         tiles.add(TEST_TILE_BAG.takeTile('B'));
         tiles.add(TEST_TILE_BAG.takeTile('C'));
