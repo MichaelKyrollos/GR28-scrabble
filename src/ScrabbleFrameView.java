@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +24,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JButton playButton;
     private JButton redrawButton;
     private JButton skipButton;
-
+    private FontManager fontManager;
     private JMenuItem quitMenuItem;
     private ScrabbleGameModel scrabbleModel;
     private ScrabbleController scrabbleController;
@@ -51,21 +53,12 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     public static final Dimension BUTTON_PANEL_DIMENSIONS = new Dimension(400, 100);
     public static final Dimension PLAYER_CARD_DIMENSIONS = new Dimension(500, 125);
 
-    // Fonts
-    public static final Font MENU_HEADER_FONT = new Font("Arial", Font.BOLD, 38);
-    public static final Font MENU_TAGLINE_FONT = new Font("Arial", Font.PLAIN, 22);
-    public static final Font CURRENT_TURN_FONT = new Font("Arial", Font.PLAIN, 22);
-    public static final Font PLAYER_BODY_FONT = new Font("Arial", Font.BOLD, 22);
-    public static final Font PLAYER_NAME_FONT = new Font("Arial", Font.BOLD, 28);
-    public static final Font BUTTON_FONT = new Font("Arial", Font.BOLD, 18);
-    public static final Font TILE_FONT = new Font("Arial", Font.BOLD, 18);
-
     /**
      * Constructs a Scrabble Frame.
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
      * @author Amin Zeina, 101186297
-     * @version 1.3
+     * @version 1.4
      * @date November 13, 2022
      */
     public ScrabbleFrameView()
@@ -89,6 +82,9 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         playButton = new JButton("Play");
         redrawButton = new JButton("Redraw");
         skipButton = new JButton("Skip");
+
+        // Initialize the font manager
+        fontManager = new FontManager();
 
         // Configure Menu
         JMenuBar menuBar = new JMenuBar();
@@ -140,14 +136,14 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     {
         // Set up main header for the menu
         JLabel mainHeader = new JLabel("Welcome to Scrabble!");
-        mainHeader.setFont(ScrabbleFrameView.MENU_HEADER_FONT);
+        mainHeader.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 38f));
         mainHeader.setForeground(Color.WHITE);
         mainHeader.setAlignmentX(CENTER_ALIGNMENT);
         mainHeader.setHorizontalAlignment(JLabel.CENTER);
 
         // Set up the tagline for the menu
         JLabel tagLine = new JLabel("Developed by Group 28");
-        tagLine.setFont(ScrabbleFrameView.MENU_TAGLINE_FONT);
+        tagLine.setFont(fontManager.getManropeRegular().deriveFont(Font.PLAIN, 22f));
         tagLine.setForeground(Color.WHITE);
         tagLine.setAlignmentX(CENTER_ALIGNMENT);
         tagLine.setHorizontalAlignment(JLabel.CENTER);
@@ -157,7 +153,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         playButton.setBackground(ACCENT_COLOR);
         playButton.setFocusPainted(false);
         playButton.setForeground(Color.WHITE);
-        playButton.setFont(BUTTON_FONT);
+        playButton.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 18f));
         playButton.setAlignmentX(CENTER_ALIGNMENT);
         playButton.addActionListener(scrabbleController);
 
@@ -205,7 +201,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
 
         // Configure current turn label (initially Player 1)
-        currentTurn.setFont(CURRENT_TURN_FONT);
+        currentTurn.setFont(fontManager.getManropeRegular().deriveFont(Font.PLAIN, 22f));
         currentTurn.setAlignmentX(CENTER_ALIGNMENT);
         currentTurn.setHorizontalAlignment(JLabel.CENTER);
         currentTurn.setForeground(Color.WHITE);
@@ -276,7 +272,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
             button.setBackground(ACCENT_COLOR);
             button.setFocusPainted(false);
             button.setForeground(Color.WHITE);
-            button.setFont(BUTTON_FONT);
+            button.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 18f));
             button.addActionListener(scrabbleController);
 
             buttonsPanel.add(button);

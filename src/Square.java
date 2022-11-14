@@ -23,7 +23,10 @@ public class Square extends JButton {
         this.xCoord = x;
         this.yCoord = y;
         this.setBackground(ScrabbleFrameView.SQUARE_BACKGROUND_COLOR);
-        this.setFont(new Font("Arial", Font.BOLD, 18));
+
+        // Initialize a font manager
+        FontManager fontManager = new FontManager();
+        this.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 18f));
         this.setFocusPainted(false);
         // Create and add a border to the button
         Border border = BorderFactory.createLineBorder(ScrabbleFrameView.SQUARE_BORDER_COLOR);

@@ -6,7 +6,7 @@ import java.awt.*;
  * A tile contains a letter and a point value.
  *
  * @author Pathum Danthanarayana, 101181411
- * @version 1.0
+ * @version 1.1
  * @date October 22, 2022
  */
 public class Tile extends JButton {
@@ -27,7 +27,10 @@ public class Tile extends JButton {
         this.setBackground(Color.WHITE);
         this.setFocusPainted(false);
         this.setForeground(Color.BLACK);
-        this.setFont(ScrabbleFrameView.TILE_FONT);
+
+        // Initialize a font manager
+        FontManager fontManager = new FontManager();
+        this.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 18f));
     }
 
     /** Methods **/
