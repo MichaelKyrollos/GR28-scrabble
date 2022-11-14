@@ -213,7 +213,29 @@ public class TileBag {
         return tileBagStr;
     }
 
-    /**
+ /**
+     * Returns a corresponding tile given the String letter
+     * @return Tile that contains inputted letter
+     *
+     * @author Michael Kyrollos
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    public Tile takeTile(char letter)
+    {
+        for (Tile tile : tiles)
+        {
+
+            if (letter == tile.getLetter()) {
+                return tile;
+
+            }
+
+        }
+        return null;
+    }
+
+   /**
      * Returns the tiles within the tile bag.
      * @return ArrayList of tiles within the tile bag.
      *
