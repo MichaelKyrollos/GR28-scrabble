@@ -11,7 +11,8 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
 🥇Pathum Danthanarayana (101181411)  
 🥇 Yehan De Silva (101185388)
 
-## How to Run Project: 
+## How to Run Project:
+0. (Optional but highly recommended) Install the two .ttf fonts (Manrope Regular and Manrope Bold) located in the 'resources' folder to ensure all fonts are visible on the GUI
 1. Compile and build project 
 2. Run the program (From ScrabbleFrameView.java)
 3. Click "Let's Play!" to start the game
@@ -26,7 +27,7 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
       - No more tiles left to redraw and play the game
 
 ## PlayerModel Options During Their Turn 
-![image](https://user-images.githubusercontent.com/69320325/201565104-567b00e6-b536-491c-ba72-79da7ba41447.png)
+![image](https://user-images.githubusercontent.com/61627702/201576668-a4e0eb76-f50e-4008-bd4b-38fdbe7ac908.png)
 
 | Button      | Description |
 | ----------- | ----------- |
