@@ -74,6 +74,13 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
 4. Used public constants for fields to make them immutable, but still accessible to the rest of the program.
 5. Text-file used instead of API for dictionary as API usage was limited and some APIs were missing needed operations.
 6. Model-View-Controller used as it provides a way to get user-input, pass it on to the model to process and then update the view.
+      - Created 1 Controller to handle all user-input
+      - Create a Model and View class for each of the following: ScrabbleGame, Player, Board and Rack.
+      - The model takes care of the logic, and gets input from the controller
+      - The view is updated whenever a change occurs to the model
+8. Test-based development was used to perfect the logic used to place words on the board.
+9. Parser and CommandWord classes were removed as we no longer use text-based input.
+
 
 
 ## Data Structures
