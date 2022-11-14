@@ -15,8 +15,6 @@ import java.util.*;
  */
 public class ScrabbleGameModel extends ScrabbleModel {
 
-    //TODO Remove parser
-    private Parser parser;
     /**
      * BoardModel the game is being played on.
      */
@@ -56,8 +54,6 @@ public class ScrabbleGameModel extends ScrabbleModel {
      * @date October 25, 2022
      */
     public ScrabbleGameModel() {
-        //TODO Remove parser
-        parser = new Parser();
         gameBoard = new BoardModel(this);
         players = new ArrayList<>();
         // Make the first player in the ArrayList have the first turn
@@ -67,7 +63,6 @@ public class ScrabbleGameModel extends ScrabbleModel {
     }
 
     public ScrabbleGameModel(String test) {
-        parser = new Parser();
         gameBoard = new BoardModel(this);
         players = new ArrayList<>();
         currentTurn = 0;
@@ -133,85 +128,6 @@ public class ScrabbleGameModel extends ScrabbleModel {
         if (players.size() <= 4) {
             players.add(new PlayerModel(playerName, gameBoard));
             return true;
-        }
-        return false;
-    }
-
-    /**
-     * TODO Remove parser and text-based implementation of the game.
-     * Starts the Scrabble game.
-     * @author Michael Kyrollos, 101183521
-     * @author Yehan De Silva
-     * @author Pathum Danthanarayana, 101181411
-     * @version 1.1
-     * @date October 25, 2022
-     */
-    public void play()
-    {
-        System.out.println("Welcome to Scrabble!");
-
-        // Run the game until a player has ended the game
-        while (gameRunning) {
-
-            boolean turnUsed = false;
-            // Get the player who has the current turn
-            PlayerModel currentPlayer = getCurrentPlayer();
-
-            // Continue prompting the player during their turn for a valid play
-            while (!turnUsed)
-            {
-                // Print the player's name and rack
-                System.out.println("\n" + currentPlayer.getName() + "'s turn:\n" + currentPlayer.getRack() + "Enter a command: ");
-                // Get and process the player's command
-                Command command = parser.getCommand();
-                turnUsed = processCommand(command);
-            }
-
-            // Determine the next turn
-            currentTurn++;
-        }
-    }
-
-
-    /**
-     * TODO Remove parser and text-based implementation of the game.
-     * Process the given command
-     *
-     * @author Michael Kyrollos, 101183521
-     * @author Pathum Danthanarayana, 101181411
-     * @version 1.1
-     * @date October 25, 2022
-     *
-     * @param command The command to be processed.
-     * @return true If the command ends the game, false otherwise.
-     *
-     */
-    private boolean processCommand(Command command)
-    {
-        CommandWord commandWord = command.getFirstWord();
-
-        switch (commandWord) {
-            case INVALID:
-                System.out.println("Enter a valid command");
-                return false;
-
-            case HELP:
-                this.help();
-                return false;
-
-            case PLAY:
-                //return this.playWord(command.getSecondWord(), command.getThirdWord()); //temporary change
-
-            case QUIT:
-                quitGame();
-                return true;
-
-            case REDRAW:
-                //redraw(command);
-                return true;
-
-            case SKIP:
-                return true;
         }
         return false;
     }
@@ -291,23 +207,6 @@ public class ScrabbleGameModel extends ScrabbleModel {
                 tile.setEnabled(false);
             }
         }
-    }
-
-    /**
-     * Print out help information. list of commands and intro
-     *
-     * @author Michael Kyrollos, 101183521
-     * @version  1.0
-     */
-    public void help()
-    {
-        System.out.println("You need help");
-        System.out.println("Format to insert word: 'play [word_to_insert] [location_on_board]'");
-        System.out.println("Word to insert and location on board must be entered in uppercase");
-        System.out.println();
-        System.out.println("Your command words are:");
-        //TODO Remove parser
-        parser.showCommands();
     }
 
     /**
@@ -411,25 +310,4 @@ public class ScrabbleGameModel extends ScrabbleModel {
         }
         return winnerList;
     }
-
-    /**
-     * Function for quitting game.
-     *
-     * @author Michael Kyrollos, 101183521
-     * @version  1.0
-     * @author Pathum Danthanarayana, 101181411
-     * @version 1.1
-     */
-    private void quitGame()
-    {
-        this.gameRunning = false;
-        System.out.println("Thank you. Good bye.");
-
-    }
-    public static void main(String[] args) {
-
-        ScrabbleGameModel newGame = new ScrabbleGameModel();
-        newGame.play();
-    }
-
 }
