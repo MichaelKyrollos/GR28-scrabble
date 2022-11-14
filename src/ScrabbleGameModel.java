@@ -66,6 +66,15 @@ public class ScrabbleGameModel extends ScrabbleModel {
         gameRunning = true;
     }
 
+    public ScrabbleGameModel(String test) {
+        parser = new Parser();
+        gameBoard = new BoardModel(this);
+        players = new ArrayList<>();
+        currentTurn = 0;
+        // Start running the game
+        gameRunning = true;
+    }
+
     /**
      * Returns the PlayerModel whose currently playing their turn
      *

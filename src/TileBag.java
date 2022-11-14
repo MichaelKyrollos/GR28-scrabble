@@ -213,4 +213,17 @@ public class TileBag {
         return tileBagStr;
     }
 
+    public Tile takeTile(char letter)
+    {
+        for (Tile tile : tiles)
+        {
+
+            if (letter == tile.getLetter()) {
+                return tile;
+
+            }
+
+        }
+        return null;
+    }
 }

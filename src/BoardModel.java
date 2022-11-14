@@ -56,6 +56,22 @@ public class BoardModel extends ScrabbleModel{
     }
 
     /**
+     * Returns the 2D array of the copied squares making up the board.
+     * This is mostly used for help in unit testing.
+     *
+     * @return 2D array of squares making up the board.
+     *
+     * @author Michael Kyrollos
+     * @version 1.0
+     * @date November 12, 2022
+     */
+    public Square[][] getCopiedSquares() {
+        return this.copiedSquares;
+    }
+
+
+
+    /**
      * Validates the placement of the word on the board. Returns the score of the word, if placement is valid.
      * Return -1 if invalid.
      *
@@ -311,7 +327,7 @@ public class BoardModel extends ScrabbleModel{
         String s = "\n------------------------------------------------------------\n" ;
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                s += " " + squares[i][j] + " |";
+                s += " " + getSquares()[i][j] + " |";
             }
             s += "\n------------------------------------------------------------\n";
         }
