@@ -15,7 +15,7 @@ class BoardModelTest {
     @BeforeEach
     void setUp() {
 
-        newGame = new ScrabbleGameModel("test1");
+        newGame = new ScrabbleGameModel();
         newBoardModel = new BoardModel(newGame);
         tiles = new ArrayList<>();
         TEST_TILE_BAG = new TileBag();

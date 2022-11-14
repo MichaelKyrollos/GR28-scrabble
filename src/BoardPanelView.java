@@ -105,25 +105,5 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
         this.addSquares();
         this.revalidate();
         this.repaint();
-
-
-        /*
-        Square[][] tileSquares = boardModel.getSquares();
-        for (int i = 0; i < BoardModel.SIZE; i++) {
-            for (int j = 0; j < BoardModel.SIZE; j++) {
-                Tile tile = tileSquares[i][j].getTile();
-                if (tile != null) {
-                    squares[i][j].setText(Character.toString(tile.getLetter()));
-                } else {
-                    squares[i][j].setText(" ");
-                }
-            }
-        }
-
-
-        this.revalidate();
-        this.repaint();
-
-         */
     }
 }

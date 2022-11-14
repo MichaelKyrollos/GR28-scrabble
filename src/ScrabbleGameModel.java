@@ -31,11 +31,6 @@ public class ScrabbleGameModel extends ScrabbleModel {
     private int currentTurn;
 
     /**
-     * The current status of the game.
-     */
-    private boolean gameRunning;
-
-    /**
      * The tile bag used to store all the tiles for this Scrabble game.
      */
     public static final TileBag GAME_TILE_BAG = new TileBag();
@@ -59,15 +54,6 @@ public class ScrabbleGameModel extends ScrabbleModel {
         // Make the first player in the ArrayList have the first turn
         currentTurn = 0;
         // Start running the game
-        gameRunning = true;
-    }
-
-    public ScrabbleGameModel(String test) {
-        gameBoard = new BoardModel(this);
-        players = new ArrayList<>();
-        currentTurn = 0;
-        // Start running the game
-        gameRunning = true;
     }
 
     /**
@@ -81,19 +67,6 @@ public class ScrabbleGameModel extends ScrabbleModel {
      */
     public PlayerModel getCurrentPlayer() {
         return players.get(currentTurn % players.size());
-    }
-
-    /**
-     * Returns the current turn number
-     *
-     * @return the current turn number
-     *
-     * @author Yehan De Silva
-     * @version 1.0
-     * @date November 11, 2022
-     */
-    public int getCurrentTurn() {
-        return currentTurn;
     }
 
     /**
