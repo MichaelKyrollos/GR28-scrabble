@@ -63,8 +63,8 @@ class PlayerModelTest {
 
     @Test
     void testRackSizeInitial() {
-        assertEquals(7,(player1.getRack().getTiles()).size());
-        assertEquals(7,(player2.getRack().getTiles()).size());
+        assertEquals(7,player1.getRack().getTiles().size());
+        assertEquals(7,player2.getRack().getTiles().size());
 
     }
 
