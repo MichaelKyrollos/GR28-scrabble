@@ -9,7 +9,7 @@ import java.awt.*;
  *
  * @author Pathum Danthanarayana, 101181411
  * @author Yehan De Silva
- * @version 1.1
+ * @version 1.2
  * @date November 11th, 2022
  */
 public class PlayerCardView extends JPanel implements ScrabbleView {
@@ -34,14 +34,17 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
         this.setBackground(ScrabbleFrameView.PLAYER_CARD_COLOR);
         this.setLayout(new BorderLayout());
 
+        // Initialize a font manager
+        FontManager fontManager = new FontManager();
+
         // Configure player name
         this.playerName = new JLabel(player.getName());
-        this.playerName.setFont(ScrabbleFrameView.PLAYER_NAME_FONT);
+        this.playerName.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 28f));
         this.playerName.setForeground(Color.WHITE);
 
         // Configure player score
         this.playerScore = new JLabel("Score:   0");
-        this.playerScore.setFont(ScrabbleFrameView.PLAYER_BODY_FONT);
+        this.playerScore.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 22f));
         this.playerScore.setForeground(Color.WHITE);
 
         // Configure the JPanel that will store the letters (buttons) in the rack
