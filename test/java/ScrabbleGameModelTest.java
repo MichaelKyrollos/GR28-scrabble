@@ -77,7 +77,6 @@ class ScrabbleGameModelTest {
         assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
         assertTrue(newScrabbleGameModel.playWord(createWordEvent("DRIVE", 7, 7, false)));
         assertEquals(9,newScrabbleGameModel.getPlayers().get(0).getScore());
-        assertEquals(1,newScrabbleGameModel.getCurrentTurn());
         assertEquals(newScrabbleGameModel.getPlayers().get(1),newScrabbleGameModel.getCurrentPlayer());
         tiles.clear();
 
@@ -89,7 +88,6 @@ class ScrabbleGameModelTest {
         assertEquals(newScrabbleGameModel.getPlayers().get(1),newScrabbleGameModel.getCurrentPlayer());
         assertTrue(newScrabbleGameModel.playWord(createWordEvent("TEA", 11, 6, true)));
         assertEquals(12,newScrabbleGameModel.getPlayers().get(1).getScore());
-        assertEquals(2,newScrabbleGameModel.getCurrentTurn());
         assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
         tiles.clear();
 
@@ -101,10 +99,49 @@ class ScrabbleGameModelTest {
         assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
         assertTrue(newScrabbleGameModel.playWord(createWordEvent("APP", 8, 11, false)));
         assertEquals(12,newScrabbleGameModel.getPlayers().get(1).getScore());
-        assertEquals(3,newScrabbleGameModel.getCurrentTurn());
         assertEquals(newScrabbleGameModel.getPlayers().get(1),newScrabbleGameModel.getCurrentPlayer());
     }
 
+    @Test
+    void testEndGameScore() {
+        assertTrue(newScrabbleGameModel.addPlayer("player1"));
+        assertTrue(newScrabbleGameModel.addPlayer("player2"));
+//        Play 1 by player 1
+        tiles.add(TEST_TILE_BAG.takeTile('D'));
+        tiles.add(TEST_TILE_BAG.takeTile('R'));
+        tiles.add(TEST_TILE_BAG.takeTile('I'));
+        tiles.add(TEST_TILE_BAG.takeTile('V'));
+        tiles.add(TEST_TILE_BAG.takeTile('E'));
+
+        assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
+        assertTrue(newScrabbleGameModel.playWord(createWordEvent("DRIVE", 7, 7, false)));
+        assertEquals(9,newScrabbleGameModel.getPlayers().get(0).getScore());
+        assertEquals(newScrabbleGameModel.getPlayers().get(1),newScrabbleGameModel.getCurrentPlayer());
+        tiles.clear();
+
+//        Play 1 by player 2
+        tiles.add(TEST_TILE_BAG.takeTile('T'));
+        tiles.add(TEST_TILE_BAG.takeTile('E'));
+        tiles.add(TEST_TILE_BAG.takeTile('A'));
+
+        assertEquals(newScrabbleGameModel.getPlayers().get(1),newScrabbleGameModel.getCurrentPlayer());
+        assertTrue(newScrabbleGameModel.playWord(createWordEvent("TEA", 11, 6, true)));
+        assertEquals(12,newScrabbleGameModel.getPlayers().get(1).getScore());
+        assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
+        tiles.clear();
+
+//        Play 2 by player 1
+        tiles.add(TEST_TILE_BAG.takeTile('A'));
+        tiles.add(TEST_TILE_BAG.takeTile('P'));
+        tiles.add(TEST_TILE_BAG.takeTile('P'));
+
+        assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
+        assertTrue(newScrabbleGameModel.playWord(createWordEvent("APP", 8, 11, false)));
+        assertEquals(12,newScrabbleGameModel.getPlayers().get(1).getScore());
+        assertEquals(newScrabbleGameModel.getPlayers().get(1),newScrabbleGameModel.getCurrentPlayer());
+        assertEquals("player1", newScrabbleGameModel.determineWinners().get(0).getName());
+
+    }
 
     /*
      * Tests the playWord() within the ScrabbleGameModel.
@@ -123,7 +160,6 @@ class ScrabbleGameModelTest {
         assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
         assertFalse(newScrabbleGameModel.playWord(createWordEvent("DRI", 7, 7, false)));
         assertEquals(0,newScrabbleGameModel.getPlayers().get(0).getScore());
-        assertEquals(0,newScrabbleGameModel.getCurrentTurn());
     }
 
     /*
@@ -146,7 +182,6 @@ class ScrabbleGameModelTest {
         assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
         assertFalse(newScrabbleGameModel.playWord(createWordEvent("QUEEN", 8, 7, false)));
         assertEquals(0,newScrabbleGameModel.getPlayers().get(0).getScore());
-        assertEquals(0,newScrabbleGameModel.getCurrentTurn());
         assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
     }
 }
