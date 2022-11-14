@@ -37,7 +37,8 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
 
 ## Current Milestone - Milestone 2:
   - The game supports 2-4 players (The user specifies the number of players before the game starts)
-  - Players can place a word, redraw tiles, skip their turn or end the game
+  - Players can place a word, redraw tiles, skip their turn or end the game using a GUI
+  - The game now correctly validates and scores word placement (letters are connected, adjacent words are also valid, etc.)
   - Model-View-Controller design used for the Scrabble game.
   - Unit tests added to test the program
 
@@ -58,7 +59,11 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
 1. ⚠️ Graphical Bug with tiles on player's rack
       - Sometimes hides player tiles after a play they made is invalid and they have multiple tiles with the same letter  
       - Core functionality of the game is still intact
-2. ⚠️
+2. ⚠️ The following unit tests are failing, and must be investigated:
+      - BoardModelTest.testPlaceComplexWordWithSpecialTilePoints() fails, but this is expected as "premium squares" won't be added until milestone 3
+      - PlayerModelTest.testRackSizeInitial() fails when run with other tests, but passes if run on its own
+      - PlayerModelTest.testSomeOfRackRefilled() fails when run with other tests, but passes if run on its own
+      
 
 
 ## Design Decisions Made  
@@ -79,7 +84,7 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
 | Tile | Ties together a letter and point value for all tiles in the Scrabble game. |
 | TileBag| An ArrayList containing all the tiles of the game. |
 | Hashmaps | Used to map frequncy values (Character-Integer) and point values (Integer-ArrayList of chars) for all the tiles in a TileBag |
-| JButtons | Used to extend Tile class as tiles should now be clickable in the GUI |
+| JButtons | Used to extend Tile and Square classes as tiles and squares should now be clickable in the GUI |
 
 ## FAQ:
 #### I am getting a warning that my project .class is either outdated or a newer version.  
