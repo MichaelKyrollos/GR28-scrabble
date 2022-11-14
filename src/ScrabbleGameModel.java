@@ -268,7 +268,7 @@ public class ScrabbleGameModel extends ScrabbleModel {
      *
      * @return a list of players at or tied for the highest score.
      */
-    private ArrayList<PlayerModel> determineWinners() {
+    public ArrayList<PlayerModel> determineWinners() {
         ArrayList<PlayerModel> winnerList = new ArrayList<>();
         int highestScore = -1;
         for (PlayerModel player : players) {
