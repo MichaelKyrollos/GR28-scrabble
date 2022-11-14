@@ -101,8 +101,6 @@ public class ScrabbleController implements ActionListener {
                     // square not empty -> unselect tile and prompt user
                     selectedTile = null;
                     JOptionPane.showMessageDialog(null, "That square is full. Tile unselected.");
-                    System.out.println("LETTER IN WAY: " + square.getTile().getLetter());
-                    System.out.println(scrabbleModel.getGameBoard());
                 } else if (square.getTile() != null && selectedTile == null){
                     // square not empty but no tile selected -> add existing clicked square to word
                     squaresInWord.add(square);

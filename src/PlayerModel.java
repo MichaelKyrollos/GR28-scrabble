@@ -81,38 +81,6 @@ public class PlayerModel extends ScrabbleModel{
     }
 
     /**
-     * Called when the player has chosen to redraw their tiles. Replaces numNewTiles tiles in the player's rack
-     * @author Amin Zeina
-     * @author Yehan De Silva
-     * @version 1.1
-     * @date October 25, 2022
-     *
-     * @param numNewTiles the number of tiles to replace
-     */
-    public void playRedraw(int numNewTiles) {
-        Tile removedTile;
-        Scanner in = new Scanner(System.in);
-
-        for(int i = 0; i < numNewTiles; i++){
-            System.out.println("Enter the letter you want to redraw: ");
-            char letter = in.nextLine().charAt(0);
-            removedTile = rack.removeTile(letter);
-            if (removedTile != null) {
-                // User entered a valid letter to remove
-                ScrabbleGameModel.GAME_TILE_BAG.addTile(removedTile);
-                System.out.println("Tile \"" + letter + "\" has been removed");
-                System.out.println(rack);
-
-            } else {
-                System.out.println("You do not have a tile with that letter. Try again");
-                i--;
-            }
-        }
-        rack.fillRack();
-        System.out.println(rack);
-    }
-
-    /**
      * Redraws the given tiles from the player's rack.
      * @param redrawTiles Tiles to be redrawn.
      *
@@ -137,7 +105,7 @@ public class PlayerModel extends ScrabbleModel{
 
     /**
      * Returns the name of this player
-     * @ Amin Zeina
+     * @author Amin Zeina
      *
      * @return The name of the player
      */

@@ -10,6 +10,10 @@ public interface ScrabbleView {
 
     /**
      * Check for status change and update view.
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 11, 2022
      */
     void update();
 }

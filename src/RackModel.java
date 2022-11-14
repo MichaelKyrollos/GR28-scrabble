@@ -57,8 +57,6 @@ public class RackModel extends ScrabbleModel {
             updateScrabbleViews();
             return true;
         }
-        // Otherwise, notify the player that their rack is currently full
-        System.out.println("You cannot draw a tile from the bag. Your rack is currently full of tiles.");
         return false;
     }
 
