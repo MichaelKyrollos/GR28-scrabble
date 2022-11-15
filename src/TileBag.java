@@ -9,8 +9,9 @@ import java.util.*;
  *
  * @author Pathum Danthanarayana, 101181411
  * @author Yehan De Sivla
- * @version 2.0
- * @date November 11, 2022
+ * @author Amin Zeina, 101186297
+ * @version 3.0
+ * @date November 14, 2022
  */
 public class TileBag {
 
@@ -20,9 +21,9 @@ public class TileBag {
     private static final Map<Integer, ArrayList<Character>> POINT_VALUES = new HashMap<>();
 
     /** Point values for each letter according to Hasbro.com */
-    private static final int[] POSSIBLE_POINT_VALUES = {1,2,3,4,5,8,10}; //*Note - Add 0 for support for blank tiles (Milestone 3)
+    private static final int[] POSSIBLE_POINT_VALUES = {0,1,2,3,4,5,8,10};
     private static final List<char[]> LETTERS_WITH_POINT = new ArrayList<>();
-    //private static final char[] LETTERS_WITH_POINT_0 = {'-'}; *Note - Uncomment for support for blank tiles (Milestone 3)
+    private static final char[] LETTERS_WITH_POINT_0 = {Tile.BLANK_TILE_TEXT};
     private static final char[] LETTERS_WITH_POINT_1 = {'A', 'E', 'I', 'O', 'U', 'L', 'N', 'S', 'T', 'R'};
     private static final char[] LETTERS_WITH_POINT_2 = {'D','G'};
     private static final char[] LETTERS_WITH_POINT_3 = {'B','C', 'M', 'P'};
@@ -52,11 +53,12 @@ public class TileBag {
     /**
      * Constructs an ArrayList containing all the letters corresponding to a point value
      * @author Yehan De Silva
-     * @version 1.0
-     * @date October 25, 2022
+     * @author Amin Zeina, 101186297
+     * @version 3.0
+     * @date November 14, 2022
      */
     private void constructLetterPoints() {
-        //LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_0); *Note - Uncomment for support for blank tiles (Milestone 3)
+        LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_0);
         LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_1);
         LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_2);
         LETTERS_WITH_POINT.add(LETTERS_WITH_POINT_3);
@@ -72,8 +74,9 @@ public class TileBag {
      * that will be present in the tile bag.
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
-     * @version 1.1
-     * @date October 25, 2022
+     * @author Amin Zeina, 101186297
+     * @version 3.0
+     * @date November 14, 2022
      */
     private void prepareTiles()
     {
@@ -104,9 +107,8 @@ public class TileBag {
         FREQUENCY_VALUES.put('X', 1);
         FREQUENCY_VALUES.put('Y', 2);
         FREQUENCY_VALUES.put('Z', 1);
-        /*Blank tiles left for Milestone 3
-        FREQUENCY_VALUES.put(' ', 2);
-         */
+        FREQUENCY_VALUES.put(Tile.BLANK_TILE_TEXT, 2);
+
 
         // Set up all possible point values
         for(int i = 0; i < POSSIBLE_POINT_VALUES.length; i++) {
@@ -143,7 +145,12 @@ public class TileBag {
                 // Repeatedly add the tile to the tile bag according to its frequency value
                 for (int i = 0; i < tileFrequency; i++)
                 {
-                    this.addTile(new Tile(letter, pointValue));
+                    if (letter == Tile.BLANK_TILE_TEXT) {
+                        this.addTile(new BlankTile(letter, pointValue));
+                    } else {
+                        this.addTile(new Tile(letter, pointValue));
+                    }
+
                 }
             }
         }

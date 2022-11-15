@@ -6,13 +6,16 @@ import java.awt.*;
  * A tile contains a letter and a point value.
  *
  * @author Pathum Danthanarayana, 101181411
- * @version 1.1
- * @date October 22, 2022
+ * @author Amin Zeina, 101186297
+ * @version 3.0
+ * @date November 14, 2022
  */
 public class Tile extends JButton {
 
+    // constant to represent the default blank tile text
+    public static final char BLANK_TILE_TEXT = '-';
     /** Fields **/
-    private char letter;
+    protected char letter;
     private int pointValue;
 
     /** Constructor **/

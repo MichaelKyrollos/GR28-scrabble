@@ -4,13 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import static java.lang.Character.isAlphabetic;
+import static java.lang.Character.toUpperCase;
+
 /**
  * The ScrabbleController implements the Controller in the MVC design pattern. It listens to user-input performed on
  * the view, and communicates it to the model.
  *
  * @author Yehan De Silva
- * @version 1.0
- * @date November 11, 2022
+ * @author Amin Zeina, 101186297
+ * @version 3.0
+ * @date November 14, 2022
  */
 public class ScrabbleController implements ActionListener {
 
@@ -51,8 +55,8 @@ public class ScrabbleController implements ActionListener {
      * @author Yehan De Silva
      * @author Amin Zeina 101186297
      * @author Pathum Danthanarayana, 101181411
-     * @version 1.5
-     * @date November 13, 2022
+     * @version 3.0
+     * @date November 14, 2022
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -66,6 +70,7 @@ public class ScrabbleController implements ActionListener {
                     selectedTile.setBackground(Color.WHITE);
                 }
                 selectedTile = tile;
+
                 // Change background colour of the selected tile to show it has been selected
                 selectedTile.setBackground(ScrabbleFrameView.SELECTED_TILE_COLOR);
             }
@@ -89,6 +94,21 @@ public class ScrabbleController implements ActionListener {
             if (isPlaying) {
                 if (square.getTile() == null && selectedTile != null) {
                     // square is empty, so place the tile
+                    if (selectedTile instanceof BlankTile) {
+                        // blank tile has been selected, so set the letter to what the user wants
+                        BlankTile blankTile = (BlankTile) selectedTile;
+                        boolean isCharLetter = false;
+                        while (!isCharLetter) {
+                            String tileLetter = JOptionPane.showInputDialog(scrabbleFrame, "Enter the letter " +
+                                    "you'd like to use for this blank tile: ");
+                            if (tileLetter.length() == 1 && isAlphabetic(tileLetter.charAt(0))) {
+                                blankTile.setLetter(toUpperCase(tileLetter.charAt(0)));
+                                isCharLetter = true;
+                            } else {
+                                JOptionPane.showMessageDialog(scrabbleFrame, "That letter is invalid, try again");
+                            }
+                        }
+                    }
                     selectedTile.setBackground(Color.WHITE);
                     scrabbleModel.getCurrentPlayer().playTile(square, selectedTile);
                     squaresInWord.add(square);
