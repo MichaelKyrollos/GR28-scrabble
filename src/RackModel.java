@@ -65,7 +65,8 @@ public class RackModel extends ScrabbleModel {
      * the player's rack.
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
-     * @version 1.1
+     * @author Amin Zeina, 101186297
+     * @version 3.0
      *
      * @param tiles - the ArrayList of tiles that will be to the player's rack
      * @return True if the all the tiles are added to the rack, false otherwise
@@ -75,6 +76,9 @@ public class RackModel extends ScrabbleModel {
         // Traverse through the provided tiles
         for (Tile tile : tiles)
         {
+            if (tile instanceof BlankTile) {
+                ((BlankTile) tile).resetToBlank();
+            }
             // Add the tile to the player's rack
             if(!(this.tiles.add(tile))) {
                 return false;
