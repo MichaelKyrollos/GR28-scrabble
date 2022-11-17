@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public class Tile extends JButton {
 
-    // constant to represent the default blank tile text
+    //Constant to represent the default blank tile text
     public static final char BLANK_TILE_TEXT = '-';
     /** Fields **/
     protected char letter;
