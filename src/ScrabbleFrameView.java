@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -119,6 +117,15 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * @date November 13, 2022
      */
     public JButton getRedrawButton() {return this.redrawButton;}
+
+    /**
+     * Returns the frame's skip button.
+     * @return frame's skip button.
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 17, 2022
+     */
+    public JButton getSkipButton() {return this.skipButton;}
 
     /**
      * The setupMenu method sets up the initial menu of the

@@ -7,18 +7,18 @@ import java.util.Scanner;
  * A text file containing a list of words can be used to create the dictionary,
  * but this class assumes that all words in the text file are valid and only contain letters from the alphabet.
  * @author Yehan De Silva
- * @version 1.2
- * @date October November 09, 2022
+ * @version 3.0
+ * @date November 17, 2022
  */
 public class ScrabbleDictionary {
 
     /**
      * This class represents the data structure used to store the dictionary.
      * @author Yehan De Silva
-     * @version 1.1
+     * @version 3.0
      * @date October 25, 2022
      */
-    private class DictionaryNode {
+    private static class DictionaryNode {
 
         /**
          *The max amount of different letters in the dictionary.
@@ -31,7 +31,7 @@ public class ScrabbleDictionary {
         /**
          * Contains the post-fixes of the current node.
          */
-        private DictionaryNode[] children;
+        private final DictionaryNode[] children;
         /**
          * Specifies if the current node is the end of a word.
          */
@@ -57,7 +57,7 @@ public class ScrabbleDictionary {
          * @date October 23, 2022
          */
         private int charToInt(char letter) {
-            return (int) (letter - FIRST_LETTER);
+            return (letter - FIRST_LETTER);
         }
 
         /**
@@ -84,11 +84,11 @@ public class ScrabbleDictionary {
             int charNumericalValue;
             DictionaryNode curNode = this; //Get reference to the root node of the dictionary
 
-            //Looping for each letter in the word to be added
-            for(int i = 0; i < word.length; i++) {
-                charNumericalValue = charToInt(word[i]);
+            //Looping for each character in the word to be added
+            for (char c : word) {
+                charNumericalValue = charToInt(c);
                 //If the current letter is not a child of the node, create a node for it
-                if(curNode.children[charNumericalValue] == null) {
+                if (curNode.children[charNumericalValue] == null) {
                     curNode.children[charNumericalValue] = new DictionaryNode();
                 }
                 curNode = curNode.children[charNumericalValue]; //Go to the next node corresponding to the next letter
@@ -108,11 +108,11 @@ public class ScrabbleDictionary {
             int charNumericalValue;
             DictionaryNode curNode = this; //Get reference to the root node of the dictionary
 
-            //Looping for each letter in the word to be checked
-            for(int i = 0; i < word.length; i++) {
-                charNumericalValue = charToInt(word[i]);
+            //Looping for each character in the word to be checked
+            for (char c : word) {
+                charNumericalValue = charToInt(c);
                 //If the current letter is not a child of the node, return false
-                if(curNode.children[charNumericalValue] == null) {
+                if (curNode.children[charNumericalValue] == null) {
                     return false;
                 }
                 curNode = curNode.children[charNumericalValue]; //Go to the next node corresponding to the next letter
@@ -133,18 +133,20 @@ public class ScrabbleDictionary {
          */
         private String toStringHelper(DictionaryNode node, String s, int index) {
             //Start with an empty string
-            String returnString = "";
+            StringBuilder returnString = new StringBuilder();
             //Base case where the node is null, returns empty String
             if (node == null) {return "";}
             //If the current node is the end of the word, adds the word to the return string
-            if (node.terminal) {returnString += s + intToChar(index) + "\n";}
+            //Appends prefix + current letter + new line symbol
+            if (node.terminal) {
+                returnString.append(s).append(intToChar(index)).append("\n");}
             //Add pre-fix to all future recursion calls
             s += intToChar(index);
             //Loop through each child of the node, and recursively call the toStringHelper method
             for (int i = 0; i < node.children.length; i++) {
-                returnString += toStringHelper(node.children[i], s, i);
+                returnString.append(toStringHelper(node.children[i], s, i));
             }
-            return returnString;
+            return returnString.toString();
         }
 
         /**
@@ -170,7 +172,7 @@ public class ScrabbleDictionary {
     /**
      * The dictionary structure to hold the dictionary.
      */
-    private DictionaryNode dictionary;
+    private final DictionaryNode dictionary;
 
     /**
      * Constructor to instantiate a default dictionary.
@@ -214,12 +216,12 @@ public class ScrabbleDictionary {
 
         //For each word, add it to the dictionary structure
         while(scanner.hasNext()) {
-            dictionary.addWord(scanner.next().trim().toCharArray());
+            dictionary.addWord(scanner.next().trim().toLowerCase().toCharArray());
         }
     }
 
     /**
-     * Checks if a specified word is in the dictionary.
+     * Checks if a specified word is in the dictionary (Type-case is not checked).
      * @param word Word to check if it is in the dictionary.
      * @return True if the word is in the dictionary, false otherwise.
      * @author Yehan De Silva
@@ -242,5 +244,4 @@ public class ScrabbleDictionary {
     public String toString() {
         return this.dictionary.toString();
     }
-
 }

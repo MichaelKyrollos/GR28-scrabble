@@ -1,4 +1,3 @@
-// Import libraries
 import java.util.*;
 
 /**
@@ -35,16 +34,9 @@ public class TileBag {
     /** Constructor **/
     public TileBag()
     {
-        // Initialize ArrayList of tiles
-        tiles = new ArrayList<>();
-
-        // Prepare the letter points
+        this.tiles = new ArrayList<>();
         this.constructLetterPoints();
-
-        // Prepare the tiles
         this.prepareTiles();
-
-        // Prepare the tile bag
         this.prepareTileBag();
     }
 
@@ -109,7 +101,6 @@ public class TileBag {
         FREQUENCY_VALUES.put('Z', 1);
         FREQUENCY_VALUES.put(Tile.BLANK_TILE_TEXT, 2);
 
-
         // Set up all possible point values
         for(int i = 0; i < POSSIBLE_POINT_VALUES.length; i++) {
             POINT_VALUES.put(POSSIBLE_POINT_VALUES[i], new ArrayList<>());
@@ -141,7 +132,6 @@ public class TileBag {
             {
                 // Determine the frequency of the tile
                 int tileFrequency = FREQUENCY_VALUES.get(letter);
-
                 // Repeatedly add the tile to the tile bag according to its frequency value
                 for (int i = 0; i < tileFrequency; i++)
                 {
@@ -150,27 +140,9 @@ public class TileBag {
                     } else {
                         this.addTile(new Tile(letter, pointValue));
                     }
-
                 }
             }
         }
-    }
-
-    /**
-     * The dealTile method deals a tile from the tile bag to the player.
-     * @author Pathum Danthanarayana, 101181411
-     *
-     * @return a tile that will be dealt to the corresponding player
-     */
-    public Tile dealTile()
-    {
-        // Create new instance of Random
-        Random random = new Random();
-        // Generate a random valid index
-        int randomIndex = random.nextInt(tiles.size());
-
-        // Return the tile that was drawn at the random index
-        return tiles.remove(randomIndex);
     }
 
     /**
@@ -181,8 +153,41 @@ public class TileBag {
      */
     public void addTile(Tile tile)
     {
-        // Add the specified tile to the tile bag
         tiles.add(tile);
+    }
+
+    /**
+     * The dealTile method deals a tile from the tile bag to the player.
+     * @author Pathum Danthanarayana, 101181411
+     *
+     * @return a tile that will be dealt to the corresponding player
+     */
+    public Tile dealTile()
+    {
+        // Generate a random valid index
+        Random random = new Random();
+        int randomIndex = random.nextInt(tiles.size());
+        // Return the tile that was drawn at the random index
+        return tiles.remove(randomIndex);
+    }
+
+    /**
+     * Returns a corresponding tile given the String letter
+     * @return Tile that contains inputted letter
+     *
+     * @author Michael Kyrollos
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    public Tile takeTile(char letter)
+    {
+        for (Tile tile : tiles)
+        {
+            if (letter == tile.getLetter()) {
+                return tile;
+            }
+        }
+        return null;
     }
 
     /**
@@ -195,6 +200,18 @@ public class TileBag {
      */
     public boolean isEmpty() {
         return tiles.isEmpty();
+    }
+
+    /**
+     * Returns the tiles within the tile bag.
+     * @return ArrayList of tiles within the tile bag.
+     *
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 13, 2022
+     */
+    public ArrayList<Tile> getTiles() {
+        return this.tiles;
     }
 
     /**
@@ -218,38 +235,6 @@ public class TileBag {
             counter += 1;
         }
         return tileBagStr;
-    }
-
- /**
-     * Returns a corresponding tile given the String letter
-     * @return Tile that contains inputted letter
-     *
-     * @author Michael Kyrollos
-     * @version 1.0
-     * @date November 13, 2022
-     */
-    public Tile takeTile(char letter)
-    {
-        for (Tile tile : tiles)
-        {
-            if (letter == tile.getLetter()) {
-                return tile;
-
-            }
-        }
-        return null;
-    }
-
-   /**
-     * Returns the tiles within the tile bag.
-     * @return ArrayList of tiles within the tile bag.
-     *
-     * @author Yehan De Silva
-     * @version 1.0
-     * @date November 13, 2022
-     */
-    public ArrayList<Tile> getTiles() {
-        return this.tiles;
     }
 
 }
