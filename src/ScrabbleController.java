@@ -136,6 +136,7 @@ public class ScrabbleController implements ActionListener {
         else if (e.getActionCommand().equals("Play")) {
             isPlaying = true;
             scrabbleFrame.getRedrawButton().setEnabled(false);
+            scrabbleFrame.getSkipButton().setEnabled(false);
             scrabbleModel.getGameBoard().copyBoardSquares();
             JButton playButton = (JButton) e.getSource();
             playButton.setText("Submit");
@@ -144,6 +145,7 @@ public class ScrabbleController implements ActionListener {
         else if (e.getActionCommand().equals("Redraw")) {
             this.isRedrawing = true;
             scrabbleFrame.getPlayButton().setEnabled(false);
+            scrabbleFrame.getSkipButton().setEnabled(false);
             JButton redrawButton = (JButton) e.getSource();
             redrawButton.setText("Submit");
             redrawButton.setBackground(ScrabbleFrameView.SELECTED_BUTTON_COLOR);
@@ -154,6 +156,7 @@ public class ScrabbleController implements ActionListener {
             if (isPlaying) {
                 isPlaying = false;
                 scrabbleFrame.getRedrawButton().setEnabled(true);
+                scrabbleFrame.getSkipButton().setEnabled(true);
                 JButton submitButton = (JButton) e.getSource();
                 submitButton.setText("Play");
                 submitButton.setBackground(ScrabbleFrameView.ACCENT_COLOR);
@@ -168,6 +171,7 @@ public class ScrabbleController implements ActionListener {
             else if (isRedrawing) {
                 isRedrawing = false;
                 scrabbleFrame.getPlayButton().setEnabled(true);
+                scrabbleFrame.getSkipButton().setEnabled(true);
                 JButton submitButton = (JButton) e.getSource();
                 submitButton.setText("Redraw");
                 submitButton.setBackground(ScrabbleFrameView.ACCENT_COLOR);

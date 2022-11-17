@@ -121,6 +121,15 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     public JButton getRedrawButton() {return this.redrawButton;}
 
     /**
+     * Returns the frame's skip button.
+     * @return frame's skip button.
+     * @author Yehan De Silva
+     * @version 1.0
+     * @date November 17, 2022
+     */
+    public JButton getSkipButton() {return this.skipButton;}
+
+    /**
      * The setupMenu method sets up the initial menu of the
      * Scrabble game.
      * This menu is what the user initially interacts with,
