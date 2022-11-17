@@ -1,6 +1,5 @@
 /**
- * The Tile class models a blank tile in the game of Scrabble.
- *
+ * The BlankTile class models a blank tile in the game of Scrabble.
  *
  * @author Amin Zeina, 101186297
  * @version 3.0
@@ -8,6 +7,11 @@
  */
 public class BlankTile extends Tile {
 
+    /**
+     * Creates a blank tile object.
+     * @param letter Letter of the blank tile.
+     * @param pointValue Point value of the blank tile.
+     */
     public BlankTile(char letter, int pointValue) {
         super(letter, pointValue);
     }
