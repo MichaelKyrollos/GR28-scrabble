@@ -12,17 +12,15 @@ import java.awt.*;
  */
 public class Tile extends JButton {
 
-    //Constant to represent the default blank tile text
-    public static final char BLANK_TILE_TEXT = '-';
     /** Fields **/
     protected char letter;
-    private int pointValue;
+    private final int pointValue;
 
     /** Constructor **/
     public Tile(char letter, int pointValue)
     {
         // Format text as 'Letter_pointValue' (point value as a subscript)
-        super(String.format("<html>%s<sub>%d</sub></html>", String.valueOf(letter), pointValue));
+        super(String.format("<html>%s<sub>%d</sub></html>", letter, pointValue));
         // Initialize the tile's letter and point value to the specified letter and point value
         this.letter = letter;
         this.pointValue = pointValue;
@@ -35,8 +33,6 @@ public class Tile extends JButton {
         FontManager fontManager = new FontManager();
         this.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 18f));
     }
-
-    /** Methods **/
 
     /**
      * The getLetter method returns a String containing the tile's corresponding letter.
@@ -74,6 +70,6 @@ public class Tile extends JButton {
     public String toString()
     {
         // Format Tile string as 'Letter_pointValue' (point value as a subscript)
-        return String.format("<html>%s<sub>%d</sub></html>", String.valueOf(this.letter), this.pointValue);
+        return String.format("<html>%s<sub>%d</sub></html>", this.letter, this.pointValue);
     }
 }
