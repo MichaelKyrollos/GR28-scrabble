@@ -15,14 +15,14 @@ import java.util.*;
 public class TileBag {
 
     /** Fields **/
-    private ArrayList<Tile> tiles;
+    private final ArrayList<Tile> tiles;
     private static final Map<Character, Integer> FREQUENCY_VALUES = new HashMap<>();
     private static final Map<Integer, ArrayList<Character>> POINT_VALUES = new HashMap<>();
 
     /** Point values for each letter according to Hasbro.com */
     private static final int[] POSSIBLE_POINT_VALUES = {0,1,2,3,4,5,8,10};
     private static final List<char[]> LETTERS_WITH_POINT = new ArrayList<>();
-    private static final char[] LETTERS_WITH_POINT_0 = {Tile.BLANK_TILE_TEXT};
+    private static final char[] LETTERS_WITH_POINT_0 = {BlankTile.DEFAULT_BLANK_TILE_TEXT};
     private static final char[] LETTERS_WITH_POINT_1 = {'A', 'E', 'I', 'O', 'U', 'L', 'N', 'S', 'T', 'R'};
     private static final char[] LETTERS_WITH_POINT_2 = {'D','G'};
     private static final char[] LETTERS_WITH_POINT_3 = {'B','C', 'M', 'P'};
@@ -39,8 +39,6 @@ public class TileBag {
         this.prepareTiles();
         this.prepareTileBag();
     }
-
-    /** Methods **/
 
     /**
      * Constructs an ArrayList containing all the letters corresponding to a point value
@@ -99,11 +97,11 @@ public class TileBag {
         FREQUENCY_VALUES.put('X', 1);
         FREQUENCY_VALUES.put('Y', 2);
         FREQUENCY_VALUES.put('Z', 1);
-        FREQUENCY_VALUES.put(Tile.BLANK_TILE_TEXT, 2);
+        FREQUENCY_VALUES.put(BlankTile.DEFAULT_BLANK_TILE_TEXT, BlankTile.DEFAULT_FREQUENCY_BLANK_TILE);
 
         // Set up all possible point values
-        for(int i = 0; i < POSSIBLE_POINT_VALUES.length; i++) {
-            POINT_VALUES.put(POSSIBLE_POINT_VALUES[i], new ArrayList<>());
+        for (int possiblePointValue : POSSIBLE_POINT_VALUES) {
+            POINT_VALUES.put(possiblePointValue, new ArrayList<>());
         }
 
         //Loop through each possible point value
@@ -125,23 +123,50 @@ public class TileBag {
     private void prepareTileBag()
     {
         // Traverse through each point value
-        for (Integer pointValue : POINT_VALUES.keySet())
-        {
+        for (Integer pointValue : POINT_VALUES.keySet()) {
             // Traverse through each letter for the current point value
-            for (char letter : POINT_VALUES.get(pointValue))
-            {
+            for (char letter : POINT_VALUES.get(pointValue)) {
                 // Determine the frequency of the tile
                 int tileFrequency = FREQUENCY_VALUES.get(letter);
-                // Repeatedly add the tile to the tile bag according to its frequency value
-                for (int i = 0; i < tileFrequency; i++)
-                {
-                    if (letter == Tile.BLANK_TILE_TEXT) {
-                        this.addTile(new BlankTile(letter, pointValue));
-                    } else {
-                        this.addTile(new Tile(letter, pointValue));
-                    }
+                if (Character.isLetter(letter)) {
+                    this.addTileWithFrequency(letter, pointValue, tileFrequency);
+                }
+                else if (letter == BlankTile.DEFAULT_BLANK_TILE_TEXT) {
+                    this.addBlankTileWithFrequency(tileFrequency);
                 }
             }
+        }
+    }
+
+    /**
+     * Helper function to create a tile and add it to the tile bag with the given frequency.
+     * @param letter Letter of tile.
+     * @param pointValue Point value of tile.
+     * @param frequency Frequency of tile.
+     *
+     * @author Yehan De Silva
+     * @version 3.0
+     * @date November 17, 2022
+     */
+    private void addTileWithFrequency(char letter, int pointValue, int frequency) {
+        // Repeatedly add the tile to the tile bag according to its frequency value
+        for (int i = 0; i < frequency; i++) {
+            this.addTile(new Tile(letter, pointValue));
+        }
+    }
+
+    /**
+     * Helper function to create a blank tile and it to the tile bag with the given frequency.
+     * @param frequency Frequency of tile.
+     *
+     * @author Yehan De Silva
+     * @version 3.0
+     * @date November 17, 2022
+     */
+    private void addBlankTileWithFrequency(int frequency) {
+        // Repeatedly add the tile to the tile bag according to its frequency value
+        for (int i = 0; i < frequency; i++) {
+            this.addTile(new BlankTile());
         }
     }
 
@@ -225,16 +250,16 @@ public class TileBag {
     public String toString()
     {
         // Initialize string and counter
-        String tileBagStr = "Tile bag:\n";
+        StringBuilder tileBagStr = new StringBuilder("Tile bag:\n");
         int counter = 1;
 
         // Traverse through all the tiles in the tile bag
         for (Tile tile : tiles)
         {
-            tileBagStr += "#" + counter + " Tile letter: " + tile.getLetter() + ", Points: " + tile.getValue() + "\n";
+            tileBagStr.append("#").append(counter).append(" Tile letter: ").append(tile.getLetter()).append(", Points: ").append(tile.getValue()).append("\n");
             counter += 1;
         }
-        return tileBagStr;
+        return tileBagStr.toString();
     }
 
 }
