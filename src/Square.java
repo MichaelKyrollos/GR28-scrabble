@@ -6,7 +6,7 @@ public class Square extends JButton {
     /**
      * The Square class models a Square on a Scrabble BoardModel.
      * Each square has the possibility to have a tile placed
-     * TODO Each square can have points
+     *
      *
      * @author Michael Kyrollos, 101183521
      * @version 1.1
@@ -80,6 +80,21 @@ public class Square extends JButton {
      */
     public int getyCoord() {
         return yCoord;
+    }
+
+    /**
+     * Returns the point value associated with the tile in this square, or 0 if there is no tile.
+     *
+     * @author Amin Zeina, 101186297
+     * @version 3.0
+     *
+     * @return the point value associated with the tile in this square, or 0 if there is no tile.
+     */
+    public int getSquareValue() {
+        if (this.tile != null) {
+            return tile.getValue();
+        }
+        return 0;
     }
 
     /**
