@@ -188,97 +188,103 @@ public class BoardModel extends ScrabbleModel{
         int adjacentWordScore = 0;
         boolean isConnectedToExistingWord = false;
 
-        if (!playEvent.areSquaresConnected()) {
-            JOptionPane.showMessageDialog(null, "Invalid placement: The selected squares " +
-                    "are not connected in order");
-            revertBoard();
-            return -1;
+        if (!playEvent.areSquaresConnected())
+        {
+            return notifyInvalidPlacement("Invalid placement: The selected squares are not connected in order");
         }
 
-        if (this.isEmpty && (squares[7][7].getTile() == null || word.length() < 2)) {
-            JOptionPane.showMessageDialog(null, "Invalid placement: The first word placed must " +
-                    "cover square H8 and be at least 2 letters long.");
-            revertBoard();
-            return -1;
+        if (this.isEmpty && (squares[7][7].getTile() == null || word.length() < 2))
+        {
+            return notifyInvalidPlacement("Invalid placement: The first word placed must cover square H8 and be at least 2 letters long.");
         }
 
-        if (isVertical) {
+        if (isVertical)
+        {
             // placed vertically
-            for (int i = 0; i < wordSquares.size(); i++) {
+            for (int i = 0; i < wordSquares.size(); i++)
+            {
                 originalWordScore += wordSquares.get(i).getSquareValue();
                 if (isLowerCase(word.charAt(i))) {
                     // this is a new letter, so check its horizontal adjacent words
                     int adjScore = checkHorizontalAdjacentWord(wordSquares.get(i), String.valueOf(word.charAt(i)));
-                    if (adjScore == -1) {
-                        // adjacent tiles don't form a valid word, so word placement invalid
-                        JOptionPane.showMessageDialog(null, "Invalid placement: The adjacent " +
-                                "tiles do not form valid words");
-                        revertBoard();
-                        return -1;
-                    } else {
+                    if (adjScore == -1)
+                    {
+                        return notifyInvalidPlacement("Invalid placement: The adjacent tiles do not form valid words");
+                    }
+                    else
+                    {
                         adjacentWordScore += adjScore;
-                        if (adjScore > 0) {
+                        if (adjScore > 0)
+                        {
                             // there is a valid adjacent word, so this word is connected to another word
                             isConnectedToExistingWord = true;
                         }
                     }
-                } else {
+                }
+                else
+                {
                     // there is an existing tile in the word, no need to check adjacent
                     isConnectedToExistingWord = true;
                 }
             }
             // check that there isnt a word directly connected to this word vertically
             int adjScore = checkVerticalAdjacentWord(wordSquares.get(0), word);
-            if (adjScore == -1) {
-                // adjacent tiles don't form a valid word, so word placement invalid
-                JOptionPane.showMessageDialog(null, "Invalid placement: The adjacent " +
-                        "tiles do not form valid words");
-                revertBoard();
-                return -1;
-            } else {
+            if (adjScore == -1)
+            {
+                return notifyInvalidPlacement("Invalid placement: The adjacent tiles do not form valid words");
+            }
+            else
+            {
                 adjacentWordScore += adjScore;
-                if (adjScore > 0) {
+                if (adjScore > 0)
+                {
                     // there is a valid adjacent word, so this word is connected to another word
                     isConnectedToExistingWord = true;
                 }
             }
 
-        } else {
+        }
+        else
+        {
             // placed horizontally
-            for (int i = 0; i < wordSquares.size(); i++) {
+            for (int i = 0; i < wordSquares.size(); i++)
+            {
                 originalWordScore += wordSquares.get(i).getSquareValue();
-                if (isLowerCase(word.charAt(i))) {
+                if (isLowerCase(word.charAt(i)))
+                {
                     // this is a new letter, so check its horizontal adjacent words
                     int adjScore = checkVerticalAdjacentWord(wordSquares.get(i), String.valueOf(word.charAt(i)));
-                    if (adjScore == -1) {
-                        // adjacent tiles don't form a valid word, so word placement invalid
-                        JOptionPane.showMessageDialog(null, "Invalid placement: The adjacent " +
-                                "tiles do not form valid words");
-                        revertBoard();
-                        return -1;
-                    } else {
+                    if (adjScore == -1)
+                    {
+                        return notifyInvalidPlacement("Invalid placement: The adjacent tiles do not form valid words");
+                    }
+                    else
+                    {
                         adjacentWordScore += adjScore;
-                        if (adjScore > 0) {
+                        if (adjScore > 0)
+                        {
                             // there is a valid adjacent word, so this word is connected to another word
                             isConnectedToExistingWord = true;
                         }
                     }
-                } else {
+                }
+                else
+                {
                     // there is an existing tile in the word, no need to check adjacent
                     isConnectedToExistingWord = true;
                 }
             }
             // check that there isnt a word directly connected to this word vertically
             int adjScore = checkHorizontalAdjacentWord(wordSquares.get(0), word);
-            if (adjScore == -1) {
-                // adjacent tiles don't form a valid word, so word placement invalid
-                JOptionPane.showMessageDialog(null, "Invalid placement: The adjacent " +
-                        "tiles do not form valid words");
-                revertBoard();
-                return -1;
-            } else {
+            if (adjScore == -1)
+            {
+                return notifyInvalidPlacement("Invalid placement: The adjacent tiles do not form valid words");
+            }
+            else
+            {
                 adjacentWordScore += adjScore;
-                if (adjScore > 0) {
+                if (adjScore > 0)
+                {
                     // there is a valid adjacent word, so this word is connected to another word
                     isConnectedToExistingWord = true;
                 }
@@ -286,30 +292,46 @@ public class BoardModel extends ScrabbleModel{
         }
 
         // Check if the placed word is connected to another word on the board
-        if (!isConnectedToExistingWord && !isEmpty) {
-            JOptionPane.showMessageDialog(null, "Invalid placement: The word is not " +
-                    "connected to any existing words ");
-            revertBoard();
-            return -1;
+        if (!isConnectedToExistingWord && !isEmpty)
+        {
+            return notifyInvalidPlacement("Invalid placement: The word is not connected to any existing words");
         }
         isEmpty = false;
         return originalWordScore * this.checkWordBonus(wordSquares) + adjacentWordScore;
     }
 
     /**
+     * The notifyInvalidPlacement method notifies the user
+     * of an invalid placement. The method notifies the user via
+     * a JOptionPane message dialog with the specified message.
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date November 19th, 2022
+     */
+    private int notifyInvalidPlacement(String message)
+    {
+        // Create a message dialog with the specified message
+        JOptionPane.showMessageDialog(null, message);
+        // Revert the board to its previous state
+        revertBoard();
+        return -1;
+    }
+
+    /**
      * Returns the bonus score multiplier for this word, which will be 1 if there is no premium tile used for this word,
      * or > 1 if one or multiple premium squares are used.
-     * @param sqaures the list of squares the word to check was placed on
+     * @param squares the list of squares the word to check was placed on
      * @return the bonus score multipler of the placed word
      */
-    private int checkWordBonus(ArrayList<Square> sqaures) {
-        int multipler = 1;
-        for (Square square : sqaures) {
+    private int checkWordBonus(ArrayList<Square> squares) {
+        int multiplier = 1;
+        for (Square square : squares) {
             if (square instanceof WordPremiumSquare) {
-                multipler *= ((WordPremiumSquare) square).getWordValueMultiplier();
+                multiplier *= ((WordPremiumSquare) square).getWordValueMultiplier();
             }
         }
-        return multipler;
+        return multiplier;
     }
 
 
