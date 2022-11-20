@@ -13,7 +13,8 @@ import static java.lang.Character.toUpperCase;
  *
  * @author Yehan De Silva
  * @author Amin Zeina, 101186297
- * @version 3.0
+ * @author Pathum Danthanarayana, 101181411
+ * @version 3.1
  * @date November 14, 2022
  */
 public class ScrabbleController implements ActionListener {
@@ -284,7 +285,8 @@ public class ScrabbleController implements ActionListener {
      * Configures starting player information once a Scrabble game is started.
      *
      * @author Yehan De Silva
-     * @version 1.0
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.1
      * @date November 11, 2022
      */
     private void configurePlayerInformation() {
@@ -305,13 +307,14 @@ public class ScrabbleController implements ActionListener {
                 continue;
             }
             //Stop looping once a valid integer is given
-            if (numberPlayers <= 4 && numberPlayers >= 2) {
+            if (numberPlayers <= ScrabbleGameModel.MAX_PLAYERS && numberPlayers >= ScrabbleGameModel.MIN_PLAYERS) {
                 validNumberPlayers = true;
             }
         }
 
         // Prompt the user to enter a player name for each player
-        for (int i = 0; i < numberPlayers; i++) {
+        for (int i = 0; i < numberPlayers; i++)
+        {
             String message = "Enter Player " + (i + 1) + " name:";
             String playerName = JOptionPane.showInputDialog(scrabbleFrame, message);
 
@@ -323,6 +326,39 @@ public class ScrabbleController implements ActionListener {
             }
             scrabbleModel.addPlayer(playerName.toUpperCase());
         }
+
+        // Only prompt the user for AI players if there is at least one player spot available (less than 4 players)
+        if (numberPlayers < 4)
+        {
+            boolean validNumAIPlayers = false;
+            int numAIPlayers = 0;
+
+            while (!validNumAIPlayers) {
+                String numAIPlayersStr = JOptionPane.showInputDialog(scrabbleFrame, "Please enter the number of AI players:");
+                // Convert String into integer
+                try {
+                    //Return if user cancels the input prompt
+                    if (numAIPlayersStr == null) {
+                        return;
+                    }
+                    numAIPlayers = Integer.parseInt(numAIPlayersStr);
+                } catch (NumberFormatException e) {
+                    continue;
+                }
+                // Determine the number of remaining players for a full game of Scrabble
+                int remainingPlayers = ScrabbleGameModel.MAX_PLAYERS - numberPlayers;
+
+                // Stop looping until a valid number of AI players is specified
+                if (numAIPlayers <= remainingPlayers && numAIPlayers >= 0) {
+                    validNumAIPlayers = true;
+                }
+            }
+            // Add the AI players to the game
+            for (int i = 0; i < numAIPlayers; i++) {
+                scrabbleModel.addPlayer("BOT " + (i + 1));
+            }
+        }
+        // Start the game
         scrabbleFrame.startGame();
         scrabbleFrame.update();
     }

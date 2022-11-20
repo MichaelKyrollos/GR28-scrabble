@@ -15,6 +15,10 @@ import java.util.*;
  */
 public class ScrabbleGameModel extends ScrabbleModel {
 
+    /** Player number constants **/
+    public static final int MIN_PLAYERS = 2;
+    public static final int MAX_PLAYERS = 4;
+
     /**
      * BoardModel the game is being played on.
      */
