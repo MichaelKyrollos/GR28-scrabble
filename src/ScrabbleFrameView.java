@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * The ScrabbleFrameView class models the GUI (frame) of the
@@ -70,6 +71,10 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(450, 350);
         this.setResizable(false);
+
+        // Set icon for frame
+        ImageIcon frameIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("resources/frame_icon.jpg")));
+        this.setIconImage(frameIcon.getImage());
 
         // Configure ContentPane
         contentPane = this.getContentPane();
