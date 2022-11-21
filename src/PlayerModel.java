@@ -6,10 +6,11 @@ import java.util.Scanner;
  *
  * @author Amin Zeina 101186297
  * @author Yehan De Silva
+ * @author Pathum Danthanarayana, 101181411
  * @version 2.0
  * @date November 11, 2022
  */
-public class PlayerModel extends ScrabbleModel{
+public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
 
     /**
      * Name of the player.
@@ -62,6 +63,7 @@ public class PlayerModel extends ScrabbleModel{
      * @param playEvent the PlayWordEvent that was generated to play this word
      * @return true if the word was successfully placed, false otherwise
      */
+    @Override
     public boolean playWord(PlayWordEvent playEvent) {
 
         // Validate word placement on board
@@ -88,6 +90,7 @@ public class PlayerModel extends ScrabbleModel{
      * @version 1.0
      * @date November 13, 2022
      */
+    @Override
     public void redraw(ArrayList<Tile> redrawTiles) {
         this.rack.removeTiles(redrawTiles);
         this.rack.fillRack();
@@ -109,6 +112,7 @@ public class PlayerModel extends ScrabbleModel{
      *
      * @return The name of the player
      */
+    @Override
     public String getName() {
         return this.name;
     }
@@ -131,6 +135,7 @@ public class PlayerModel extends ScrabbleModel{
      * @param square the square to place the tile in
      * @param tile the tile to place
      */
+    @Override
     public void playTile(Square square, Tile tile) {
         board.playTile(square, tile);
         rack.removeTile(tile.getLetter());
@@ -147,6 +152,7 @@ public class PlayerModel extends ScrabbleModel{
      *
      * @param score the score to add to this players score (or to subtract if negative)
      */
+    @Override
     public void adjustScore(int score) {
         this.score += score;
         if (this.score < 0) {
