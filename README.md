@@ -36,25 +36,33 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
 | Skip        | Skips player's turn and starts the next player's turn |
 | Quit        | End the game and display winner and player scores |
 
-## Current Milestone - Milestone 2:
+## Current Milestone - Milestone 3:
   - The game supports 2-4 players (The user specifies the number of players before the game starts)
   - Players can place a word, redraw tiles, skip their turn or end the game using a GUI
-  - The game now correctly validates and scores word placement (letters are connected, adjacent words are also valid, etc.)
-  - Model-View-Controller design used for the Scrabble game.
-  - Unit tests added to test the program
+  - The game now supports AI players
+  - The game now supports blank tiles, which allow the players to choose the letter of the tile themselves during gameplay
+      - Blank tiles are worth 0 points
+      - The letter of the blank tile cannot be changed after it has been placed on the board
+  - The game board now contains premium squares, which add bonus points to the placement of letters/words; there are 4 types
+      - Blue squares - x2 letter square - doubles the value of the letter placed on this square
+      - Green squares - x3 letter square - triples the value of the letter placed on this square
+      - Red squares - x2 word square - doubles the value of the word placed on this square
+      - Orange squares - x3 word square - triples the value of the word placed on this square
+  - The game now has labels for the columns and rows of the board
 
-### Changes Since Previous Deliverable - Milestone 1:
-  - Text-based game of Scrabble ->  GUI version of Scrabble
-      - Players can interact via the console using the keyboard -> Mouse input for the GUI
-      - The scrabble board is printed on the console -> Board is shown on the GUI
-  - The game ends if a player specifies to end the game -> Game now also ends when there are no more tiles to redraw from the tile bag
-  - Players can place words anywhere on the board -> Can only place words attached to other words (Or middle if its the first turn)
-  - Didn't check validity of new adjacent words formed by placing a new word -> Validates and adds score of new adjacent words formed
+### Changes Since Previous Deliverable - Milestone 2:
+  - Refactoring done to simplify BoardModel.playWord() method by delegating to new helper methods
+  - Refactoring done to ScrabbleController.actionPerformed() method by delegating to new helper methods
+  - General quality checks done to reduce code smells
+  - Added blank tiles to the game (see above - "Current Milestone Milestone 3")
+  - Added premium squares to the game (see above - "Current Milestone Milestone 3")
+  - Added AI players to the game
 
-## Roadmap for whats Ahead - Milestone 3:  
-1. All tests must pass
-2. Add additional features including blank tiles, premium tiles and AI players
-3. Refactor program to remove code smells
+
+## Roadmap for whats Ahead - Milestone 4:  
+1. Implementing multiple level undo/redo
+2. Implementing save/load features
+3. Implementing custom board with alternate placement of premium squares
 
 ## Known issues:
 1. ⚠️ Graphical Bug with tiles on player's rack
@@ -78,8 +86,7 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
       - Create a Model and View class for each of the following: ScrabbleGame, Player, Board and Rack.
       - The model takes care of the logic, and gets input from the controller
       - The view is updated whenever a change occurs to the model
-8. Test-based development was used to perfect the logic used to place words on the board.
-9. Parser and CommandWord classes were removed as we no longer use text-based input.
+8. Parser and CommandWord classes were removed as we no longer use text-based input.
 
 
 
