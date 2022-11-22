@@ -1,22 +1,23 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Objects;
 
+/**
+ * The Square class models a Square on a Scrabble BoardModel.
+ * Each square has the possibility to have a tile placed
+ *
+ * @author Michael Kyrollos, 101183521
+ * @author Yehan De Silva
+ * @version 3.0
+ * @date November 22, 2022
+ */
 public class Square extends JButton {
-    /**
-     * The Square class models a Square on a Scrabble BoardModel.
-     * Each square has the possibility to have a tile placed
-     *
-     *
-     * @author Michael Kyrollos, 101183521
-     * @version 1.1
-     * @date October 22, 2022
-     */
 
     private Tile tile;
 
-    private int xCoord;
-    private int yCoord;
+    private final int xCoord;
+    private final int yCoord;
 
     public Square(int x, int y) {
         super(" ");
@@ -66,7 +67,7 @@ public class Square extends JButton {
      *
      * @return the x coordinate of this square on the board
      */
-    public int getxCoord() {
+    public int getXCoord() {
         return xCoord;
     }
 
@@ -78,7 +79,7 @@ public class Square extends JButton {
      *
      * @return the y coordinate of this square on the board
      */
-    public int getyCoord() {
+    public int getYCoord() {
         return yCoord;
     }
 
@@ -107,27 +108,23 @@ public class Square extends JButton {
     }
 
     /**
-     *
      * Returns a string representing the current state of the tile.
-     *
-     * @author Michael Kyrollos, ID: 101183521
-     *
      * @return String representing the scrabble game state
      *
+     * @author Michael Kyrollos, ID: 101183521
+     * @author Yehan De Silva
+     * @version 3.0
+     * @date November 22, 2022
      */
     @Override
     public String toString() {
         String s = "";
-        if (this.tile != null) {
-            s += this.tile;
-        }
-        else {
-            s += " ";
-        }
+        s += Objects.requireNonNullElse(this.tile, " ");
         return s;
     }
+
     /**
-     * getter method for tile field
+     * Getter method for tile field
      *
      * @return the tile associated with this square
      * @author Amin Zeina
@@ -135,8 +132,5 @@ public class Square extends JButton {
     public Tile getTile() {
         return this.tile;
     }
-
-
-
 
 }

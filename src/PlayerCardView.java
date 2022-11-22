@@ -48,7 +48,7 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
         this.playerScore.setForeground(Color.WHITE);
 
         // Configure the JPanel that will store the letters (buttons) in the rack
-        this.rackPanel = new RackPanelView(player.getRack(), scrabbleController);
+        this.rackPanel = new RackPanelView(player.getRack());
 
         // Add the player name to the top of the panel
         this.add(this.playerName, BorderLayout.NORTH);

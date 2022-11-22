@@ -236,10 +236,10 @@ class ScrabbleDictionaryTest {
      */
     @Test
     public void testFavGameDictionaryPrintsCorrectly() {
-        String expectedString = "";
+        StringBuilder expectedString = new StringBuilder();
         while(favGameDictionaryScanner.hasNext()) {
-            expectedString += favGameDictionaryScanner.next().trim() + "\n";
+            expectedString.append(favGameDictionaryScanner.next().trim()).append("\n");
         }
-        assertEquals(expectedString, favGameDictionary.toString());
+        assertEquals(expectedString.toString(), favGameDictionary.toString());
     }
 }

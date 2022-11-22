@@ -242,15 +242,30 @@ public class TileBag {
     /**
      * The toString method overrides the default toString method to return a String
      * describing the tile bag, including all the tiles within the bag.
-     * @author Pathum Danthanarayana, 101181411
-     *
      * @return a String describing the tile bag
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @author Yehan De Silva
+     * @version 3.0
+     * @date November 22, 2022
      */
     @Override
     public String toString()
     {
+        return "Tile bag:\n" + this.tilesToString(this.tiles);
+    }
+
+    /**
+     * Returns a formatted string of the given tiles.
+     * @param tiles Tiles to be written in a string format.
+     * @return Formatted string of the given tiles.
+     * @author Yehan De Silva
+     * @version 3.0
+     * @date November 22, 2022
+     */
+    public String tilesToString(ArrayList<Tile> tiles) {
         // Initialize string and counter
-        StringBuilder tileBagStr = new StringBuilder("Tile bag:\n");
+        StringBuilder tileBagStr = new StringBuilder();
         int counter = 1;
 
         // Traverse through all the tiles in the tile bag
@@ -261,5 +276,4 @@ public class TileBag {
         }
         return tileBagStr.toString();
     }
-
 }
