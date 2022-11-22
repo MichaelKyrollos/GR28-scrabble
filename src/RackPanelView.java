@@ -18,26 +18,23 @@ public class RackPanelView extends JPanel implements ScrabbleView {
     /**
      * Model this view is related to.
      */
-    private RackModel rackModel;
-
-    /**
-     * Controller that interacts with this view
-     */
-    private ScrabbleController scrabbleController;
+    private final RackModel rackModel;
 
     /**
      * Constructs a RackPanelView.
      * @param rackModel Model this view is related to.
+     *
+     * @author Yehan De Silva
+     * @version 3.0
+     * @date November 22, 2022
      */
-    public RackPanelView(RackModel rackModel, ScrabbleController controller) {
+    public RackPanelView(RackModel rackModel) {
         this.rackModel = rackModel;
-        this.scrabbleController = controller;
         this.rackLetters = rackModel.getTiles();
         this.rackModel.addScrabbleView(this);
 
         this.setLayout(new FlowLayout());
         this.setBackground(ScrabbleFrameView.ACCENT_COLOR);
-
 
         this.addTilesToPanel();
     }
@@ -66,7 +63,6 @@ public class RackPanelView extends JPanel implements ScrabbleView {
     /**
      * Helper function that adds the current tiles in the rack model to this view.
      *
-     *
      * @author Yehan De Silva
      * @author Amin Zeina, 101186297
      * @version 1.1
@@ -74,8 +70,7 @@ public class RackPanelView extends JPanel implements ScrabbleView {
      */
     private void addTilesToPanel() {
         this.rackLetters = rackModel.getTiles();
-        for (int i = 0; i < rackLetters.size(); i++) {
-            Tile tile = rackLetters.get(i);
+        for (Tile tile : rackLetters) {
             tile.setEnabled(true);
             this.add(tile);
         }
