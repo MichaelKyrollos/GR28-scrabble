@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class RackModel extends ScrabbleModel {
 
     /** Fields **/
-    private ArrayList<Tile> tiles;
-    private TileBag bag;
+    private final ArrayList<Tile> tiles;
+    private final TileBag bag;
     public static final int MAX_TILES = 7;
 
     /** Constructor **/
@@ -27,8 +27,6 @@ public class RackModel extends ScrabbleModel {
         // Initialize the tile bag to the same tile bag of the game
         bag = ScrabbleGameModel.GAME_TILE_BAG;
     }
-
-    /** Methods **/
 
     /**
      * Returns the tiles in the rack.
@@ -66,12 +64,11 @@ public class RackModel extends ScrabbleModel {
      * @author Pathum Danthanarayana, 101181411
      * @author Yehan De Silva
      * @author Amin Zeina, 101186297
-     * @version 3.0
+     * @version 3.1
      *
-     * @param tiles - the ArrayList of tiles that will be to the player's rack
-     * @return True if the all the tiles are added to the rack, false otherwise
+     * @param tiles - the ArrayList of tiles that will be added to the player's rack
      */
-    public boolean addTiles(ArrayList<Tile> tiles)
+    public void addTiles(ArrayList<Tile> tiles)
     {
         // Traverse through the provided tiles
         for (Tile tile : tiles)
@@ -80,12 +77,9 @@ public class RackModel extends ScrabbleModel {
                 ((BlankTile) tile).resetToBlank();
             }
             // Add the tile to the player's rack
-            if(!(this.tiles.add(tile))) {
-                return false;
-            }
+            this.tiles.add(tile);
         }
         updateScrabbleViews();
-        return true;
     }
 
     /**
@@ -106,12 +100,10 @@ public class RackModel extends ScrabbleModel {
             // Check if the current tile's letter is the same as the specified letter
             if (tile.getLetter() == letter)
             {
-                // If so, store a reference to the tile that will be removed
-                Tile removedTile = tile;
                 // Remove the tile from the player's rack
                 tiles.remove(tile);
                 updateScrabbleViews();
-                return removedTile;
+                return tile;
             }
         }
         // If no match was found, return null
@@ -169,25 +161,18 @@ public class RackModel extends ScrabbleModel {
 
     /**
      * The toString method overrides the default toString method to return a String describing
-     * the player's rack.
-     * @author Pathum Danthanarayana, 101181411
-     *
+     * the player's rack
      * @return a String describing the player's rack
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @author Yehan De Silva
+     * @version 3.0
+     * @date November 22, 2022
      */
     @Override
     public String toString()
     {
-        // Initialize String and counter
-        String rackStr = "Current rack:\n";
-        int counter = 1;
-
-        // Traverse through each tile in the player's rack
-        for (Tile tile : tiles)
-        {
-            rackStr += "#" + counter + " Tile letter: " + tile.getLetter() + ", Points: " + tile.getValue() + "\n";
-            counter += 1;
-        }
-        return rackStr;
+        return "Current rack:\n" + bag.tilesToString(this.tiles);
     }
 
 }
