@@ -252,8 +252,8 @@ class BoardModelTest {
         assertNotNull(newBoardModel.getCopiedSquares());
         for (int i = 0; i < newBoardModel.getSquares().length; i++) {
             for (int j = 0; j < newBoardModel.getSquares()[i].length; j++) {
-                assertEquals(newBoardModel.getSquares()[i][j].getxCoord(), newBoardModel.getCopiedSquares()[i][j].getxCoord());
-                assertEquals(newBoardModel.getSquares()[i][j].getyCoord(), newBoardModel.getCopiedSquares()[i][j].getyCoord());
+                assertEquals(newBoardModel.getSquares()[i][j].getXCoord(), newBoardModel.getCopiedSquares()[i][j].getXCoord());
+                assertEquals(newBoardModel.getSquares()[i][j].getYCoord(), newBoardModel.getCopiedSquares()[i][j].getYCoord());
                 assertEquals(newBoardModel.getSquares()[i][j].getTile(), newBoardModel.getCopiedSquares()[i][j].getTile());
             }
         }

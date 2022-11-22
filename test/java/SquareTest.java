@@ -63,17 +63,17 @@ class SquareTest {
 
     @Test
     void testGetYCoordinate() {
-        assertEquals(2, square1.getyCoord());
-        assertEquals(13, square2.getyCoord());
-        assertEquals(0, square3.getyCoord());
+        assertEquals(2, square1.getYCoord());
+        assertEquals(13, square2.getYCoord());
+        assertEquals(0, square3.getYCoord());
 
     }
 
     @Test
     void testGetXCoordinate() {
-        assertEquals(2, square1.getxCoord());
-        assertEquals(10, square2.getxCoord());
-        assertEquals(12, square3.getxCoord());
+        assertEquals(2, square1.getXCoord());
+        assertEquals(10, square2.getXCoord());
+        assertEquals(12, square3.getXCoord());
     }
 
 }

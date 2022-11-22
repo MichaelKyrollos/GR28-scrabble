@@ -358,8 +358,8 @@ public class BoardModel extends ScrabbleModel{
      * @author Amin Zeina, 101186297
      */
     private int checkVerticalAdjacentWord(Square initialSquare, String placedWord) {
-        int row = initialSquare.getxCoord();
-        int col = initialSquare.getyCoord();
+        int row = initialSquare.getXCoord();
+        int col = initialSquare.getYCoord();
         while (row >= 1 && squares[row - 1][col].getTile() != null) {
             row--;
         }
@@ -397,8 +397,8 @@ public class BoardModel extends ScrabbleModel{
      * @author Amin Zeina, 101186297
      */
     private int checkHorizontalAdjacentWord(Square initialSquare, String placedWord) {
-        int row = initialSquare.getxCoord();
-        int col = initialSquare.getyCoord();
+        int row = initialSquare.getXCoord();
+        int col = initialSquare.getYCoord();
         while (col >= 1 && squares[row][col - 1].getTile() != null) {
             col--;
         }

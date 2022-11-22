@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.EventObject;
-import java.util.Iterator;
 
 /**
  * This class stores information for when a player plays a word.
@@ -107,7 +106,7 @@ public class PlayWordEvent extends EventObject {
      */
     public boolean isVerticalPlacement() {
 
-        if (squaresInWord.size() < 2 || squaresInWord.get(1).getxCoord() == squaresInWord.get(0).getxCoord() + 1) {
+        if (squaresInWord.size() < 2 || squaresInWord.get(1).getXCoord() == squaresInWord.get(0).getXCoord() + 1) {
             // squares are being placed vertically
             return true;
         }
@@ -127,7 +126,7 @@ public class PlayWordEvent extends EventObject {
             for (int i = 1; i < squaresInWord.size(); i++) {
                 Square currSquare = squaresInWord.get(i);
                 Square prevSquare = squaresInWord.get(i - 1);
-                if (currSquare.getxCoord() != prevSquare.getxCoord() + 1 || currSquare.getyCoord() != prevSquare.getyCoord()) {
+                if (currSquare.getXCoord() != prevSquare.getXCoord() + 1 || currSquare.getYCoord() != prevSquare.getYCoord()) {
                     // prev and curr squares are not connected vertically
                     return false;
                 }
@@ -136,7 +135,7 @@ public class PlayWordEvent extends EventObject {
             for (int i = 1; i < squaresInWord.size(); i++) {
                 Square currSquare = squaresInWord.get(i);
                 Square prevSquare = squaresInWord.get(i - 1);
-                if (currSquare.getyCoord() != prevSquare.getyCoord() + 1 || currSquare.getxCoord() != prevSquare.getxCoord()) {
+                if (currSquare.getYCoord() != prevSquare.getYCoord() + 1 || currSquare.getXCoord() != prevSquare.getXCoord()) {
                     // prev and curr squares are not connected horizontally
                     return false;
                 }
