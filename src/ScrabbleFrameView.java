@@ -52,6 +52,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
     // JPanel dimensions
     public static final Dimension BOARD_DIMENSIONS = new Dimension(650, 650);
+    public static final Dimension HORIZONTAL_BOARD_LABEL_DIMENSIONS = new Dimension(650, 25);
+    public static final Dimension VERTICAL_BOARD_LABEL_DIMENSIONS = new Dimension(25, 650);
     public static final Dimension PLAYER_PANEL_DIMENSIONS = new Dimension(500, 740);
     public static final Dimension BUTTON_PANEL_DIMENSIONS = new Dimension(400, 100);
     public static final Dimension PLAYER_CARD_DIMENSIONS = new Dimension(500, 125);
@@ -206,8 +208,54 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         // Apply a new layout to the ContentPane
         contentPane.setLayout(new FlowLayout());
 
-        // JPanel #1: Scrabble BoardModel
+        // JPanel #1a: Scrabble BoardModel
         boardPanel = new BoardPanelView(scrabbleModel.getGameBoard(), scrabbleController);
+
+        // JPanel #1b: Horizontal labelling for scrabble board
+        JPanel horizontalLabelPanel = new JPanel();
+        horizontalLabelPanel.setBackground(BOARD_COLOR);
+        horizontalLabelPanel.setPreferredSize(HORIZONTAL_BOARD_LABEL_DIMENSIONS);
+        horizontalLabelPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JLabel horizontalLabel = new JLabel("");
+        horizontalLabel.setFont(this.fontManager.getManropeRegular().deriveFont(Font.PLAIN, 14f));
+        horizontalLabel.setForeground(Color.WHITE);
+        String horizontalLabels = "               1              2             3             4             5             6             7             8             9            10           11            12           13            14            15";
+        horizontalLabel.setText(horizontalLabels);
+        System.out.println(horizontalLabel.getText());
+        horizontalLabelPanel.add(horizontalLabel);
+
+        // JPanel #1c: Vertical labelling for scrabble board
+        JPanel verticalLabelPanel = new JPanel();
+        verticalLabelPanel.setBackground(BOARD_COLOR);
+        verticalLabelPanel.setPreferredSize(VERTICAL_BOARD_LABEL_DIMENSIONS);
+        JLabel verticalLabel = new JLabel("");
+        verticalLabel.setFont(this.fontManager.getManropeRegular().deriveFont(Font.PLAIN, 14f));
+        verticalLabel.setForeground(Color.WHITE);
+        String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"};
+        String verticalHTMLSnippet;
+        for (String letter : letters) {
+            if (letter.equals("A"))
+            {
+                verticalHTMLSnippet = String.format("<HTML><p style=\"margin-top: 0.3cm; margin-bottom:3px;\">%s</p><br>", letter);
+            }
+            else if (letter.equals("O"))
+            {
+                verticalHTMLSnippet = String.format("<p style=\"margin-bottom:0.4cm;\">%s</p></HTML>", letter);
+            }
+            else
+            {
+                verticalHTMLSnippet = String.format("<p style=\"margin-bottom:3px;\">%s</p><br>", letter);
+            }
+            verticalLabel.setText(verticalLabel.getText() + verticalHTMLSnippet);
+        }
+        verticalLabelPanel.add(verticalLabel);
+
+        // Container JPanel for 1a, 1b, and 1c
+        JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(new BorderLayout());
+        containerPanel.add(boardPanel, BorderLayout.CENTER);
+        containerPanel.add(horizontalLabelPanel, BorderLayout.NORTH);
+        containerPanel.add(verticalLabelPanel, BorderLayout.WEST);
 
         // JPanel #2: PlayerModel Panel
         playerPanel = new JPanel();
@@ -231,7 +279,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         this.addButtons(buttonsToAdd);
 
         // Add all the JPanels to ContentPane
-        contentPane.add(boardPanel);
+        contentPane.add(containerPanel);
         // Add spacing in between board panel and player panel
         contentPane.add(Box.createRigidArea(MAIN_MIDDLE_SPACING));
         contentPane.add(playerPanel);
