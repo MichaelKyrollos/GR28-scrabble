@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SquareTest {
     /**
-     *@author Michael Kyrollos, 101183521
+     * @author Michael Kyrollos, 101183521
      * @version 1.0
      * @date November 11, 2022
      */
@@ -53,7 +53,6 @@ class SquareTest {
     @Test
     void testSquareDeepCopyConstructorRealTile() {
         square1.placeSquare(tile1);
-        square1.getTile();
         square2 = new Square(square1);
         Square square3 = new Square(square2);
         assertEquals(square1.getTile(), square2.getTile());

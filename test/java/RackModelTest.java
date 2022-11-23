@@ -110,31 +110,39 @@ class RackModelTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void testRemoveListOfTilesForRedraw() {
 
         assertEquals(0, rack.getTiles().size());
         rack.fillRack();
 
-  //      Create 2 lists, one original, one with the tiles to redraw
-            ArrayList<Tile> redrawTiles = new ArrayList<>();
-            ArrayList<Tile> originalTiles;
-//      Clone original list into both
-            redrawTiles = (ArrayList) rack.getTiles().clone();
-            originalTiles = (ArrayList) rack.getTiles().clone();
-//      ensure original rack is full and that other racks are equal
-            assertTrue(originalTiles.containsAll(rack.getTiles()));
-            assertTrue(redrawTiles.containsAll(rack.getTiles()));
-            assertEquals(7,(rack.getTiles()).size());
-            assertEquals(7,redrawTiles.size());
-            rack.removeTiles(redrawTiles);
-            assertEquals(0,rack.getTiles().size());
+        //Create 2 lists, one original, one with the tiles to redraw
+        ArrayList<Tile> redrawTiles = new ArrayList<>();
+        ArrayList<Tile> originalTiles = new ArrayList<>();
 
-            rack.fillRack();
-//      check that it is refilled and that the lists have been modified
-            assertEquals(7,(rack.getTiles().size()));
-            assertFalse(rack.getTiles().containsAll(originalTiles));
-            assertFalse(originalTiles.containsAll(rack.getTiles()));
+        //Clone original list into both
+        try {
+            redrawTiles = (ArrayList<Tile>) rack.getTiles().clone();
+            originalTiles = (ArrayList<Tile>) rack.getTiles().clone();
         }
+        catch(ClassCastException e) {
+            fail("Failed to convert clone to array list of tiles");
+        }
+
+        //ensure original rack is full and that other racks are equal
+        assertTrue(originalTiles.containsAll(rack.getTiles()));
+        assertTrue(redrawTiles.containsAll(rack.getTiles()));
+        assertEquals(7,(rack.getTiles()).size());
+        assertEquals(7,redrawTiles.size());
+        rack.removeTiles(redrawTiles);
+        assertEquals(0,rack.getTiles().size());
+
+        rack.fillRack();
+     //check that it is refilled and that the lists have been modified
+        assertEquals(7,(rack.getTiles().size()));
+        assertFalse(rack.getTiles().containsAll(originalTiles));
+        assertFalse(originalTiles.containsAll(rack.getTiles()));
+    }
 
     @Test
     void testIsEmpty() {

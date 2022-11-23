@@ -63,7 +63,7 @@ class BoardModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('A'));
         tiles.add(TEST_TILE_BAG.takeTile('C'));
         tiles.add(TEST_TILE_BAG.takeTile('K'));
-        assertEquals(12, newBoardModel.placeWord(createWordEvent("PACK", 7, 7, true)));
+        assertEquals(24, newBoardModel.placeWord(createWordEvent("PACK", 7, 7, true)));
     }
 
     /*
@@ -75,25 +75,26 @@ class BoardModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('B'));
         tiles.add(TEST_TILE_BAG.takeTile('C'));
 
-        assertEquals(7, newBoardModel.placeWord(createWordEvent("ABC", 7, 7, false)));
+        assertEquals(14, newBoardModel.placeWord(createWordEvent("ABC", 7, 7, false)));
 
         tiles.add(TEST_TILE_BAG.takeTile('B'));
         tiles.add(TEST_TILE_BAG.takeTile('B'));
         tiles.add(TEST_TILE_BAG.takeTile('C'));
 
-        assertEquals(14, newBoardModel.placeWord(createWordEvent("BBC", 8, 6, true)));
+        assertEquals(18, newBoardModel.placeWord(createWordEvent("BBC", 8, 6, true)));
     }
 
     /*
      * Testing the connection of multiple letter words with multiple meeting points.
      * Ensure score keeping is accurate
-     */    @Test
+     */
+    @Test
     void testPlaceComplexWordWithHorizontalAndVerticalPoints() {
         tiles.add(TEST_TILE_BAG.takeTile('A'));
         tiles.add(TEST_TILE_BAG.takeTile('P'));
         tiles.add(TEST_TILE_BAG.takeTile('P'));
 
-        assertEquals(7, newBoardModel.placeWord(createWordEvent("APP", 7, 7, false)));
+        assertEquals(14, newBoardModel.placeWord(createWordEvent("APP", 7, 7, false)));
 
         tiles.clear();
 
@@ -103,7 +104,7 @@ class BoardModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('N'));
         tiles.add(TEST_TILE_BAG.takeTile('T'));
 
-        assertEquals(14, newBoardModel.placeWord(createWordEvent("PRINT", 8, 7, true)));
+        assertEquals(15, newBoardModel.placeWord(createWordEvent("PRINT", 8, 7, true)));
         tiles.clear();
         assertEquals(0, tiles.size());
 
@@ -111,7 +112,7 @@ class BoardModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('U'));
         tiles.add(TEST_TILE_BAG.takeTile('T'));
 
-        assertEquals(7, newBoardModel.placeWord(createWordEvent("OUT", 7, 10, true)));
+        assertEquals(8, newBoardModel.placeWord(createWordEvent("OUT", 7, 10, true)));
     }
 
     /*
@@ -127,7 +128,7 @@ class BoardModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('A'));
         tiles.add(TEST_TILE_BAG.takeTile('Y'));
 
-        assertEquals(9, newBoardModel.placeWord(createWordEvent("PLAY", 7, 7, true)));
+        assertEquals(18, newBoardModel.placeWord(createWordEvent("PLAY", 7, 7, true)));
         tiles.clear();
         assertEquals(0, tiles.size());
 
@@ -192,7 +193,7 @@ class BoardModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('N'));
         tiles.add(TEST_TILE_BAG.takeTile('D'));
 
-        assertEquals(4, newBoardModel.placeWord(createWordEvent("END", 7, 7, true)));
+        assertEquals(8, newBoardModel.placeWord(createWordEvent("END", 7, 7, true)));
         tiles.clear();
 //        doing this in case tiles did not clear
         assertEquals(0, tiles.size());
@@ -216,7 +217,7 @@ class BoardModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('M'));
         tiles.add(TEST_TILE_BAG.takeTile('E'));
 
-        assertEquals(9, newBoardModel.placeWord(createWordEvent("FAME", 7, 7, true)));
+        assertEquals(18, newBoardModel.placeWord(createWordEvent("FAME", 7, 7, true)));
         tiles.clear();
 //        doing this in case tiles did not clear
         assertEquals(0, tiles.size());
@@ -228,7 +229,7 @@ class BoardModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('V'));
         tiles.add(TEST_TILE_BAG.takeTile('E'));
 
-        assertEquals(22, newBoardModel.placeWord(createWordEvent("LEAVE", 8, 5, true)));
+        assertEquals(27, newBoardModel.placeWord(createWordEvent("LEAVE", 8, 5, true)));
         tiles.clear();
 //        doing this in case tiles did not clear
         assertEquals(0, tiles.size());
@@ -257,38 +258,6 @@ class BoardModelTest {
                 assertEquals(newBoardModel.getSquares()[i][j].getTile(), newBoardModel.getCopiedSquares()[i][j].getTile());
             }
         }
-    }
-
-    /*
-     * Tile points to be implemented in Milestone 3.
-     * Test will fail.
-     * TODO Add tile points implementation
-     */
-    @Test
-    void testPlaceComplexWordWithSepcialTilePoints() {
-        tiles.add(TEST_TILE_BAG.takeTile('A'));
-        tiles.add(TEST_TILE_BAG.takeTile('P'));
-        tiles.add(TEST_TILE_BAG.takeTile('P'));
-
-        assertEquals(10, newBoardModel.placeWord(createWordEvent("APP", 7, 7, false)));
-
-        tiles.clear();
-
-        tiles.add(TEST_TILE_BAG.takeTile('P'));
-        tiles.add(TEST_TILE_BAG.takeTile('R'));
-        tiles.add(TEST_TILE_BAG.takeTile('I'));
-        tiles.add(TEST_TILE_BAG.takeTile('N'));
-        tiles.add(TEST_TILE_BAG.takeTile('T'));
-
-        assertEquals(22, newBoardModel.placeWord(createWordEvent("PRINT", 8, 7, true)));
-        tiles.clear();
-        assertEquals(0, tiles.size());
-
-        tiles.add(TEST_TILE_BAG.takeTile('O'));
-        tiles.add(TEST_TILE_BAG.takeTile('U'));
-        tiles.add(TEST_TILE_BAG.takeTile('T'));
-
-        assertEquals(9, newBoardModel.placeWord(createWordEvent("OUT", 7, 10, true)));
     }
 
 }
