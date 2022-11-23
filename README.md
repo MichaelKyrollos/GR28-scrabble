@@ -27,7 +27,7 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
       - No more tiles left to redraw and play the game
 
 ## PlayerModel Options During Their Turn 
-![image](https://user-images.githubusercontent.com/36240585/203454903-2beedb79-9e2e-4a25-9d03-236ef7d3095b.png)
+![image](https://user-images.githubusercontent.com/61627702/203466074-7e4ebfed-66e0-414d-8c5b-f3c35403f42e.png)
 
 | Button      | Description |
 | ----------- | ----------- |
