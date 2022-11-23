@@ -27,7 +27,7 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
       - No more tiles left to redraw and play the game
 
 ## PlayerModel Options During Their Turn 
-![image](https://user-images.githubusercontent.com/61627702/201576668-a4e0eb76-f50e-4008-bd4b-38fdbe7ac908.png)
+![image](https://user-images.githubusercontent.com/36240585/203454903-2beedb79-9e2e-4a25-9d03-236ef7d3095b.png)
 
 | Button      | Description |
 | ----------- | ----------- |
@@ -86,7 +86,9 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
       - Create a Model and View class for each of the following: ScrabbleGame, Player, Board and Rack.
       - The model takes care of the logic, and gets input from the controller
       - The view is updated whenever a change occurs to the model
-8. Parser and CommandWord classes were removed as we no longer use text-based input.
+8. Premium square implemented as sub-classes of Square to easily distinguish preimium squares and to avoid code duplication
+      - This should also allow for easier implementation of custom boards (milestone 4)
+
 
 
 
