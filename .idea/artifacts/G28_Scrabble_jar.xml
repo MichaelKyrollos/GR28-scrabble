@@ -4,6 +4,7 @@
     <root id="archive" name="G28-Scrabble.jar">
       <element id="module-output" name="G28-Scrabble" />
       <element id="module-source" name="G28-Scrabble" />
+      <element id="module-test-output" name="G28-Scrabble" />
     </root>
   </artifact>
 </component>
