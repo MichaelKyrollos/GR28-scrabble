@@ -56,9 +56,6 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
         return isAI;
     }
 
-    public PlayerModel() {
-    }
-
     /**
      * Plays the given word entered by the user at the given coordinates. Returns true if the word was successfully
      * placed (i.e. the user had the necessary tiles and the placement of the word on the board was valid)
