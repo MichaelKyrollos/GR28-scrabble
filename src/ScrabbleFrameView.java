@@ -270,39 +270,31 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         horizontalLabel.setForeground(Color.WHITE);
 
         // Spacing values
-        String initialSpacing = " ".repeat(15);
-        String spacingFrom1To2 = " ".repeat(14);
-        String singleDigitSpacing = " ".repeat(13);
-        String spacingFrom9To10 = " ".repeat(12);
-        String doubleDigitSpacing = " ".repeat(11);
+        String initialSpacing = " ".repeat(12);
+        String singleDigitSpacing = " ".repeat(12);
+        String doubleDigitSpacing = " ".repeat(10);
         String horizontalLabelStr = "";
 
         // Traverse through numbers 1 through 15
-        for (int i = 0; i < BoardModel.SIZE; i++)
+        for (int i = 1; i < BoardModel.SIZE + 1; i++)
         {
             // Add the initial offset/spacing
-            if (i == 0)
+            if (i == 1)
             {
                 horizontalLabelStr += initialSpacing;
             }
 
             // Add the number to the string
-            horizontalLabelStr += (i + 1);
+            horizontalLabelStr += i;
 
             // Check 1a: The number is less than 10 (single digit number)
             if (i < 10)
             {
-                // If so, check if we are at 1
-                if (i == 1)
+                // Check if we are at 9
+                if (i == 9)
                 {
-                    // If so, add the custom spacing from 1 to 2
-                    horizontalLabelStr += spacingFrom1To2;
-                }
-                // Otherwise, check if we are at 9
-                else if (i == 9)
-                {
-                    // If so, add the custom spacing from 9 to 10
-                    horizontalLabelStr += spacingFrom9To10;
+                    // If so, add the double digit spacing
+                    horizontalLabelStr += doubleDigitSpacing;
                 }
                 else
                 {
@@ -337,7 +329,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
             if (letter.equals("A"))
             {
                 // If so, open the HTML tag, and add the custom p (paragraph) styling to add space above and below A
-                verticalLabelStr = String.format("<HTML><p style=\"margin-top: 4px; margin-bottom:3px;\">%s</p><br>", letter);
+                verticalLabelStr = String.format("<HTML><p style=\"margin-top: 6px; margin-bottom:3px;\">%s</p><br>", letter);
             }
             // Check if the current letter is O (last letter)
             else if (letter.equals("O"))
