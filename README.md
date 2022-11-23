@@ -68,11 +68,7 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
 1. ⚠️ Graphical Bug with tiles on player's rack
       - Sometimes hides player tiles after a play they made is invalid and they have multiple tiles with the same letter  
       - Core functionality of the game is still intact
-2. ⚠️ The following unit tests are failing, and must be investigated:
-      - BoardModelTest.testPlaceComplexWordWithSpecialTilePoints() fails, but this is expected as "premium squares" won't be added until milestone 3
-      - PlayerModelTest.testRackSizeInitial() fails when run with other tests, but passes if run on its own
-      - PlayerModelTest.testSomeOfRackRefilled() fails when run with other tests, but passes if run on its own
-      
+2. ⚠️ AI players are unable to place words
 
 
 ## Design Decisions Made  
