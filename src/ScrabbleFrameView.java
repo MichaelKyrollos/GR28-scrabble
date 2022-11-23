@@ -268,8 +268,57 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         JLabel horizontalLabel = new JLabel("");
         horizontalLabel.setFont(this.fontManager.getManropeRegular().deriveFont(Font.PLAIN, 14f));
         horizontalLabel.setForeground(Color.WHITE);
-        String horizontalLabels = "               1              2             3             4             5             6             7             8             9            10           11            12           13            14            15";
-        horizontalLabel.setText(horizontalLabels);
+
+        // Spacing values
+        String initialSpacing = " ".repeat(15);
+        String spacingFrom1To2 = " ".repeat(14);
+        String singleDigitSpacing = " ".repeat(13);
+        String spacingFrom9To10 = " ".repeat(12);
+        String doubleDigitSpacing = " ".repeat(11);
+        String horizontalLabelStr = "";
+
+        // Traverse through numbers 1 through 15
+        for (int i = 0; i < BoardModel.SIZE; i++)
+        {
+            // Add the initial offset/spacing
+            if (i == 0)
+            {
+                horizontalLabelStr += initialSpacing;
+            }
+
+            // Add the number to the string
+            horizontalLabelStr += (i + 1);
+
+            // Check 1a: The number is less than 10 (single digit number)
+            if (i < 10)
+            {
+                // If so, check if we are at 1
+                if (i == 1)
+                {
+                    // If so, add the custom spacing from 1 to 2
+                    horizontalLabelStr += spacingFrom1To2;
+                }
+                // Otherwise, check if we are at 9
+                else if (i == 9)
+                {
+                    // If so, add the custom spacing from 9 to 10
+                    horizontalLabelStr += spacingFrom9To10;
+                }
+                else
+                {
+                    // Otherwise, add the generic spacing for a single digit number
+                    horizontalLabelStr += singleDigitSpacing;
+                }
+            }
+            else
+            {
+                // Otherwise, add the generic spacing for a double digit number
+                horizontalLabelStr += doubleDigitSpacing;
+            }
+        }
+        // Set the JLabel's text to the created string
+        horizontalLabel.setText(horizontalLabelStr);
+        // Add the JLabel to the horizontal label panel
         horizontalLabelPanel.add(horizontalLabel);
 
         // JPanel #1c: Vertical labelling for scrabble board
@@ -280,25 +329,34 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         verticalLabel.setFont(this.fontManager.getManropeRegular().deriveFont(Font.PLAIN, 14f));
         verticalLabel.setForeground(Color.WHITE);
         String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"};
-        String verticalHTMLSnippet;
+
+        String verticalLabelStr;
+        // Traverse through letters from A to O
         for (String letter : letters) {
+            // Check if the current letter is A
             if (letter.equals("A"))
             {
-                verticalHTMLSnippet = String.format("<HTML><p style=\"margin-top: 0.3cm; margin-bottom:3px;\">%s</p><br>", letter);
+                // If so, open the HTML tag, and add the custom p (paragraph) styling to add space above and below A
+                verticalLabelStr = String.format("<HTML><p style=\"margin-top: 4px; margin-bottom:3px;\">%s</p><br>", letter);
             }
+            // Check if the current letter is O (last letter)
             else if (letter.equals("O"))
             {
-                verticalHTMLSnippet = String.format("<p style=\"margin-bottom:0.4cm;\">%s</p></HTML>", letter);
+                // If so, add no styling to the p tag and close the HTML tag
+                verticalLabelStr = String.format("<p>%s</p></HTML>", letter);
             }
             else
             {
-                verticalHTMLSnippet = String.format("<p style=\"margin-bottom:3px;\">%s</p><br>", letter);
+                // Otherwise, add the generic p styling to the letter (a bottom margin spacing of 3px)
+                verticalLabelStr = String.format("<p style=\"margin-bottom:3px;\">%s</p><br>", letter);
             }
-            verticalLabel.setText(verticalLabel.getText() + verticalHTMLSnippet);
+            // Set the JLabel's text to its current text plus the current HTML snippet
+            verticalLabel.setText(verticalLabel.getText() + verticalLabelStr);
         }
+        // Add the JLabel to the vertical label panel
         verticalLabelPanel.add(verticalLabel);
 
-        // Container JPanel for JPanel #1a, #1b, and #1c
+        // Container JPanel for holding JPanel #1a, #1b, and #1c (board panel, horizontal label panel, and vertical label panel)
         boardContainerPanel = new JPanel();
         boardContainerPanel.setLayout(new BorderLayout());
         boardContainerPanel.add(boardPanel, BorderLayout.CENTER);
