@@ -18,6 +18,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private ArrayList<PlayerCardView> playerCards;
     private Container contentPane;
     private JPanel boardPanel;
+    private JPanel boardContainerPanel;
     private JPanel playerPanel;
     private JLabel currentTurn;
     private JButton playButton;
@@ -211,6 +212,54 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         // JPanel #1a: Scrabble BoardModel
         boardPanel = new BoardPanelView(scrabbleModel.getGameBoard(), scrabbleController);
 
+        // Add the horizontal and vertical labels to the Scrabble board
+        this.addScrabbleBoardLabels();
+
+        // JPanel #2: PlayerModel Panel
+        playerPanel = new JPanel();
+        playerPanel.setPreferredSize(PLAYER_PANEL_DIMENSIONS);
+        playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
+        playerPanel.setBackground(BOARD_COLOR);
+        playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
+
+        // Configure current turn label (initially Player 1)
+        currentTurn.setFont(fontManager.getManropeRegular().deriveFont(Font.PLAIN, 22f));
+        currentTurn.setAlignmentX(CENTER_ALIGNMENT);
+        currentTurn.setHorizontalAlignment(JLabel.CENTER);
+        currentTurn.setForeground(Color.WHITE);
+        playerPanel.add(currentTurn);
+        playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
+
+        // Add the player cards to the JPanel
+        this.addPlayerCards();
+        // Add the buttons to the JPanel
+        JButton[] buttonsToAdd = new JButton[]{playButton, redrawButton, skipButton};
+        this.addButtons(buttonsToAdd);
+
+        // Add all the JPanels to ContentPane
+        contentPane.add(boardContainerPanel);
+        // Add spacing in between board panel and player panel
+        contentPane.add(Box.createRigidArea(MAIN_MIDDLE_SPACING));
+        contentPane.add(playerPanel);
+
+        // setup first turn of game by enabling/disabling certain buttons
+        scrabbleModel.setupFirstTurn();
+
+        // enable quit menu now that the game is running.
+        quitMenuItem.setEnabled(true);
+
+    }
+
+    /**
+     * The addScrabbleBoardLabels method adds the horizontal and vertical
+     * labels to the Scrabble board.
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date November 22nd, 2022
+     */
+    private void addScrabbleBoardLabels()
+    {
         // JPanel #1b: Horizontal labelling for scrabble board
         JPanel horizontalLabelPanel = new JPanel();
         horizontalLabelPanel.setBackground(BOARD_COLOR);
@@ -221,7 +270,6 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         horizontalLabel.setForeground(Color.WHITE);
         String horizontalLabels = "               1              2             3             4             5             6             7             8             9            10           11            12           13            14            15";
         horizontalLabel.setText(horizontalLabels);
-        System.out.println(horizontalLabel.getText());
         horizontalLabelPanel.add(horizontalLabel);
 
         // JPanel #1c: Vertical labelling for scrabble board
@@ -250,46 +298,12 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         }
         verticalLabelPanel.add(verticalLabel);
 
-        // Container JPanel for 1a, 1b, and 1c
-        JPanel containerPanel = new JPanel();
-        containerPanel.setLayout(new BorderLayout());
-        containerPanel.add(boardPanel, BorderLayout.CENTER);
-        containerPanel.add(horizontalLabelPanel, BorderLayout.NORTH);
-        containerPanel.add(verticalLabelPanel, BorderLayout.WEST);
-
-        // JPanel #2: PlayerModel Panel
-        playerPanel = new JPanel();
-        playerPanel.setPreferredSize(PLAYER_PANEL_DIMENSIONS);
-        playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
-        playerPanel.setBackground(BOARD_COLOR);
-        playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
-
-        // Configure current turn label (initially Player 1)
-        currentTurn.setFont(fontManager.getManropeRegular().deriveFont(Font.PLAIN, 22f));
-        currentTurn.setAlignmentX(CENTER_ALIGNMENT);
-        currentTurn.setHorizontalAlignment(JLabel.CENTER);
-        currentTurn.setForeground(Color.WHITE);
-        playerPanel.add(currentTurn);
-        playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
-
-        // Add the player cards to the JPanel
-        this.addPlayerCards();
-        // Add the buttons to the JPanel
-        JButton[] buttonsToAdd = new JButton[]{playButton, redrawButton, skipButton};
-        this.addButtons(buttonsToAdd);
-
-        // Add all the JPanels to ContentPane
-        contentPane.add(containerPanel);
-        // Add spacing in between board panel and player panel
-        contentPane.add(Box.createRigidArea(MAIN_MIDDLE_SPACING));
-        contentPane.add(playerPanel);
-
-        // setup first turn of game by enabling/disabling certain buttons
-        scrabbleModel.setupFirstTurn();
-
-        // enable quit menu now that the game is running.
-        quitMenuItem.setEnabled(true);
-
+        // Container JPanel for JPanel #1a, #1b, and #1c
+        boardContainerPanel = new JPanel();
+        boardContainerPanel.setLayout(new BorderLayout());
+        boardContainerPanel.add(boardPanel, BorderLayout.CENTER);
+        boardContainerPanel.add(horizontalLabelPanel, BorderLayout.NORTH);
+        boardContainerPanel.add(verticalLabelPanel, BorderLayout.WEST);
     }
 
     /**
