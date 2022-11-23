@@ -329,7 +329,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
             if (letter.equals("A"))
             {
                 // If so, open the HTML tag, and add the custom p (paragraph) styling to add space above and below A
-                verticalLabelStr = String.format("<HTML><p style=\"margin-top: 6px; margin-bottom:3px;\">%s</p><br>", letter);
+                verticalLabelStr = String.format("<HTML><p style=\"margin-top: 6px; margin-bottom:4px;\">%s</p><br>", letter);
             }
             // Check if the current letter is O (last letter)
             else if (letter.equals("O"))
@@ -340,7 +340,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
             else
             {
                 // Otherwise, add the generic p styling to the letter (a bottom margin spacing of 3px)
-                verticalLabelStr = String.format("<p style=\"margin-bottom:3px;\">%s</p><br>", letter);
+                verticalLabelStr = String.format("<p style=\"margin-bottom:4px;\">%s</p><br>", letter);
             }
             // Set the JLabel's text to its current text plus the current HTML snippet
             verticalLabel.setText(verticalLabel.getText() + verticalLabelStr);
