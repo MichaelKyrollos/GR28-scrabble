@@ -18,7 +18,7 @@ public class ScrabbleDictionary {
      * @version 3.0
      * @date October 25, 2022
      */
-    private static class DictionaryNode {
+    static class DictionaryNode {
 
         /**
          *The max amount of different letters in the dictionary.
@@ -31,11 +31,11 @@ public class ScrabbleDictionary {
         /**
          * Contains the post-fixes of the current node.
          */
-        private final DictionaryNode[] children;
+        final DictionaryNode[] children;
         /**
          * Specifies if the current node is the end of a word.
          */
-        private boolean terminal;
+        boolean terminal;
 
         /**
          * Constructor to create an instance of a DictionaryNode.
@@ -69,7 +69,7 @@ public class ScrabbleDictionary {
          * @version 1.1
          * @date October 25, 2022
          */
-        private String intToChar(int num) {
+        String intToChar(int num) {
             return (num < 0) ? "" : Character.toString(num + FIRST_LETTER);
         }
 
@@ -120,7 +120,22 @@ public class ScrabbleDictionary {
             //Return the terminal flag of the last node, which specifies end of word has been reached
             return curNode.terminal;
         }
+        public DictionaryNode wordLookup(char[] word) {
+            int charNumericalValue;
+            DictionaryNode curNode = this; //Get reference to the root node of the dictionary
 
+            //Looping for each character in the word to be checked
+            for (char c : word) {
+                charNumericalValue = charToInt(c);
+                //If the current letter is not a child of the node, return false
+                if (curNode.children[charNumericalValue] == null) {
+                    return null;
+                }
+                curNode = curNode.children[charNumericalValue]; //Go to the next node corresponding to the next letter
+            }
+            //Return the terminal flag of the last node, which specifies end of word has been reached
+            return curNode;
+        }
         /**
          * Helper method that returns a string representation of the contents in the dictionary structure.
          * @author Yehan De Silva
@@ -172,7 +187,7 @@ public class ScrabbleDictionary {
     /**
      * The dictionary structure to hold the dictionary.
      */
-    private final DictionaryNode dictionary;
+    final DictionaryNode dictionary;
 
     /**
      * Constructor to instantiate a default dictionary.
