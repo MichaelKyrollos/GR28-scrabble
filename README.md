@@ -69,6 +69,9 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
       - Sometimes hides player tiles after a play they made is invalid and they have multiple tiles with the same letter  
       - Core functionality of the game is still intact
 2. ⚠️ AI players are unable to place words
+      - AI logic is able to create words from a given rack and find placements
+      - in the recursive call of a function, the AI can get stuck in an infinite loop for the 
+        "extend_after()" call
 
 
 ## Design Decisions Made  
