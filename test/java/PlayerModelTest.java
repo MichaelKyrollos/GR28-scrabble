@@ -29,6 +29,8 @@ class PlayerModelTest {
         TEST_TILE_BAG = new TileBag();
         player1 = new PlayerModel("player1",newBoardModel);
         player2 = new PlayerModel("player2",newBoardModel);
+        player1.getRack().fillRack();
+        player2.getRack().fillRack();
     }
 
     private PlayWordEvent createPlayWordEvent(String word, int level, int start_of_word, boolean vertical) {
@@ -46,8 +48,7 @@ class PlayerModelTest {
                 newBoardModel.getSquares()[level][i].placeSquare(tiles.get(i - start_of_word));
             }
         }
-        PlayWordEvent playing = new PlayWordEvent(newGame, squaresForWord, tiles);
-        return playing;
+        return new PlayWordEvent(newGame, squaresForWord, tiles);
     }
     @Test
     void testInitialPlayerScoreZero() {
@@ -59,63 +60,6 @@ class PlayerModelTest {
     void testPlayerNameInserted() {
         assertEquals("player1",player1.getName());
         assertEquals("player2",player2.getName());
-    }
-
-    @Test
-    void testRackSizeInitial() {
-        assertEquals(7,player1.getRack().getTiles().size());
-        assertEquals(7,player2.getRack().getTiles().size());
-
-    }
-
-    /*
-     * Testing the refilling of a rack where all the tiles are replaced.
-     *
-     */
-    @Test
-    void testEntireRackRefilled() {
-        TEST_TILE_BAG = new TileBag();
-
-//      Create 2 lists, one original, one with the tiles to redraw
-        ArrayList<Tile> redrawTiles;
-        ArrayList<Tile> originalTiles;
-//      Clone original list into both
-        redrawTiles = (ArrayList) player1.getRack().getTiles().clone();
-        originalTiles = (ArrayList) player1.getRack().getTiles().clone();
-//      ensure original rack is full and that other racks are equal
-        assertTrue(originalTiles.containsAll(player1.getRack().getTiles()));
-        assertTrue(redrawTiles.containsAll(player1.getRack().getTiles()));
-        assertEquals(7,(player1.getRack().getTiles()).size());
-        assertEquals(7,redrawTiles.size());
-        player1.redraw(redrawTiles);
-//      check that it is refilled and that the lists have been modified
-        assertEquals(7,(player1.getRack().getTiles()).size());
-        assertFalse(player1.getRack().getTiles().containsAll(originalTiles));
-        assertFalse(originalTiles.containsAll(player1.getRack().getTiles()));
-    }
-
-    /*
-     * Testing the refilling of a rack where only some of the tiles are replaced.
-     *
-     */
-    @Test
-    void testSomeOfRackRefilled() {
-        TEST_TILE_BAG = new TileBag();
-
-//      Create 2 lists, one original, one with the tiles to redraw
-        ArrayList<Tile> redrawTiles = new ArrayList<>();
-        ArrayList<Tile> originalTiles;
-//      Clone original list into both
-        originalTiles = (ArrayList) player1.getRack().getTiles().clone();
-        redrawTiles.add(player1.getRack().getTiles().get(0));
-        redrawTiles.add(player1.getRack().getTiles().get(3));
-//      ensure original rack is full
-        assertEquals(7,(player1.getRack().getTiles()).size());
-        player1.redraw(redrawTiles);
-//      check that it is refilled and that the lists have been modified
-        assertEquals(7,(player1.getRack().getTiles()).size());
-        assertFalse(player1.getRack().getTiles().containsAll(originalTiles));
-        assertFalse(originalTiles.containsAll(player1.getRack().getTiles()));
     }
 
     /*
@@ -163,7 +107,7 @@ class PlayerModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('B'));
         tiles.add(TEST_TILE_BAG.takeTile('C'));
         assertTrue(player1.playWord(createPlayWordEvent("ABC", 7, 7, true)));
-        assertEquals(7,player1.getScore());
+        assertEquals(14,player1.getScore());
     }
 
     /*
@@ -179,7 +123,7 @@ class PlayerModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('P'));
 
        assertTrue(player1.playWord(createPlayWordEvent("APP", 7, 7, false)));
-       assertEquals(7,player1.getScore());
+       assertEquals(14,player1.getScore());
 
         tiles.clear();
 
@@ -190,7 +134,7 @@ class PlayerModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('T'));
 
         assertTrue(player2.playWord(createPlayWordEvent("PRINT", 8, 7, true)));
-        assertEquals(14,player2.getScore());
+        assertEquals(15,player2.getScore());
 
         tiles.clear();
         assertEquals(0, tiles.size());
@@ -200,7 +144,7 @@ class PlayerModelTest {
         tiles.add(TEST_TILE_BAG.takeTile('T'));
 
         assertTrue(player1.playWord(createPlayWordEvent("OUT", 7, 10, true)));
-        assertEquals(14,player1.getScore());
+        assertEquals(22,player1.getScore());
 
     }
 

@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TileTest {
     /**
-     *@author Michael Kyrollos, 101183521
+     * Tests the tile class
+     *
+     * @author Michael Kyrollos, 101183521
      * @version 1.0
      * @date November 11, 2022
      */

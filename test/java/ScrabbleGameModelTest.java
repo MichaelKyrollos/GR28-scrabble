@@ -36,8 +36,7 @@ class ScrabbleGameModelTest {
                 newScrabbleGameModel.getGameBoard().getSquares()[level][i].placeSquare(tiles.get(i - start_of_word));
             }
         }
-        PlayWordEvent playing = new PlayWordEvent(newScrabbleGameModel, squaresForWord, tiles);
-        return playing;
+        return new PlayWordEvent(newScrabbleGameModel, squaresForWord, tiles);
     }
 
 
@@ -76,7 +75,7 @@ class ScrabbleGameModelTest {
 
         assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
         assertTrue(newScrabbleGameModel.playWord(createWordEvent("DRIVE", 7, 7, false)));
-        assertEquals(9,newScrabbleGameModel.getPlayers().get(0).getScore());
+        assertEquals(20,newScrabbleGameModel.getPlayers().get(0).getScore());
         assertEquals(newScrabbleGameModel.getPlayers().get(1),newScrabbleGameModel.getCurrentPlayer());
         tiles.clear();
 
@@ -115,7 +114,7 @@ class ScrabbleGameModelTest {
 
         assertEquals(newScrabbleGameModel.getPlayers().get(0),newScrabbleGameModel.getCurrentPlayer());
         assertTrue(newScrabbleGameModel.playWord(createWordEvent("DRIVE", 7, 7, false)));
-        assertEquals(9,newScrabbleGameModel.getPlayers().get(0).getScore());
+        assertEquals(20,newScrabbleGameModel.getPlayers().get(0).getScore());
         assertEquals(newScrabbleGameModel.getPlayers().get(1),newScrabbleGameModel.getCurrentPlayer());
         tiles.clear();
 
