@@ -103,7 +103,15 @@ public class ScrabbleGameModel extends ScrabbleModel {
      */
     public boolean addPlayer(String playerName) {
         if (players.size() <= 4) {
-            players.add(new PlayerModel(playerName, gameBoard));
+            players.add(new PlayerModel(playerName, gameBoard,false));
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addAI(String nameAI) {
+        if (players.size() <= 4) {
+            players.add(new PlayerModel(nameAI, gameBoard,true));
             return true;
         }
         return false;

@@ -28,6 +28,7 @@ public class ScrabbleController implements ActionListener {
     private boolean isPlaying;
     private boolean isRedrawing;
 
+    private AI aiPlayer;
     private ArrayList<Tile> tilesPlaced;
     private ArrayList<Tile> tilesToRedraw;
     private ArrayList<Square> squaresInWord;
@@ -261,6 +262,10 @@ public class ScrabbleController implements ActionListener {
         scrabbleFrame.getRedrawButton().setEnabled(false);
         scrabbleFrame.getSkipButton().setEnabled(false);
         scrabbleModel.getGameBoard().copyBoardSquares();
+        if (scrabbleModel.getCurrentPlayer().isAI()) {
+            aiPlayer.find_all_options();
+            JOptionPane.showMessageDialog(scrabbleFrame, "Play the ____ word");
+        }
         scrabbleFrame.getPlayButton().setText("Submit");
         scrabbleFrame.getPlayButton().setBackground(ScrabbleFrameView.SELECTED_BUTTON_COLOR);
     }
@@ -405,7 +410,7 @@ public class ScrabbleController implements ActionListener {
             }
             // Add the AI players to the game
             for (int i = 0; i < numAIPlayers; i++) {
-                scrabbleModel.addPlayer("BOT " + (i + 1));
+                scrabbleModel.addAI("BOT " + (i + 1));
             }
             return numAIPlayers;
         }

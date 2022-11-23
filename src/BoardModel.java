@@ -138,6 +138,32 @@ public class BoardModel extends ScrabbleModel{
         this.copiedSquares = savedSquares;
     }
 
+    public BoardModel copyBoardSquaresToAnother() {
+        // Save the state of the board before placing any tiles
+        // (create a copy of the array of squares)
+        Square[][] savedSquares = new Square[SIZE][SIZE];
+
+
+        // Traverse through each square on the current board
+        for (int i = 0; i < squares.length; i++)
+        {
+            for (int j = 0; j < squares[i].length; j++)
+            {
+                Square currSquare = squares[i][j];
+                // Save a copy of the current square depending on its type
+                if (currSquare instanceof LetterPremiumSquare) {
+                    savedSquares[i][j] = new LetterPremiumSquare((LetterPremiumSquare) currSquare);
+                } else if (currSquare instanceof WordPremiumSquare) {
+                    savedSquares[i][j] = new WordPremiumSquare((WordPremiumSquare) currSquare);
+                } else {
+                    savedSquares[i][j] = new Square(currSquare);
+                }
+
+            }
+        }
+        return new BoardModel(game);
+    }
+
     /**
      * Returns the 2D array of squares making up the board.
      * @return 2D array of squares making up the board.
@@ -439,7 +465,12 @@ public class BoardModel extends ScrabbleModel{
         String s = "\n------------------------------------------------------------\n" ;
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                s += " " + getSquares()[i][j] + " |";
+                if (getSquares()[i][j] !=null){
+                    s += "   |";
+                }
+                else {
+                    s += getSquares()[i][j].getTile().getLetter();
+                }
             }
             s += "\n------------------------------------------------------------\n";
         }
@@ -447,6 +478,30 @@ public class BoardModel extends ScrabbleModel{
 
         }
 
+    /**
+     *
+     * Returns a char[][] representing the current state of the game.
+     * Used by the AI to come up with a play
+     *
+     * @author Michael Kyrollos, ID: 101183521
+     * @version 1.0
+     * @date November 22, 2022
+     * @return String representing the scrabble game state
+     */
+    public char[][] toChar() {
+        char[][] c = new char[15][15];
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (this.getSquares()[i][j].getTile() == null) {
+                    c[i][j] = '_';
+                }
+                else {
+                    c[i][j] = this.getSquares()[i][j].getTile().getLetter();
+                }
+            }
+        }
+        return c;
+    }
     /**
      * Places the given tile on the given square on the board
      *

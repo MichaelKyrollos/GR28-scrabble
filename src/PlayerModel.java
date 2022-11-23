@@ -29,6 +29,10 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
      */
     private BoardModel board;
 
+
+
+    private boolean isAI;
+
     /**
      * Constructs a new PlayerModel with a given name. The player's score is initially zero.
      * @author Amin Zeina
@@ -39,12 +43,20 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
      * @param name the name of the player
      * @param board the board the player is playing on
      */
-    public PlayerModel(String name, BoardModel board) {
+    public PlayerModel(String name, BoardModel board, boolean isAI) {
         this.name = name;
         this.board = board;
+        this.isAI = isAI;
         this.score = 0;
         this.rack = new RackModel();
         this.rack.fillRack();
+    }
+
+    public boolean isAI() {
+        return isAI;
+    }
+
+    public PlayerModel() {
     }
 
     /**
@@ -116,6 +128,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
     public String getName() {
         return this.name;
     }
+
 
     /**
      * The getRack method returns the player's rack.

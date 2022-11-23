@@ -130,6 +130,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      */
     public JButton getRedrawButton() {return this.redrawButton;}
 
+
     /**
      * Returns the frame's skip button.
      * @return frame's skip button.
