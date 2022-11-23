@@ -63,11 +63,13 @@ public class LetterTree {
         }
         return word_node.is_word;
     }
-    public static void main(String[] args)
-    {
-        LetterTree dict = new LetterTree();
-        System.out.println(dict.is_word("potatojiklwfekjlr"));
-    }
+
+//    for testing
+//    public static void main(String[] args)
+//    {
+//        LetterTree dict = new LetterTree();
+//        System.out.println(dict.is_word("potatojiklwfekjlr"));
+//    }
 
 }
 
