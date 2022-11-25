@@ -63,13 +63,15 @@ public class AI {
     }
 
     private void legal_move(String word, int[] last_pos) {
+        System.out.println(word);
         AIBoard board_to_be = board.copy();
         int[] play_pos = last_pos;
-        int word_i = word.length()-1;
-        while (word_i >= 0){
+        for (int word_i = word.length()-1; word_i >= 0; word_i--){
             board_to_be.set_tile(play_pos,word.charAt(word_i));
+            play_pos = before(play_pos);
         }
-        System.out.println(board);
+        System.out.println(board_to_be);
+        System.out.println();
     }
 
     private HashMap cross_check() {
@@ -140,6 +142,7 @@ public class AI {
     private void extend_after(String partial_word,LetterTree.LetterTreeNode current_node, int[] next_pos, boolean anchor_filled){
         if (!board.is_filled(next_pos) && current_node.is_word && anchor_filled){
             legal_move(partial_word,before(next_pos));
+//           TODO add legal moves to a list 
         }
         if (board.in_bounds(next_pos)) {
             if (board.is_empty(next_pos)){
