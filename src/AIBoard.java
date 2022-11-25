@@ -45,7 +45,11 @@ public class AIBoard {
     }
 
     public AIBoard copy(){
-        AIBoard copy = new AIBoard(tiles.clone(),size);
+        char[][] cloned = new char[size][size];
+        for (int[] pos: all_positions()){
+            cloned[pos[0]][pos[1]] =  get_tile(pos);
+        }
+        AIBoard copy = new AIBoard(cloned,size);
         return copy;
     }
 

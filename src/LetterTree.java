@@ -65,11 +65,11 @@ public class LetterTree {
     }
 
 //    for testing
-//    public static void main(String[] args)
-//    {
-//        LetterTree dict = new LetterTree();
-//        System.out.println(dict.is_word("potatojiklwfekjlr"));
-//    }
+    public static void main(String[] args)
+    {
+        LetterTree dict = new LetterTree();
+        System.out.println(dict.is_word("oc"));
+    }
 
 }
 
