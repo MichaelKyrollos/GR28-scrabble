@@ -240,6 +240,14 @@ public class ScrabbleController implements ActionListener {
         scrabbleFrame.getSkipButton().setEnabled(true);
         scrabbleFrame.getPlayButton().setText("Play");
         scrabbleFrame.getPlayButton().setBackground(ScrabbleFrameView.ACCENT_COLOR);
+        if (scrabbleModel.getCurrentPlayer()instanceof AIPlayer) {
+            PlayWordEvent wordEvent = ((AIPlayer) scrabbleModel.getCurrentPlayer()).makeMove();
+            squaresInWord = wordEvent.getSquaresInWord();
+            tilesPlaced = wordEvent.getTilesPlaced();
+            for(int i=tilesPlaced.size()-1;i>0;i--){
+                scrabbleModel.getCurrentPlayer().playTile(squaresInWord.get(i), tilesPlaced.get(i));
+            }
+        }
         scrabbleModel.playWord(new PlayWordEvent(scrabbleModel, squaresInWord, tilesPlaced));
         for (Square square : squaresInWord) {
             square.setEnabled(true);
@@ -262,10 +270,6 @@ public class ScrabbleController implements ActionListener {
         scrabbleFrame.getRedrawButton().setEnabled(false);
         scrabbleFrame.getSkipButton().setEnabled(false);
         scrabbleModel.getGameBoard().copyBoardSquares();
-        if (scrabbleModel.getCurrentPlayer().isAI()) {
-            aiPlayer.find_all_options();
-            JOptionPane.showMessageDialog(scrabbleFrame, "Play the ____ word");
-        }
         scrabbleFrame.getPlayButton().setText("Submit");
         scrabbleFrame.getPlayButton().setBackground(ScrabbleFrameView.SELECTED_BUTTON_COLOR);
     }

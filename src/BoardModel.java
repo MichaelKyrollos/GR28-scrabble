@@ -31,6 +31,8 @@ public class BoardModel extends ScrabbleModel{
 
     private Square copiedSquares[][];
 
+
+
     private ScrabbleGameModel game;
 
     private boolean isEmpty;
@@ -478,6 +480,10 @@ public class BoardModel extends ScrabbleModel{
 
         }
 
+
+    public ScrabbleGameModel getGame() {
+        return game;
+    }
     /**
      *
      * Returns a char[][] representing the current state of the game.
@@ -488,7 +494,7 @@ public class BoardModel extends ScrabbleModel{
      * @date November 22, 2022
      * @return String representing the scrabble game state
      */
-    public char[][] toChar() {
+    public char[][] forAI() {
         char[][] c = new char[15][15];
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -496,7 +502,7 @@ public class BoardModel extends ScrabbleModel{
                     c[i][j] = '_';
                 }
                 else {
-                    c[i][j] = this.getSquares()[i][j].getTile().getLetter();
+                    c[i][j] = toLowerCase(this.getSquares()[i][j].getTile().getLetter());
                 }
             }
         }

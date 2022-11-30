@@ -24,14 +24,13 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
      * The player's tile rack.
      */
     private RackModel rack;
+
+
     /**
      * The board the player is playing on.
      */
     private BoardModel board;
 
-
-
-    private boolean isAI;
 
     /**
      * Constructs a new PlayerModel with a given name. The player's score is initially zero.
@@ -43,17 +42,13 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
      * @param name the name of the player
      * @param board the board the player is playing on
      */
-    public PlayerModel(String name, BoardModel board, boolean isAI) {
+    public PlayerModel(String name, BoardModel board) {
         this.name = name;
         this.board = board;
-        this.isAI = isAI;
         this.score = 0;
         this.rack = new RackModel();
         this.rack.fillRack();
-    }
 
-    public boolean isAI() {
-        return isAI;
     }
 
     /**
@@ -151,6 +146,11 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
         rack.removeTile(tile.getLetter());
 
     }
+
+    public BoardModel getBoard() {
+        return board;
+    }
+
 
     /**
      * Adds the given score to this player's score. To decrease score, param score should be negative. If score becomes

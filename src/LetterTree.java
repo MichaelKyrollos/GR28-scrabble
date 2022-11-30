@@ -68,7 +68,7 @@ public class LetterTree {
     public static void main(String[] args)
     {
         LetterTree dict = new LetterTree();
-        System.out.println(dict.is_word("oc"));
+        System.out.println(dict.is_word("jez"));
     }
 
 }

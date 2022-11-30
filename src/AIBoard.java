@@ -66,21 +66,4 @@ public class AIBoard {
         return repr.toString();
     }
 
-//    for testing
-//    public static void main(String[] args)
-//    {
-//        int size = 7;
-//        char[][] c = new char[size][size];
-//        for (int i = 0; i < size; i++) {
-//            for (int j = 0; j < size; j++) {
-//                    c[i][j] = '_';
-//            }
-//        }
-//        AIBoard board = new AIBoard(c,size);
-//        int[] pos = {1,1};
-//        board.set_tile(pos,'o');
-//        pos[0] = 2;
-//        board.set_tile(pos,'f');
-//        System.out.print(board);
-//    }
 }
