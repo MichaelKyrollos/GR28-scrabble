@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.util.ArrayList;
 
+import static java.lang.Character.toLowerCase;
+
 /**
  * The RackModel class models a player's rack in the game of Scrabble.
  * A rack contains a maximum of 7 tiles. Whenever the rack is empty,
@@ -175,4 +177,23 @@ public class RackModel extends ScrabbleModel {
         return "Current rack:\n" + bag.tilesToString(this.tiles);
     }
 
+    public StringBuilder forAI()
+    {
+        StringBuilder rackString = new StringBuilder("");
+        for (Tile tile : tiles)
+        {
+            rackString.append(toLowerCase(tile.getLetter()));
+        }
+        return rackString;
+    }
+    public Tile takeTile(char letter)
+    {
+        for (Tile tile : tiles)
+        {
+            if (letter == tile.getLetter()) {
+                return tile;
+            }
+        }
+        return null;
+    }
 }
