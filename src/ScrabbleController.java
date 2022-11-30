@@ -82,12 +82,8 @@ public class ScrabbleController implements ActionListener {
             }
         }
 
-        //Game start button clicked
-        if (e.getActionCommand().equals("Let's play!")) {
-            this.playScrabbleGame();
-        }
         //Play button clicked
-        else if (e.getActionCommand().equals("Play")) {
+        if (e.getActionCommand().equals("Play")) {
             this.playSelected();
         }
         //Redraw button clicked
@@ -288,138 +284,6 @@ public class ScrabbleController implements ActionListener {
         scrabbleFrame.getSkipButton().setEnabled(false);
         scrabbleFrame.getRedrawButton().setText("Submit");
         scrabbleFrame.getRedrawButton().setBackground(ScrabbleFrameView.SELECTED_BUTTON_COLOR);
-    }
-
-    /**
-     * The playScrabbleGame method attempts to configure all the player
-     * and AI player information, and starts the Scrabble game.
-     *
-     * @author Pathum Danthanarayana, 101181411
-     * @version 1.0
-     * @date November 19, 2022
-     */
-    private void playScrabbleGame()
-    {
-        // Configure player information for regular (human) players
-        int numPlayers = configurePlayerInformation();
-
-        // Check for errors in configuring regular player information
-        if (numPlayers != -1)
-        {
-            // Configure AI player information
-            int numAIPlayers = configureAIPlayerInformation(numPlayers);
-            // Check for any errors in configuring AI player information
-            if (numAIPlayers != -1)
-            {
-                // If no errors, start the game
-                scrabbleFrame.startGame();
-                scrabbleFrame.update();
-            }
-        }
-    }
-
-    /**
-     * Configures starting player information once a Scrabble game is started.
-     * @return the number of players configured, or return -1 if error in configuring players
-     *
-     * @author Yehan De Silva
-     * @author Pathum Danthanarayana, 101181411
-     * @version 1.1
-     * @date November 11, 2022
-     */
-    private int configurePlayerInformation() {
-        int numberPlayers = 0;
-        boolean validNumberPlayers = false;
-
-        //Keep looping till valid number of players (Between 2-4) is chosen by user
-        while (!validNumberPlayers) {
-            String numPlayersStr = JOptionPane.showInputDialog(scrabbleFrame, "Please enter the number of players (Between 0 and 4):");
-            // Convert String into integer
-            try {
-                //Return if user cancels the input prompt
-                if (numPlayersStr == null) {
-                    return -1;
-                }
-                numberPlayers = Integer.parseInt(numPlayersStr);
-            } catch (NumberFormatException e) {
-                continue;
-            }
-            //Stop looping once a valid integer is given
-            if (numberPlayers <= ScrabbleGameModel.MAX_PLAYERS && numberPlayers >= 0) {
-                validNumberPlayers = true;
-            }
-        }
-
-        // Prompt the user to enter a player name for each player
-        for (int i = 0; i < numberPlayers; i++)
-        {
-            String message = "Enter Player " + (i + 1) + " name:";
-            String playerName = JOptionPane.showInputDialog(scrabbleFrame, message);
-
-            // Check if the user has entered an empty player name
-            if (playerName == null)
-            {
-                // If so, assign a default player name to the player
-                playerName = "Player " + (i + 1);
-            }
-            scrabbleModel.addPlayer(playerName.toUpperCase());
-        }
-        return numberPlayers;
-    }
-
-    /**
-     * The configureAIPlayerInformation method configures the AI player
-     * information.
-     * @return the number of AI players configured, and return -1 if error in configuring AI players
-     *
-     * @author Pathum Danthanarayana, 101181411
-     * @version 1.0
-     * @date November 19th, 2022
-     */
-    private int configureAIPlayerInformation(int numRegularPlayers)
-    {
-        // Check if the number of regular players is less than 4
-        if (numRegularPlayers < 4)
-        {
-            boolean validNumAIPlayers = false;
-            int numAIPlayers = 0;
-
-            // Calculate maximum number of accepted AI players
-            int maxAIPlayers = ScrabbleGameModel.MAX_PLAYERS - numRegularPlayers;
-            // Calculate minimum number of accepted AI players
-            int minAIPlayers = 0;
-            if (numRegularPlayers <= ScrabbleGameModel.MIN_PLAYERS)
-            {
-                minAIPlayers = ScrabbleGameModel.MIN_PLAYERS - numRegularPlayers;
-            }
-
-            // Perform loop until a valid number of AI players has been specified
-            while (!validNumAIPlayers) {
-                String numAIPlayersStr = JOptionPane.showInputDialog(scrabbleFrame, String.format("Please enter the number of AI players (Between %d and %d):", minAIPlayers, maxAIPlayers));
-                // Convert String into integer
-                try {
-                    //Return if user cancels the input prompt
-                    if (numAIPlayersStr == null) {
-                        return -1;
-                    }
-                    numAIPlayers = Integer.parseInt(numAIPlayersStr);
-                } catch (NumberFormatException e) {
-                    continue;
-                }
-
-                // Stop looping until a valid number of AI players is specified
-                if (numAIPlayers <= maxAIPlayers && numAIPlayers >= minAIPlayers) {
-                    validNumAIPlayers = true;
-                }
-            }
-            // Add the AI players to the game
-            for (int i = 0; i < numAIPlayers; i++) {
-                scrabbleModel.addAI("BOT " + (i + 1));
-            }
-            return numAIPlayers;
-        }
-        // Return default value of 0 if no AI players were configured
-        return 0;
     }
 
     /**

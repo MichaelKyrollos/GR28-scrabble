@@ -28,6 +28,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JMenuItem quitMenuItem;
     private ScrabbleGameModel scrabbleModel;
     private ScrabbleController scrabbleController;
+    private SetupMenuController setupMenuController;
 
     /** Constants **/
     // Colours
@@ -87,6 +88,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         scrabbleModel = new ScrabbleGameModel();
         scrabbleModel.addScrabbleView(this);
         scrabbleController = new ScrabbleController(scrabbleModel, this);
+        setupMenuController = new SetupMenuController(scrabbleModel, this);
         currentTurn = new JLabel();
 
         playButton = new JButton("Play");
@@ -175,7 +177,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         playButton.setForeground(Color.WHITE);
         playButton.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 18f));
         playButton.setAlignmentX(CENTER_ALIGNMENT);
-        playButton.addActionListener(scrabbleController);
+        playButton.addActionListener(setupMenuController);
 
         contentPane.add(Box.createRigidArea(MENU_SPACING));
         contentPane.add(mainHeader);
@@ -248,7 +250,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
         // enable quit menu now that the game is running.
         quitMenuItem.setEnabled(true);
-
+        this.update();
     }
 
     /**

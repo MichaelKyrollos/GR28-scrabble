@@ -27,8 +27,8 @@ class PlayerModelTest {
         newBoardModel = new BoardModel(newGame);
         tiles = new ArrayList<>();
         TEST_TILE_BAG = new TileBag();
-        player1 = new PlayerModel("player1",newBoardModel,false);
-        player2 = new PlayerModel("player2",newBoardModel,false);
+        player1 = new PlayerModel("player1",newBoardModel);
+        player2 = new PlayerModel("player2",newBoardModel);
         player1.getRack().fillRack();
         player2.getRack().fillRack();
     }
