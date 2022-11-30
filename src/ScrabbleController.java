@@ -105,10 +105,6 @@ public class ScrabbleController implements ActionListener {
                 submitRedrawSelected();
             }
         }
-        //Quit game selected
-        else if (e.getActionCommand().equals("Quit Game")) {
-            scrabbleModel.endGame();
-        }
     }
 
     /**
