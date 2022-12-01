@@ -1,4 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -49,6 +51,20 @@ class ScrabbleDictionaryTest {
             System.out.println("Test Error: " + e);
             System.exit(1);
         }
+    }
+
+    /**
+     * Runs tearDown method after each test case.
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date November 30, 2022
+     */
+    @AfterEach
+    void tearDown() {
+        defaultDictionary = null;
+        defaultDictionaryScanner = null;
+        favGameDictionary = null;
+        favGameDictionaryScanner = null;
     }
 
     /**

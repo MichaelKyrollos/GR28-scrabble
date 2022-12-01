@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -24,7 +26,6 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JButton playButton;
     private JButton redrawButton;
     private JButton skipButton;
-    private FontManager fontManager;
     private JMenuItem quitMenuItem;
     private ScrabbleGameModel scrabbleModel;
     private ScrabbleController scrabbleController;
@@ -41,7 +42,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     public static final Color SQUARE_BORDER_COLOR = new Color(34, 178, 194);
     public static final Color PLAYER_CARD_COLOR = new Color(28, 62, 91);
     public static final Color SELECTED_TILE_COLOR = new Color(223, 223, 223);
-    public static final Color CENTER_SQUARE_COLOR = new Color(239, 240, 143);
+    public static final Color CENTER_SQUARE_COLOR = PLAYER_CARD_COLOR;
     public static final Color SELECTED_BUTTON_COLOR = new Color(202, 91, 89);
 
     // Spacing dimensions
@@ -93,8 +94,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         redrawButton = new JButton("Redraw");
         skipButton = new JButton("Skip");
 
-        // Initialize the font manager
-        fontManager = new FontManager();
+        // Set up the fonts for the Scrabble game
+        this.setupFonts();
 
         // Configure Menu
         JMenuBar menuBar = new JMenuBar();
@@ -141,6 +142,33 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     public JButton getSkipButton() {return this.skipButton;}
 
     /**
+     * The setupFonts method sets up and registers all the necessary fonts
+     * for the Scrabble game. The two main fonts that are used for
+     * the Scrabble game are the following:
+     * Manrope Bold, Manrope Regular.
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date November 30th, 2022
+     */
+    private void setupFonts()
+    {
+        // Retrieve local graphics environment
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        try
+        {
+            // Attempt to register the following fonts: Manrope Bold, Manrope Regular
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(getClass().getResourceAsStream("resources/Manrope-Regular.ttf"))));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(getClass().getResourceAsStream("resources/Manrope-Bold.ttf"))));
+        }
+        catch (FontFormatException | IOException e)
+        {
+            System.out.println("Error in creating custom fonts in setupFonts method: " + e);
+        }
+        //System.out.println(Arrays.toString(ge.getAvailableFontFamilyNames()));
+    }
+
+    /**
      * The setupMenu method sets up the initial menu of the
      * Scrabble game.
      * This menu is what the user initially interacts with,
@@ -156,14 +184,14 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     {
         // Set up main header for the menu
         JLabel mainHeader = new JLabel("Welcome to Scrabble!");
-        mainHeader.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 38f));
+        mainHeader.setFont(new Font("Manrope", Font.BOLD, 38));
         mainHeader.setForeground(Color.WHITE);
         mainHeader.setAlignmentX(CENTER_ALIGNMENT);
         mainHeader.setHorizontalAlignment(JLabel.CENTER);
 
         // Set up the tagline for the menu
         JLabel tagLine = new JLabel("Developed by Group 28");
-        tagLine.setFont(fontManager.getManropeRegular().deriveFont(Font.PLAIN, 22f));
+        tagLine.setFont(new Font("Manrope", Font.PLAIN, 22));
         tagLine.setForeground(Color.WHITE);
         tagLine.setAlignmentX(CENTER_ALIGNMENT);
         tagLine.setHorizontalAlignment(JLabel.CENTER);
@@ -173,7 +201,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         playButton.setBackground(ACCENT_COLOR);
         playButton.setFocusPainted(false);
         playButton.setForeground(Color.WHITE);
-        playButton.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 18f));
+        playButton.setFont(new Font("Manrope", Font.BOLD, 18));
         playButton.setAlignmentX(CENTER_ALIGNMENT);
         playButton.addActionListener(scrabbleController);
 
@@ -224,7 +252,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
 
         // Configure current turn label (initially Player 1)
-        currentTurn.setFont(fontManager.getManropeRegular().deriveFont(Font.PLAIN, 22f));
+        currentTurn.setFont(new Font("Manrope", Font.PLAIN, 22));
         currentTurn.setAlignmentX(CENTER_ALIGNMENT);
         currentTurn.setHorizontalAlignment(JLabel.CENTER);
         currentTurn.setForeground(Color.WHITE);
@@ -262,7 +290,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private void addScrabbleBoardLabels()
     {
         // Initialize font for labels
-        Font labelFont = this.fontManager.getManropeRegular().deriveFont(Font.PLAIN, 14f);
+        Font labelFont = new Font("Manrope", Font.PLAIN, 14);
         // Define constant spacing for the horizontal numbers
         Dimension SINGLE_DIGIT_INITIAL_SPACING = new Dimension(34, 0);
         Dimension SINGLE_DIGIT_SPACING = new Dimension(25, 0);
@@ -388,7 +416,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
             button.setBackground(ACCENT_COLOR);
             button.setFocusPainted(false);
             button.setForeground(Color.WHITE);
-            button.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 18f));
+            button.setFont(new Font("Manrope", Font.BOLD, 18));
             button.addActionListener(scrabbleController);
 
             buttonsPanel.add(button);

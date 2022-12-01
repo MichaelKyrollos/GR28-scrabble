@@ -14,11 +14,19 @@ class BoardModelTest {
 
     @BeforeEach
     void setUp() {
-
         newGame = new ScrabbleGameModel();
+        newGame.GAME_TILE_BAG.fillBag();
         newBoardModel = new BoardModel(newGame);
         tiles = new ArrayList<>();
         TEST_TILE_BAG = new TileBag();
+    }
+
+    @AfterEach
+    void tearDown() {
+        newGame = null;
+        newBoardModel = null;
+        tiles = null;
+        TEST_TILE_BAG = null;
     }
 
     private PlayWordEvent createWordEvent(String word, int level, int start_of_word, boolean vertical) {

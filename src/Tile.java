@@ -28,10 +28,7 @@ public class Tile extends JButton {
         this.setBackground(Color.WHITE);
         this.setFocusPainted(false);
         this.setForeground(Color.BLACK);
-
-        // Initialize a font manager
-        FontManager fontManager = new FontManager();
-        this.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 18f));
+        this.setFont(new Font("Manrope", Font.BOLD, 18));
     }
 
     /**

@@ -34,17 +34,14 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
         this.setBackground(ScrabbleFrameView.PLAYER_CARD_COLOR);
         this.setLayout(new BorderLayout());
 
-        // Initialize a font manager
-        FontManager fontManager = new FontManager();
-
         // Configure player name
         this.playerName = new JLabel(player.getName());
-        this.playerName.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 28f));
+        this.playerName.setFont(new Font("Manrope", Font.BOLD, 28));
         this.playerName.setForeground(Color.WHITE);
 
         // Configure player score
         this.playerScore = new JLabel("Score:   0");
-        this.playerScore.setFont(fontManager.getManropeBold().deriveFont(Font.BOLD, 22f));
+        this.playerScore.setFont(new Font("Manrope", Font.BOLD, 22));
         this.playerScore.setForeground(Color.WHITE);
 
         // Configure the JPanel that will store the letters (buttons) in the rack

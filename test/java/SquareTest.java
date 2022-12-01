@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +26,16 @@ class SquareTest {
         tile1 = new Tile('A', 6);
         tile2 = new Tile('G', 4);
         tile3 = new Tile('P', 1);
+    }
+
+    @AfterEach
+    void tearDown() {
+        square1 = null;
+        square2 = null;
+        square3 = null;
+        tile1 = null;
+        tile2 = null;
+        tile3 = null;
     }
 
     @Test
