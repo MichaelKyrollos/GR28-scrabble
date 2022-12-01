@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -6,13 +7,14 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+/**
+ * @author Michael Kyrollos, 101183521
+ * @author Yehan De Silva
+ * @version 4.0
+ * @date November 30, 2022
+ */
 class PlayerModelTest {
-    /**
-     *@author Michael Kyrollos, 101183521
-     * @version 1.0
-     * @date November 11, 2022
-     */
+
     private PlayerModel player1;
     private PlayerModel player2;
 
@@ -24,13 +26,22 @@ class PlayerModelTest {
     @BeforeEach
     void setUp() {
         newGame = new ScrabbleGameModel();
+        newGame.GAME_TILE_BAG.fillBag();
         newBoardModel = new BoardModel(newGame);
         tiles = new ArrayList<>();
         TEST_TILE_BAG = new TileBag();
-        player1 = new PlayerModel("player1",newBoardModel,false);
-        player2 = new PlayerModel("player2",newBoardModel,false);
-        player1.getRack().fillRack();
-        player2.getRack().fillRack();
+        player1 = new PlayerModel("player1",newBoardModel);
+        player2 = new PlayerModel("player2",newBoardModel);
+    }
+
+    @AfterEach
+    void tearDown() {
+        newGame = null;
+        newBoardModel = null;
+        tiles = null;
+        TEST_TILE_BAG = null;
+        player1 = null;
+        player2 = null;
     }
 
     private PlayWordEvent createPlayWordEvent(String word, int level, int start_of_word, boolean vertical) {
@@ -60,6 +71,61 @@ class PlayerModelTest {
     void testPlayerNameInserted() {
         assertEquals("player1",player1.getName());
         assertEquals("player2",player2.getName());
+    }
+
+    @Test
+    void testRackSizeInitial() {
+        assertEquals(7,player1.getRack().getTiles().size());
+        assertEquals(7,player2.getRack().getTiles().size());
+
+    }
+
+    /*
+     * Testing the refilling of a rack where all the tiles are replaced.
+     *
+     */
+    @Test
+    void testEntireRackRefilled() {
+        TEST_TILE_BAG = new TileBag();
+
+//      Create 2 lists, one original, one with the tiles to redraw
+        ArrayList<Tile> redrawTiles;
+        ArrayList<Tile> originalTiles;
+//      Clone original list into both
+        redrawTiles = (ArrayList) player1.getRack().getTiles().clone();
+        originalTiles = (ArrayList) player1.getRack().getTiles().clone();
+//      ensure original rack is full and that other racks are equal
+        assertTrue(originalTiles.containsAll(player1.getRack().getTiles()));
+        assertTrue(redrawTiles.containsAll(player1.getRack().getTiles()));
+        assertEquals(7,(player1.getRack().getTiles()).size());
+        assertEquals(7,redrawTiles.size());
+        player1.redraw(redrawTiles);
+//      check that it is refilled and that the lists have been modified
+        assertEquals(7,(player1.getRack().getTiles()).size());
+        assertFalse(player1.getRack().getTiles().containsAll(originalTiles));
+        assertFalse(originalTiles.containsAll(player1.getRack().getTiles()));
+    }
+
+    /*
+     * Testing the refilling of a rack where only some of the tiles are replaced.
+     *
+     */
+    @Test
+    void testSomeOfRackRefilled() {
+//      Create 2 lists, one original, one with the tiles to redraw
+        ArrayList<Tile> redrawTiles = new ArrayList<>();
+        ArrayList<Tile> originalTiles;
+//      Clone original list into both
+        originalTiles = (ArrayList) player1.getRack().getTiles().clone();
+        redrawTiles.add(player1.getRack().getTiles().get(0));
+        redrawTiles.add(player1.getRack().getTiles().get(3));
+//      ensure original rack is full
+        assertEquals(7,(player1.getRack().getTiles()).size());
+        player1.redraw(redrawTiles);
+//      check that it is refilled and that the lists have been modified
+        assertEquals(7,(player1.getRack().getTiles()).size());
+        assertFalse(player1.getRack().getTiles().containsAll(originalTiles));
+        assertFalse(originalTiles.containsAll(player1.getRack().getTiles()));
     }
 
     /*
