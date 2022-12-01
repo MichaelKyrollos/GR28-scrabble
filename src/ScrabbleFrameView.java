@@ -53,8 +53,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
     // JPanel dimensions
     public static final Dimension BOARD_DIMENSIONS = new Dimension(650, 650);
-    public static final Dimension HORIZONTAL_BOARD_LABEL_DIMENSIONS = new Dimension(650, 25);
-    public static final Dimension VERTICAL_BOARD_LABEL_DIMENSIONS = new Dimension(25, 650);
+    public static final Dimension HORIZONTAL_BOARD_LABEL_DIMENSIONS = new Dimension(650, 26);
+    public static final Dimension VERTICAL_BOARD_LABEL_DIMENSIONS = new Dimension(26, 650);
     public static final Dimension PLAYER_PANEL_DIMENSIONS = new Dimension(500, 740);
     public static final Dimension BUTTON_PANEL_DIMENSIONS = new Dimension(400, 100);
     public static final Dimension PLAYER_CARD_DIMENSIONS = new Dimension(500, 125);
@@ -256,98 +256,85 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * labels to the Scrabble board.
      *
      * @author Pathum Danthanarayana, 101181411
-     * @version 1.0
+     * @version 1.1
      * @date November 22nd, 2022
      */
     private void addScrabbleBoardLabels()
     {
+        // Initialize font for labels
+        Font labelFont = this.fontManager.getManropeRegular().deriveFont(Font.PLAIN, 14f);
+        // Define constant spacing for the horizontal numbers
+        Dimension SINGLE_DIGIT_INITIAL_SPACING = new Dimension(34, 0);
+        Dimension SINGLE_DIGIT_SPACING = new Dimension(25, 0);
+        Dimension DOUBLE_DIGIT_SPACING = new Dimension(20, 0);
+        // Define constant spacing for the vertical letters
+        Dimension LETTER_INITIAL_SPACING = new Dimension(0, 14);
+        Dimension LETTER_SPACING = new Dimension(0, 23);
+
         // JPanel #1b: Horizontal labelling for scrabble board
         JPanel horizontalLabelPanel = new JPanel();
         horizontalLabelPanel.setBackground(BOARD_COLOR);
         horizontalLabelPanel.setPreferredSize(HORIZONTAL_BOARD_LABEL_DIMENSIONS);
         horizontalLabelPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JLabel horizontalLabel = new JLabel("");
-        horizontalLabel.setFont(this.fontManager.getManropeRegular().deriveFont(Font.PLAIN, 14f));
-        horizontalLabel.setForeground(Color.WHITE);
-
-        // Spacing values
-        String initialSpacing = " ".repeat(12);
-        String singleDigitSpacing = " ".repeat(12);
-        String doubleDigitSpacing = " ".repeat(10);
-        String horizontalLabelStr = "";
 
         // Traverse through numbers 1 through 15
         for (int i = 1; i < BoardModel.SIZE + 1; i++)
         {
-            // Add the initial offset/spacing
+            // Create a JLabel for the number
+            JLabel numLabel = new JLabel(String.valueOf(i));
+            numLabel.setFont(labelFont);
+            numLabel.setForeground(Color.WHITE);
+
+            // Check if the number is 1
             if (i == 1)
             {
-                horizontalLabelStr += initialSpacing;
+                // If so, add the initial spacing to the panel before adding 1
+                horizontalLabelPanel.add(Box.createRigidArea(SINGLE_DIGIT_INITIAL_SPACING));
             }
-
-            // Add the number to the string
-            horizontalLabelStr += i;
-
-            // Check 1a: The number is less than 10 (single digit number)
-            if (i < 10)
+            // Check if the number is a single digit
+            else if (i > 10)
             {
-                // Check if we are at 9
-                if (i == 9)
-                {
-                    // If so, add the double digit spacing
-                    horizontalLabelStr += doubleDigitSpacing;
-                }
-                else
-                {
-                    // Otherwise, add the generic spacing for a single digit number
-                    horizontalLabelStr += singleDigitSpacing;
-                }
+                // If so, add the single digit spacing to the panel before adding the number
+                horizontalLabelPanel.add(Box.createRigidArea(DOUBLE_DIGIT_SPACING));
             }
             else
             {
-                // Otherwise, add the generic spacing for a double digit number
-                horizontalLabelStr += doubleDigitSpacing;
+                // Otherwise, add the double-digit spacing to the panel before adding the number
+                horizontalLabelPanel.add(Box.createRigidArea(SINGLE_DIGIT_SPACING));
             }
+            // Add the JLabel to the panel
+            horizontalLabelPanel.add(numLabel);
         }
-        // Set the JLabel's text to the created string
-        horizontalLabel.setText(horizontalLabelStr);
-        // Add the JLabel to the horizontal label panel
-        horizontalLabelPanel.add(horizontalLabel);
 
         // JPanel #1c: Vertical labelling for scrabble board
         JPanel verticalLabelPanel = new JPanel();
         verticalLabelPanel.setBackground(BOARD_COLOR);
+        verticalLabelPanel.setLayout(new BoxLayout(verticalLabelPanel, BoxLayout.PAGE_AXIS));
         verticalLabelPanel.setPreferredSize(VERTICAL_BOARD_LABEL_DIMENSIONS);
-        JLabel verticalLabel = new JLabel("");
-        verticalLabel.setFont(this.fontManager.getManropeRegular().deriveFont(Font.PLAIN, 14f));
-        verticalLabel.setForeground(Color.WHITE);
         String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"};
 
-        String verticalLabelStr;
         // Traverse through letters from A to O
-        for (String letter : letters) {
-            // Check if the current letter is A
+        for (String letter : letters)
+        {
+            // Create a JLabel for the letter
+            JLabel letterLabel = new JLabel(letter);
+            letterLabel.setFont(labelFont);
+            letterLabel.setForeground(Color.WHITE);
+
+            // Check if the letter equals 'A'
             if (letter.equals("A"))
             {
-                // If so, open the HTML tag, and add the custom p (paragraph) styling to add space above and below A
-                verticalLabelStr = String.format("<HTML><p style=\"margin-top: 6px; margin-bottom:4px;\">%s</p><br>", letter);
-            }
-            // Check if the current letter is O (last letter)
-            else if (letter.equals("O"))
-            {
-                // If so, add no styling to the p tag and close the HTML tag
-                verticalLabelStr = String.format("<p>%s</p></HTML>", letter);
+                // If so, add the initial spacing to the panel before adding 'A'
+                verticalLabelPanel.add(Box.createRigidArea(LETTER_INITIAL_SPACING));
             }
             else
             {
-                // Otherwise, add the generic p styling to the letter (a bottom margin spacing of 3px)
-                verticalLabelStr = String.format("<p style=\"margin-bottom:4px;\">%s</p><br>", letter);
+                // Otherwise, add the regular spacing to the panel before adding the letter
+                verticalLabelPanel.add(Box.createRigidArea(LETTER_SPACING));
             }
-            // Set the JLabel's text to its current text plus the current HTML snippet
-            verticalLabel.setText(verticalLabel.getText() + verticalLabelStr);
+            // Add the JLabel to the panel
+            verticalLabelPanel.add(letterLabel);
         }
-        // Add the JLabel to the vertical label panel
-        verticalLabelPanel.add(verticalLabel);
 
         // Container JPanel for holding JPanel #1a, #1b, and #1c (board panel, horizontal label panel, and vertical label panel)
         boardContainerPanel = new JPanel();
