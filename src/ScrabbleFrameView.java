@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,9 +86,13 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         contentPane.setBackground(BOARD_COLOR);
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
+
         scrabbleModel = new ScrabbleGameModel();
-        scrabbleModel.addScrabbleView(this);
         scrabbleController = new ScrabbleController(scrabbleModel, this);
+        File customBoard = scrabbleController.getCustomBoard();
+        scrabbleModel.createGameBoard(customBoard);
+        scrabbleModel.addScrabbleView(this);
+
         currentTurn = new JLabel();
 
         playButton = new JButton("Play");

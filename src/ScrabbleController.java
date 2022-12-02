@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import static java.lang.Character.isAlphabetic;
@@ -451,5 +452,29 @@ public class ScrabbleController implements ActionListener {
         for (Tile tile : scrabbleModel.GAME_TILE_BAG.getTiles()) {
             tile.addActionListener(this);
         }
+    }
+
+    /**
+     * Gets a custom board from the user in the form of an XML file, and returns that file, or null if no file is
+     * selected
+     *
+     * @return The XML file containing a custom board layout, or null the default board should be used
+     *
+     * @author Amin Zeina, 101186297
+     * @version 4.0
+     * @date December 1, 2022
+     */
+    public File getCustomBoard() {
+
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Do you want to load a custom XML board for this game?");
+        if (confirm == JOptionPane.YES_OPTION) {
+            JFileChooser fc = new JFileChooser();
+            int returnVal = fc.showDialog(null, "Load Custom Board XML");
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                return fc.getSelectedFile();
+            }
+        }
+        return null;
     }
 }

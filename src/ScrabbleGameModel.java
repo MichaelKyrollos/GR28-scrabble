@@ -1,4 +1,11 @@
+import org.xml.sax.SAXException;
+
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -53,12 +60,32 @@ public class ScrabbleGameModel extends ScrabbleModel {
      * @date October 25, 2022
      */
     public ScrabbleGameModel() {
-        gameBoard = new BoardModel(this);
         players = new ArrayList<>();
         // Make the first player in the ArrayList have the first turn
         currentTurn = 0;
         // Start running the game
     }
+
+    /**
+     * Creates the BoardModel for this scrabble model. If a file is given, the board will be a custom file matching
+     * the XML. If there is an error with the XML, a default board will be created
+     *
+     * @param customBoard the custom board XML file to load (optional)
+     */
+    public void createGameBoard(File customBoard) {
+        if (customBoard == null) {
+            gameBoard = new BoardModel(this);
+        } else {
+            try {
+                gameBoard = new BoardModel(this, customBoard);
+            } catch (Exception e) {
+                // invalid XML -> create default board
+                gameBoard = new BoardModel(this);
+            }
+        }
+
+    }
+
 
     /**
      * Returns the PlayerModel whose currently playing their turn
