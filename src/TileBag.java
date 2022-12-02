@@ -40,6 +40,12 @@ public class TileBag {
         this.prepareTileBag();
     }
 
+    public void fillBag() {
+        this.tiles.clear();
+        this.prepareTileBag();
+
+    }
+
     /**
      * Constructs an ArrayList containing all the letters corresponding to a point value
      * @author Yehan De Silva

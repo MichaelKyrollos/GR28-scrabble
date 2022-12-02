@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +19,16 @@ class ScrabbleGameModelTest {
     @BeforeEach
     void setUp() {
         newScrabbleGameModel = new ScrabbleGameModel();
+        newScrabbleGameModel.GAME_TILE_BAG.fillBag();
         TEST_TILE_BAG = new TileBag();
         tiles = new ArrayList<>();
+    }
+
+    @AfterEach
+    void tearDown() {
+        newScrabbleGameModel = null;
+        TEST_TILE_BAG = null;
+        tiles = null;
     }
 
     private PlayWordEvent createWordEvent(String word, int level, int start_of_word, boolean vertical) {

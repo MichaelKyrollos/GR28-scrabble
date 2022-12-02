@@ -4,6 +4,7 @@ import java.util.HashMap;
 import static java.util.Map.entry;
 
 public class AI {
+    
     private Map<Character, Integer> points = Map.ofEntries(
             entry(Character.valueOf('a'), 1),entry(Character.valueOf('n'), 1),
             entry(Character.valueOf('b'), 3),entry(Character.valueOf('o'), 1),
@@ -152,6 +153,10 @@ public class AI {
         AIBoard board_to_be = board.copy();
         int[] play_pos = last_pos;
         for (int word_i = word.length()-1; word_i >= 0; word_i--){
+            List<Integer> arr = Arrays.asList(play_pos[0],play_pos[1]);
+            if (cross_check_results.get(arr) != null && cross_check_results.get(arr).indexOf(word.charAt(word_i)) == -1){
+                return;
+            }
             board_to_be.set_tile(play_pos,word.charAt(word_i));
             play_pos = before(play_pos);
         }
@@ -180,7 +185,7 @@ public class AI {
             scan_pos = pos;
             while (board.is_filled(after_cross(scan_pos))){
                 scan_pos = after_cross(scan_pos);
-                letters_after = board.get_tile(scan_pos) + letters_after;
+                letters_after = letters_after + board.get_tile(scan_pos);
             }
             String all_letters = "abcdefghijklmnopqrstuvwxyz";
             String legal_here = "";
@@ -238,7 +243,7 @@ public class AI {
                 HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
                 for (Character next_letter : children.keySet()) {
                     int rack_i = rack.indexOf(String.valueOf(next_letter));
-                    List<Integer> arr = Arrays.asList(next_pos[0],next_pos[1]);;
+                    List<Integer> arr = Arrays.asList(next_pos[0],next_pos[1]);
                     int cc_i = cross_check_results.get(arr).indexOf(next_letter);
                     if (rack_i!=-1 && cc_i!=-1){
                         rack.deleteCharAt(rack_i);
@@ -259,7 +264,7 @@ public class AI {
         }
     }
     public AIMove find_all_options(){
-        for (int i=0;i<2;i++){
+        for (int i=0;i<1;i++){
             if (i==0){
                 direction = "across";
             } else {
