@@ -4,6 +4,7 @@ import java.util.HashMap;
 import static java.util.Map.entry;
 
 public class AI {
+    
     private Map<Character, Integer> points = Map.ofEntries(
             entry(Character.valueOf('a'), 1),entry(Character.valueOf('n'), 1),
             entry(Character.valueOf('b'), 3),entry(Character.valueOf('o'), 1),
