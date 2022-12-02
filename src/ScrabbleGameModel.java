@@ -42,9 +42,15 @@ public class ScrabbleGameModel extends ScrabbleModel {
     private int currentTurn;
 
     /**
+     * The stacks to hold game status' inorder to undo/redo.
+     */
+    private Stack<ScrabbleGameStatus> undoStack;
+    private Stack<ScrabbleGameStatus> redoStack;
+
+    /**
      * The tile bag used to store all the tiles for this Scrabble game.
      */
-    public static final TileBag GAME_TILE_BAG = new TileBag();
+    public static TileBag GAME_TILE_BAG = new TileBag();
 
     /**
      * The dictionary used to validate words for this Scrabble game.
@@ -63,7 +69,8 @@ public class ScrabbleGameModel extends ScrabbleModel {
         players = new ArrayList<>();
         // Make the first player in the ArrayList have the first turn
         currentTurn = 0;
-        // Start running the game
+        this.undoStack = new Stack<>();
+        this.redoStack = new Stack<>();
     }
 
     /**
@@ -99,6 +106,28 @@ public class ScrabbleGameModel extends ScrabbleModel {
     public PlayerModel getCurrentPlayer() {
         return players.get(currentTurn % players.size());
     }
+
+    /**
+     * Returns the undo stack of the game model.
+     *
+     * @return the game undo stack.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 02, 2022
+     */
+    public Stack<ScrabbleGameStatus> getUndoStack() {return this.undoStack;}
+
+    /**
+     * Returns the redo stack of the game model.
+     *
+     * @return the game redo stack.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 02, 2022
+     */
+    public Stack<ScrabbleGameStatus> getRedoStack() {return this.redoStack;}
 
     /**
      * Returns the list of players playing this Scrabble Game.
@@ -194,15 +223,12 @@ public class ScrabbleGameModel extends ScrabbleModel {
      * @date November 12, 2022
      */
     public void endTurn() {
-        PlayerModel currPlayer = this.getCurrentPlayer();
-        for (Tile tile : currPlayer.getRack().getTiles()) {
-            tile.setEnabled(false);
-        }
+        this.setEnableTiles(false);
+        System.out.println(this.gameBoard);
+        this.undoStack.push(new ScrabbleGameStatus(this.gameBoard, this.players, this.currentTurn, GAME_TILE_BAG));
+        this.redoStack.clear();
         this.currentTurn++;
-        currPlayer = this.getCurrentPlayer();
-        for (Tile tile : currPlayer.getRack().getTiles()) {
-            tile.setEnabled(true);
-        }
+        this.setEnableTiles(true);
         updateScrabbleViews();
     }
 
@@ -321,5 +347,43 @@ public class ScrabbleGameModel extends ScrabbleModel {
             }
         }
         return winnerList;
+    }
+
+    /**
+     * Undo the last move made in the scrabble game.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 02, 2022
+     */
+    public void undoTurn() {
+        this.setEnableTiles(false);
+        ScrabbleGameStatus lastTurn = this.undoStack.pop();
+
+        this.gameBoard.updateScrabbleViews();
+
+        this.gameBoard = lastTurn.getBoard();
+        this.players = lastTurn.getPlayers();
+        this.currentTurn = lastTurn.getCurrentTurn();
+        GAME_TILE_BAG = lastTurn.getTileBag();
+        this.updateScrabbleViews();
+
+        this.redoStack.push(lastTurn);
+        this.setEnableTiles(true);
+    }
+
+    /**
+     * Enables/disables the tiles of the current player
+     * @param enable True to enable tiles, false to disable tiles.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 02, 2022
+     */
+    private void setEnableTiles(boolean enable) {
+        PlayerModel currPlayer = this.getCurrentPlayer();
+        for (Tile tile : currPlayer.getRack().getTiles()) {
+            tile.setEnabled(enable);
+        }
     }
 }

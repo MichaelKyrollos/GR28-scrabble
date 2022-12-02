@@ -83,7 +83,6 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
         }
     }
 
-
     /**
      * Updates the tiles placed on the board.
      *

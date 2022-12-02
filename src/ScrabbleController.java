@@ -114,6 +114,10 @@ public class ScrabbleController implements ActionListener {
         else if (e.getActionCommand().equals("Quit Game")) {
             scrabbleModel.endGame();
         }
+        //Undo selected
+        else if (e.getActionCommand().equals("Undo")) {
+            scrabbleModel.undoTurn();
+        }
     }
 
     /**

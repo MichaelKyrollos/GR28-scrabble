@@ -37,7 +37,7 @@ public class TileBag {
         this.tiles = new ArrayList<>();
         this.constructLetterPoints();
         this.prepareTiles();
-        this.prepareTileBag();
+        this.fillBag();
     }
 
     public void fillBag() {

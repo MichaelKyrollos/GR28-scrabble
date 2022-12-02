@@ -28,6 +28,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JButton redrawButton;
     private JButton skipButton;
     private JMenuItem quitMenuItem;
+    private JMenuItem undoItem;
+    private JMenuItem redoItem;
     private ScrabbleGameModel scrabbleModel;
     private ScrabbleController scrabbleController;
 
@@ -113,6 +115,17 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         quitMenuItem.addActionListener(scrabbleController);
         quitMenuItem.setEnabled(false);
 
+        JMenu move = new JMenu("Move");
+        menuBar.add(move);
+        undoItem = new JMenuItem("Undo");
+        redoItem = new JMenuItem(("Redo"));
+        move.add(undoItem);
+        move.add(redoItem);
+        undoItem.addActionListener(scrabbleController);
+        redoItem.addActionListener(scrabbleController);
+        redoItem.setEnabled(false);
+        undoItem.setEnabled(false);
+
         // Setup the menu to play the game
         this.setupMenu();
         this.setVisible(true);
@@ -170,7 +183,6 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         {
             System.out.println("Error in creating custom fonts in setupFonts method: " + e);
         }
-        //System.out.println(Arrays.toString(ge.getAvailableFontFamilyNames()));
     }
 
     /**
@@ -432,15 +444,25 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     }
 
     /**
-     * Updates the current turn text with the name of the current player.
+     * Updates the scrabble frame view with any updates that happened in the model.
      *
      * @author Yehan De Silva
-     * @version 1.1
-     * @date November 11, 2022
+     * @version 4.0
+     * @date December 02, 2022
      */
     @Override
     public void update() {
+        //Update current turn string with current player
         currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer().getName());
+
+        //Enable/disable the undo item if there are turns to undo
+        if(scrabbleModel.getUndoStack().isEmpty()) {this.undoItem.setEnabled(false);}
+        else {this.undoItem.setEnabled(true);}
+
+        //Enable/disable the redo item if there are turns to redo
+        if(scrabbleModel.getRedoStack().isEmpty()) {this.redoItem.setEnabled(false);}
+        else {this.redoItem.setEnabled(true);}
+
     }
 
     /** Main method **/
