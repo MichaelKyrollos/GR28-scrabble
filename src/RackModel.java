@@ -182,6 +182,9 @@ public class RackModel extends ScrabbleModel {
         StringBuilder rackString = new StringBuilder("");
         for (Tile tile : tiles)
         {
+            if (tile instanceof BlankTile){
+                ((BlankTile) tile).setLetter('A');
+            }
             rackString.append(toLowerCase(tile.getLetter()));
         }
         return rackString;
