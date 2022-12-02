@@ -1,0 +1,14 @@
+<customBoard>
+	<doubleLetterSquares>
+		<coord>7,6</coord>	
+	</doubleLetterSquares>
+	<tripleLetterSquares>
+		<coord>7,8</coord>	
+	</tripleLetterSquares>
+	<doubleWordSquares>
+		<coord>6,7</coord>	
+	</doubleWordSquares>
+	<tripleWordSquares>
+		<coord>8,7</coord>	
+	</tripleWordSquares>
+</customBoard>

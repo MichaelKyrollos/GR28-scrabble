@@ -1,5 +1,13 @@
-import javax.swing.*;
+import org.xml.sax.SAXException;
 
+import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.lang.*;
 import static java.lang.Character.*;
@@ -45,10 +53,38 @@ public class BoardModel extends ScrabbleModel{
 
         squares = new Square[SIZE][SIZE];
 
-        createLetterPremiumSquares(DOUBLE_LETTER_SQUARE_COORDS, 2);
-        createLetterPremiumSquares(TRIPLE_LETTER_SQUARE_COORDS, 3);
-        createWordPremiumSquares(DOUBLE_WORD_SQUARE_COORDS, 2);
-        createWordPremiumSquares(TRIPLE_WORD_SQUARE_COORDS, 3);
+        createLetterPremiumSquares(Arrays.asList(DOUBLE_LETTER_SQUARE_COORDS), 2);
+        createLetterPremiumSquares(Arrays.asList(TRIPLE_LETTER_SQUARE_COORDS), 3);
+        createWordPremiumSquares(Arrays.asList(DOUBLE_WORD_SQUARE_COORDS), 2);
+        createWordPremiumSquares(Arrays.asList(TRIPLE_WORD_SQUARE_COORDS), 3);
+
+        createDefaultSquares();
+
+        copiedSquares = null; // not needed until a play occurs
+        isEmpty = true;
+    }
+
+    /**
+     * Constructs a board object with a custom layout matching the XML file given in param customBoard. A default board
+     * will be created if there is an issue with the XML file
+     *
+     * @param game the ScrabbleGameModel this belongs to
+     * @param customBoard the custom board layout XML file
+     */
+    public BoardModel(ScrabbleGameModel game, File customBoard) throws ParserConfigurationException, SAXException, IOException {
+        this.game = game;
+
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser saxParser = factory.newSAXParser();
+        CustomBoardHandler handler = new CustomBoardHandler();
+        saxParser.parse(customBoard, handler);
+
+        squares = new Square[SIZE][SIZE];
+
+        createLetterPremiumSquares(handler.getDoubleLetterSquareCoords(), 2);
+        createLetterPremiumSquares(handler.getTripleLetterSquareCoords(), 3);
+        createWordPremiumSquares(handler.getDoubleWordSquareCoords(), 2);
+        createWordPremiumSquares(handler.getTripleWordSquareCoords(), 3);
 
         createDefaultSquares();
 
@@ -82,7 +118,7 @@ public class BoardModel extends ScrabbleModel{
      * @param squareCoords the coordinates of the premium squares to be created
      * @param multiplier The score multiplier for this letter (2 or 3)
      */
-    private void createLetterPremiumSquares(int[][] squareCoords, int multiplier) {
+    private void createLetterPremiumSquares(List<int[]> squareCoords, int multiplier) {
         for (int[] coord : squareCoords) {
             int x = coord[0];
             int y = coord[1];
@@ -100,7 +136,7 @@ public class BoardModel extends ScrabbleModel{
      * @param squareCoords the coordinates of the premium squares to be created
      * @param multiplier The score multiplier for the word placed (2 or 3)
      */
-    private void createWordPremiumSquares(int[][] squareCoords, int multiplier) {
+    private void createWordPremiumSquares(List<int[]> squareCoords, int multiplier) {
         for (int[] coord : squareCoords) {
             int x = coord[0];
             int y = coord[1];
