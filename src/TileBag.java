@@ -40,6 +40,18 @@ public class TileBag {
         this.fillBag();
     }
 
+    /**
+     * Copy constructor for TileBag.
+     * @param bag TileBag to be copied.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    public TileBag(TileBag bag) {
+        this.tiles = bag.tiles;
+    }
+
     public void fillBag() {
         this.tiles.clear();
         this.prepareTileBag();

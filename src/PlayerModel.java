@@ -52,6 +52,21 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
     }
 
     /**
+     * Copy constructor for PlayerModel.
+     * @param player PlayerModel to be copied.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    public PlayerModel(PlayerModel player) {
+        this.name = player.name;
+        this.board = player.board;
+        this.score = player.score;
+        this.rack = player.rack;
+    }
+
+    /**
      * Plays the given word entered by the user at the given coordinates. Returns true if the word was successfully
      * placed (i.e. the user had the necessary tiles and the placement of the word on the board was valid)
      *

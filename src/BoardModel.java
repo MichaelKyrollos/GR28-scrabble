@@ -65,6 +65,21 @@ public class BoardModel extends ScrabbleModel{
     }
 
     /**
+     * Copy constructor for BoardModel.
+     * @param board BoardModel to be copied.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    public BoardModel(BoardModel board) {
+        this.game = board.game;
+        this.isEmpty = board.isEmpty;
+        this.squares = board.squares;
+        this.copiedSquares = board.copiedSquares;
+    }
+
+    /**
      * Constructs a board object with a custom layout matching the XML file given in param customBoard. A default board
      * will be created if there is an issue with the XML file
      *

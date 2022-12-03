@@ -224,8 +224,11 @@ public class ScrabbleGameModel extends ScrabbleModel {
      */
     public void endTurn() {
         this.setEnableTiles(false);
-        System.out.println(this.gameBoard);
-        this.undoStack.push(new ScrabbleGameStatus(this.gameBoard, this.players, this.currentTurn, GAME_TILE_BAG));
+        ArrayList<PlayerModel> lastPlayers = new ArrayList<>();
+        for (PlayerModel pm : this.players) {
+            lastPlayers.add(new PlayerModel(pm));
+        }
+        this.undoStack.push(new ScrabbleGameStatus(new BoardModel(this.gameBoard), lastPlayers, this.currentTurn, new TileBag(GAME_TILE_BAG)));
         this.redoStack.clear();
         this.currentTurn++;
         this.setEnableTiles(true);
@@ -358,6 +361,7 @@ public class ScrabbleGameModel extends ScrabbleModel {
      */
     public void undoTurn() {
         this.setEnableTiles(false);
+        this.redoStack.push(this.undoStack.pop());
         ScrabbleGameStatus lastTurn = this.undoStack.pop();
 
         this.gameBoard.updateScrabbleViews();
