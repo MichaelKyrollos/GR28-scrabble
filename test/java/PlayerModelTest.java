@@ -27,7 +27,11 @@ class PlayerModelTest {
     void setUp() {
         newGame = new ScrabbleGameModel();
         newGame.GAME_TILE_BAG.fillBag();
-        newBoardModel = new BoardModel(newGame);
+        try {
+            newBoardModel = new BoardModel(newGame);
+        } catch (Exception e) {
+            // will never occur unless the default XML is missing
+        }
         tiles = new ArrayList<>();
         TEST_TILE_BAG = new TileBag();
         player1 = new PlayerModel("player1",newBoardModel);

@@ -83,13 +83,29 @@ public class ScrabbleGameModel extends ScrabbleModel {
      */
     public void createGameBoard(File customBoard) {
         if (customBoard == null) {
-            gameBoard = new BoardModel(this);
+            try {
+                gameBoard = new BoardModel(this);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Default board XML is either missing or " +
+                        "has been modified. Please ensure you have the correct XML file downloaded, then try again. " +
+                        "The game will now exit");
+                System.exit(0);
+            }
         } else {
             try {
                 gameBoard = new BoardModel(this, customBoard);
             } catch (Exception e) {
                 // invalid XML -> create default board
-                gameBoard = new BoardModel(this);
+                try {
+                    gameBoard = new BoardModel(this);
+                } catch (Exception ex) {
+                    // Default XML has been modified or removed
+                    JOptionPane.showMessageDialog(null, "Default board XML is either missing or " +
+                            "has been modified. Please ensure you have the correct XML file downloaded, then try again. " +
+                            "The game will now exit");
+                    System.exit(0);
+                }
+
             }
         }
 
