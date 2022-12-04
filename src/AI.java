@@ -4,7 +4,7 @@ import java.util.HashMap;
 import static java.util.Map.entry;
 
 public class AI {
-    
+
     private Map<Character, Integer> points = Map.ofEntries(
             entry(Character.valueOf('a'), 1),entry(Character.valueOf('n'), 1),
             entry(Character.valueOf('b'), 3),entry(Character.valueOf('o'), 1),
@@ -20,14 +20,14 @@ public class AI {
             entry(Character.valueOf('l'), 1),entry(Character.valueOf('y'), 4),
             entry(Character.valueOf('m'), 3),entry(Character.valueOf('z'), 10)
             );
-    private int best_score;
-    private StringBuilder  rack;
-    private AIBoard board;
-    static AIBoard best_board;
-    private AIMove best_move;
+    private int bestScore;
+    private StringBuilder stringRack;
+    private AIBoard aiBoard;
+    static AIBoard bestBoard;
+    private AIMove bestMove;
     private LetterTree dictionary;
     private String direction;
-    private HashMap<int[],String> cross_check_results;
+    private HashMap<int[],String> crossCheckResults;
 
     public class AIMove{
         private final String direction;
@@ -46,6 +46,13 @@ public class AI {
             return word;
         }
 
+        public AIMove(String word, int[] last_pos, String direction){
+            this.word = word;
+            this.pos = last_pos;
+            this.direction = direction;
+
+        }
+
         @Override
         public String toString() {
             return "AIMove{" +
@@ -54,22 +61,15 @@ public class AI {
                     ", word='" + word + '\'' +
                     '}';
         }
-
-        public AIMove(String word, int[] last_pos, String direction){
-            this.word = word;
-            this.pos = last_pos;
-            this.direction = direction;
-
-        }
     }
-    public AI(LetterTree dictionary,AIBoard board,StringBuilder rack) {
-        this.board = board;
-        this.rack = rack;
+    public AI(LetterTree dictionary, AIBoard aiBoard, StringBuilder stringRack) {
+        this.aiBoard = aiBoard;
+        this.stringRack = stringRack;
         this.direction = "";
-        this.cross_check_results = null;
+        this.crossCheckResults = null;
         this.dictionary = dictionary;
-        this.best_score = 0;
-        this.best_board = null;
+        this.bestScore = 0;
+        this.bestBoard = null;
     }
 
 
@@ -120,14 +120,14 @@ public class AI {
     private int getScore(AIBoard board_to_be, int[] last_pos){
         int[] play_pos = last_pos;
         int score = 0;
-        while (board_to_be.in_bounds(play_pos) && board_to_be.get_tile(play_pos) != '_'){
+        while (board_to_be.isInBounds(play_pos) && board_to_be.getAITile(play_pos) != '_'){
             play_pos = before(play_pos);
         }
         play_pos = after(play_pos);
-        while (board_to_be.in_bounds(play_pos) && board_to_be.get_tile(play_pos) != '_'){
-            char curr_letter = board_to_be.get_tile(play_pos);
+        while (board_to_be.isInBounds(play_pos) && board_to_be.getAITile(play_pos) != '_'){
+            char curr_letter = board_to_be.getAITile(play_pos);
             score += points.get(Character.valueOf(curr_letter));
-            if((board_to_be.in_bounds(before_cross(play_pos)) && board_to_be.get_tile(before_cross(play_pos)) != '_') | (board_to_be.in_bounds(after_cross(play_pos)) && board_to_be.get_tile(after_cross(play_pos)) != '_')){
+            if((board_to_be.isInBounds(before_cross(play_pos)) && board_to_be.getAITile(before_cross(play_pos)) != '_') | (board_to_be.isInBounds(after_cross(play_pos)) && board_to_be.getAITile(after_cross(play_pos)) != '_')){
                 score += getVertScore(board_to_be, play_pos);
             }
             play_pos = after(play_pos);
@@ -138,61 +138,61 @@ public class AI {
     private int getVertScore(AIBoard board_to_be, int[] last_pos){
         int[] play_pos = last_pos;
         int score = 0;
-        while (board_to_be.in_bounds(play_pos) && board_to_be.get_tile(play_pos) != '_'){
+        while (board_to_be.isInBounds(play_pos) && board_to_be.getAITile(play_pos) != '_'){
             play_pos = before_cross(play_pos);
         }
         play_pos = after_cross(play_pos);
-        while (board_to_be.in_bounds(play_pos) && board_to_be.get_tile(play_pos) != '_'){
-            char curr_letter = board_to_be.get_tile(play_pos);
+        while (board_to_be.isInBounds(play_pos) && board_to_be.getAITile(play_pos) != '_'){
+            char curr_letter = board_to_be.getAITile(play_pos);
             score += points.get(Character.valueOf(curr_letter));
             play_pos = after_cross(play_pos);
         }
         return score;
     }
-    private void legal_move(String word, int[] last_pos) {
-        AIBoard board_to_be = board.copy();
+    private void legalMove(String word, int[] last_pos) {
+        AIBoard board_to_be = aiBoard.copyBoard();
         int[] play_pos = last_pos;
         String full_word = word;
         for (int word_i = word.length()-1; word_i >= 0; word_i--){
             List<Integer> arr = Arrays.asList(play_pos[0],play_pos[1]);
-            if (cross_check_results.get(arr) != null && cross_check_results.get(arr).indexOf(word.charAt(word_i)) == -1){
+            if (crossCheckResults.get(arr) != null && crossCheckResults.get(arr).indexOf(word.charAt(word_i)) == -1){
                 return;
             }
-            board_to_be.set_tile(play_pos,word.charAt(word_i));
+            board_to_be.setAITile(play_pos,word.charAt(word_i));
             play_pos = before(play_pos);
         }
-        while (board_to_be.in_bounds(play_pos) && board_to_be.is_filled(play_pos)){
-            full_word = board_to_be.get_tile(play_pos) + full_word;
+        while (board_to_be.isInBounds(play_pos) && board_to_be.isFilled(play_pos)){
+            full_word = board_to_be.getAITile(play_pos) + full_word;
             play_pos = before(play_pos);
         }
-        if (!dictionary.is_word(full_word)){
+        if (!dictionary.isWord(full_word)){
             return;
         }
         int score = getScore(board_to_be,last_pos);
-        if (score>best_score){
-            best_score = score;
-            best_move = new AIMove(word,last_pos,direction);
-            best_board = board_to_be;
+        if (score> bestScore){
+            bestScore = score;
+            bestMove = new AIMove(word,last_pos,direction);
+            bestBoard = board_to_be;
         }
     }
 
-    private HashMap cross_check() {
+    private HashMap crossCheck() {
         HashMap result = new HashMap<List<Integer>,String>();
-        for (int[] pos: board.all_positions()) {
-            if (board.is_filled(pos)){
+        for (int[] pos: aiBoard.createAllPositions()) {
+            if (aiBoard.isFilled(pos)){
                 continue;
             }
             String letters_before ="";
             int[] scan_pos = pos;
-            while (board.is_filled(before_cross(scan_pos))){
+            while (aiBoard.isFilled(before_cross(scan_pos))){
                 scan_pos = before_cross(scan_pos);
-                letters_before = board.get_tile(scan_pos) + letters_before;
+                letters_before = aiBoard.getAITile(scan_pos) + letters_before;
             }
             String letters_after ="";
             scan_pos = pos;
-            while (board.is_filled(after_cross(scan_pos))){
+            while (aiBoard.isFilled(after_cross(scan_pos))){
                 scan_pos = after_cross(scan_pos);
-                letters_after = letters_after + board.get_tile(scan_pos);
+                letters_after = letters_after + aiBoard.getAITile(scan_pos);
             }
             String all_letters = "abcdefghijklmnopqrstuvwxyz";
             String legal_here = "";
@@ -202,7 +202,7 @@ public class AI {
                 for (int i=0; i < all_letters.length(); i++){
                     char letter =  all_letters.charAt(i);
                     String word_formed = letters_before + letter + letters_after;
-                    if (dictionary.is_word(word_formed)) {
+                    if (dictionary.isWord(word_formed)) {
                         legal_here += letter;
                     }
                 }
@@ -213,83 +213,83 @@ public class AI {
         return result;
     }
 
-    private ArrayList<int[]> find_anchors() {
+    private ArrayList<int[]> findAnchors() {
         ArrayList<int[]> anchors = new ArrayList<>();
-        for (int[] pos: board.all_positions()) {
-                boolean empty = board.is_empty(pos);
-                boolean neighbor_filled = (board.is_filled(before(pos)) | board.is_filled(after(pos))
-                        | board.is_filled(before_cross(pos)) | board.is_filled(after_cross(pos)));
+        for (int[] pos: aiBoard.createAllPositions()) {
+                boolean empty = aiBoard.isEmpty(pos);
+                boolean neighbor_filled = (aiBoard.isFilled(before(pos)) | aiBoard.isFilled(after(pos))
+                        | aiBoard.isFilled(before_cross(pos)) | aiBoard.isFilled(after_cross(pos)));
                 if (empty && neighbor_filled) {
                     anchors.add(pos);
                 }
         }
         return anchors;
     }
-    private void before_part(String partial_word, LetterTree.LetterTreeNode current_node, int[] anchor_pos, int limit){
-        extend_after(partial_word,current_node, anchor_pos,false);
+    private void beforePart(String partial_word, LetterTree.LetterTreeNode current_node, int[] anchor_pos, int limit){
+        extendAfter(partial_word,current_node, anchor_pos,false);
         if (limit>0){
             HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
             for (Character next_letter : children.keySet()) {
-                int rack_i = rack.indexOf(String.valueOf(next_letter));
+                int rack_i = stringRack.indexOf(String.valueOf(next_letter));
                 if (rack_i!=-1){
-                    rack.deleteCharAt(rack_i);
-                    before_part(partial_word + next_letter,
+                    stringRack.deleteCharAt(rack_i);
+                    beforePart(partial_word + next_letter,
                             current_node.children.get(next_letter),anchor_pos,limit - 1);
-                    rack.append(next_letter);
+                    stringRack.append(next_letter);
                 }
             }
         }
 
     }
-    private void extend_after(String partial_word,LetterTree.LetterTreeNode current_node, int[] next_pos, boolean anchor_filled){
-        if (!board.is_filled(next_pos) && current_node.is_word && anchor_filled){
-            legal_move(partial_word,before(next_pos));
+    private void extendAfter(String partial_word, LetterTree.LetterTreeNode current_node, int[] next_pos, boolean anchor_filled){
+        if (!aiBoard.isFilled(next_pos) && current_node.isWord && anchor_filled){
+            legalMove(partial_word,before(next_pos));
         }
-        if (board.in_bounds(next_pos)) {
-            if (board.is_empty(next_pos)){
+        if (aiBoard.isInBounds(next_pos)) {
+            if (aiBoard.isEmpty(next_pos)){
                 HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
                 for (Character next_letter : children.keySet()) {
-                    int rack_i = rack.indexOf(String.valueOf(next_letter));
+                    int rack_i = stringRack.indexOf(String.valueOf(next_letter));
                     List<Integer> arr = Arrays.asList(next_pos[0],next_pos[1]);
-                    int cc_i = cross_check_results.get(arr).indexOf(next_letter);
+                    int cc_i = crossCheckResults.get(arr).indexOf(next_letter);
                     if (rack_i!=-1 && cc_i!=-1){
-                        rack.deleteCharAt(rack_i);
-                        extend_after(partial_word + next_letter,
+                        stringRack.deleteCharAt(rack_i);
+                        extendAfter(partial_word + next_letter,
                                 current_node.children.get(next_letter),after(next_pos),true);
-                        rack.append(next_letter);
+                        stringRack.append(next_letter);
                     }
                 }
             } else {
-                Character existing_letter = board.get_tile(next_pos);
+                Character existing_letter = aiBoard.getAITile(next_pos);
                 HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
                 for (Character next_letter : children.keySet()) {
                     if (next_letter==existing_letter){
-                        extend_after(partial_word + existing_letter, current_node.children.get(existing_letter),after(next_pos),true);
+                        extendAfter(partial_word + existing_letter, current_node.children.get(existing_letter),after(next_pos),true);
                     }
                 }
             }
         }
     }
 
-    private void make_first_move(String word,LetterTree.LetterTreeNode current_node) {
+    private void makeFirstMove(String word, LetterTree.LetterTreeNode current_node) {
         int[] start_pos = {7, 7};
-        if(dictionary.is_word(word)) {
-            legal_move(word, start_pos);
+        if(dictionary.isWord(word)) {
+            legalMove(word, start_pos);
         }
         HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
         for (Character next_letter : children.keySet()) {
-            int rack_i = rack.indexOf(String.valueOf(next_letter));
+            int rack_i = stringRack.indexOf(String.valueOf(next_letter));
             if (rack_i != -1) {
-                rack.deleteCharAt(rack_i);
-                make_first_move(word + next_letter,current_node.children.get(next_letter));
-                rack.append(next_letter);
+                stringRack.deleteCharAt(rack_i);
+                makeFirstMove(word + next_letter,current_node.children.get(next_letter));
+                stringRack.append(next_letter);
             }
         }
     }
 
 
 
-    public AIMove find_all_options(){
+    public AIMove findAllOptions(){
         int[] start_pos = {7,7};
         for (int i=0;i<2;i++){
             if (i==0){
@@ -297,37 +297,36 @@ public class AI {
             } else {
                 direction = "down";
             }
-            ArrayList<int[]> anchors = find_anchors();
-            cross_check_results = cross_check();
-            if (!board.is_filled(start_pos)) {
-                make_first_move("",dictionary.root);
-                return best_move;
+            ArrayList<int[]> anchors = findAnchors();
+            crossCheckResults = crossCheck();
+            if (!aiBoard.isFilled(start_pos)) {
+                makeFirstMove("",dictionary.root);
+                return bestMove;
             }
             for (int[] anchor_pos : anchors){
-                if (board.is_filled(before(anchor_pos))){
+                if (aiBoard.isFilled(before(anchor_pos))){
                     int[] scan_pos = before(anchor_pos);
-                    String partial_word = Character.toString(board.get_tile(scan_pos));
-                    while (board.is_filled(before(scan_pos))) {
+                    String partial_word = Character.toString(aiBoard.getAITile(scan_pos));
+                    while (aiBoard.isFilled(before(scan_pos))) {
                         scan_pos = before(scan_pos);
-                        partial_word = board.get_tile(scan_pos) + partial_word;
+                        partial_word = aiBoard.getAITile(scan_pos) + partial_word;
                     }
                     LetterTree.LetterTreeNode pw_node = dictionary.lookup(partial_word);
                     if (pw_node != null){
-                        extend_after(partial_word,pw_node,anchor_pos,false);
+                        extendAfter(partial_word,pw_node,anchor_pos,false);
                     }
                 } else {
                     int limit = 0;
                     int[] scan_pos = anchor_pos;
-                    while (board.is_empty(before(scan_pos)) && !anchors.contains(before(scan_pos))){
+                    while (aiBoard.isEmpty(before(scan_pos)) && !anchors.contains(before(scan_pos))){
                         limit += 1;
                         scan_pos = before(scan_pos);
                     }
-                    before_part("",dictionary.root,anchor_pos,limit);
+                    beforePart("",dictionary.root,anchor_pos,limit);
                 }
             }
 
         }
-        return best_move;
+        return bestMove;
     }
 }
-

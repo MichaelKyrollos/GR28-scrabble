@@ -249,18 +249,23 @@ public class ScrabbleController implements ActionListener {
      * @author Yehan De Silva
      * @version 3.0
      * @date November 17, 2022
+     * @author Michael Kyrollos
+     * @version 3.1
+     * @date December 4th, 2022
      */
     private void playTileSelected(Tile tile) {
-        // Check if a tile is already selected
-        if (selectedTile != null)
-        {
-            // If so, unselect the currently selected tile
-            selectedTile.setBackground(Color.WHITE);
-        }
-        selectedTile = tile;
+        //  do not let AI select tile
+        if (!(scrabbleModel.getCurrentPlayer()instanceof AIPlayerModel)) {
+            // Check if a tile is already selected
+            if (selectedTile != null) {
+                // If so, unselect the currently selected tile
+                selectedTile.setBackground(Color.WHITE);
+            }
+            selectedTile = tile;
 
-        // Change background colour of the selected tile to show it has been selected
-        selectedTile.setBackground(ScrabbleFrameView.SELECTED_TILE_COLOR);
+            // Change background colour of the selected tile to show it has been selected
+            selectedTile.setBackground(ScrabbleFrameView.SELECTED_TILE_COLOR);
+        }
     }
 
     /**
@@ -291,6 +296,9 @@ public class ScrabbleController implements ActionListener {
      * @author Yehan De Silva
      * @version 3.0
      * @date November 17, 2022
+     * @author Michael Kyrollos
+     * @version 3.1
+     * @date December 4th, 2022
      */
     private void submitPlaySelected() {
         //Playing is submitted, so change button views
@@ -299,8 +307,11 @@ public class ScrabbleController implements ActionListener {
         scrabbleFrame.getSkipButton().setEnabled(true);
         scrabbleFrame.getPlayButton().setText("Play");
         scrabbleFrame.getPlayButton().setBackground(ScrabbleFrameView.ACCENT_COLOR);
-        if (scrabbleModel.getCurrentPlayer()instanceof AIPlayer) {
-            PlayWordEvent wordEvent = ((AIPlayer) scrabbleModel.getCurrentPlayer()).makeMove();
+        // if an AIPlayer Submit was clicked, call AIPlayer to directly make the move.
+        if (scrabbleModel.getCurrentPlayer()instanceof AIPlayerModel) {
+            PlayWordEvent wordEvent = ((AIPlayerModel) scrabbleModel.getCurrentPlayer()).makeMove();
+            // If the wordEvent is null, it means it is impossible for the AI to play with the current
+            // board and tiles. It will automatically redraw one tile.
             if (wordEvent==null){
                 selectedTile = scrabbleModel.getCurrentPlayer().getRack().getTiles().get(0);
                 redrawSelected();
@@ -317,7 +328,6 @@ public class ScrabbleController implements ActionListener {
         }
         PlayWordEvent playEvent = new PlayWordEvent(scrabbleModel, squaresInWord, tilesPlaced);
         scrabbleModel.playWord(playEvent);
-//        scrabbleModel.updateScrabbleViews();
         for (Square square : squaresInWord) {
             square.setEnabled(true);
         }
