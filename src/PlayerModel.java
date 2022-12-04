@@ -61,9 +61,9 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
      */
     public PlayerModel(PlayerModel player) {
         this.name = player.name;
-        this.board = player.board;
+        this.board = new BoardModel(player.board);
         this.score = player.score;
-        this.rack = player.rack;
+        this.rack = new RackModel(player.rack);
     }
 
     /**
@@ -159,7 +159,6 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
     public void playTile(Square square, Tile tile) {
         board.playTile(square, tile);
         rack.removeTile(tile.getLetter());
-
     }
 
     public BoardModel getBoard() {

@@ -318,6 +318,7 @@ public class ScrabbleController implements ActionListener {
             {
                 // If no errors, start the game
                 scrabbleFrame.startGame();
+                scrabbleModel.pushStatusToUndoStack();
                 scrabbleFrame.update();
             }
         }

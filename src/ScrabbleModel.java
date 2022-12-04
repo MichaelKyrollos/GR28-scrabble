@@ -14,7 +14,7 @@ public abstract class ScrabbleModel {
     /**
      * List of all scrabbleViews subscribed to this model.
      */
-    private final List<ScrabbleView> scrabbleViews;
+    public final List<ScrabbleView> scrabbleViews;
 
     /**
      * Constructs a Scrabble model.

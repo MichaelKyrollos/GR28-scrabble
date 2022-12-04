@@ -23,7 +23,10 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JPanel boardPanel;
     private JPanel boardContainerPanel;
     private JPanel playerPanel;
+    private JPanel buttonsPanel;
     private JLabel currentTurn;
+    private JPanel horizontalLabelPanel;
+    private JPanel verticalLabelPanel;
     private JButton playButton;
     private JButton redrawButton;
     private JButton skipButton;
@@ -259,7 +262,11 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         boardPanel = new BoardPanelView(scrabbleModel.getGameBoard(), scrabbleController);
 
         // Add the horizontal and vertical labels to the Scrabble board
+        horizontalLabelPanel = new JPanel();
+        verticalLabelPanel = new JPanel();
         this.addScrabbleBoardLabels();
+
+        buttonsPanel = new JPanel();
 
         // JPanel #2: PlayerModel Panel
         playerPanel = new JPanel();
@@ -317,7 +324,6 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         Dimension LETTER_SPACING = new Dimension(0, 23);
 
         // JPanel #1b: Horizontal labelling for scrabble board
-        JPanel horizontalLabelPanel = new JPanel();
         horizontalLabelPanel.setBackground(BOARD_COLOR);
         horizontalLabelPanel.setPreferredSize(HORIZONTAL_BOARD_LABEL_DIMENSIONS);
         horizontalLabelPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -352,7 +358,6 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         }
 
         // JPanel #1c: Vertical labelling for scrabble board
-        JPanel verticalLabelPanel = new JPanel();
         verticalLabelPanel.setBackground(BOARD_COLOR);
         verticalLabelPanel.setLayout(new BoxLayout(verticalLabelPanel, BoxLayout.PAGE_AXIS));
         verticalLabelPanel.setPreferredSize(VERTICAL_BOARD_LABEL_DIMENSIONS);
@@ -423,7 +428,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private void addButtons(JButton[] buttons)
     {
         // Create and configure JPanel to store the buttons
-        JPanel buttonsPanel = new JPanel();
+        buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout());
         buttonsPanel.setMaximumSize(BUTTON_PANEL_DIMENSIONS);
         buttonsPanel.setBackground(BOARD_COLOR);
@@ -456,13 +461,37 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer().getName());
 
         //Enable/disable the undo item if there are turns to undo
-        if(scrabbleModel.getUndoStack().isEmpty()) {this.undoItem.setEnabled(false);}
+        if(scrabbleModel.getUndoStack().size() <= 1) {this.undoItem.setEnabled(false);}
         else {this.undoItem.setEnabled(true);}
 
         //Enable/disable the redo item if there are turns to redo
         if(scrabbleModel.getRedoStack().isEmpty()) {this.redoItem.setEnabled(false);}
         else {this.redoItem.setEnabled(true);}
 
+        if (scrabbleModel.getGameStatusChanged()) {
+            //Updating board
+            for (Component component : this.boardContainerPanel.getComponents()) {
+                this.boardContainerPanel.remove(component);
+            }
+            boardPanel = new BoardPanelView(scrabbleModel.getGameBoard(), scrabbleController);
+            boardContainerPanel.add(boardPanel, BorderLayout.CENTER);
+            boardContainerPanel.add(horizontalLabelPanel, BorderLayout.NORTH);
+            boardContainerPanel.add(verticalLabelPanel, BorderLayout.WEST);
+
+            //Updating players
+            for (Component component : this.playerPanel.getComponents()) {
+                this.playerPanel.remove(component);
+            }
+            playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
+            playerPanel.add(currentTurn);
+            playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
+            this.playerCards.clear();
+            this.addPlayerCards();
+            playerPanel.add(buttonsPanel);
+        }
+
+        this.revalidate();
+        this.repaint();
     }
 
     /** Main method **/

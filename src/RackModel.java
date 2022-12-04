@@ -31,6 +31,19 @@ public class RackModel extends ScrabbleModel {
     }
 
     /**
+     * Copy constructor for rack model.
+     * @param rack Rack to be copied.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    public RackModel(RackModel rack) {
+        this.tiles = new ArrayList<>(rack.tiles);
+        bag = new TileBag(ScrabbleGameModel.GAME_TILE_BAG);
+    }
+
+    /**
      * Returns the tiles in the rack.
      * @return The tiles in the rack.
      */
