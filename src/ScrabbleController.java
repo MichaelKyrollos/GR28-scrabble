@@ -114,6 +114,64 @@ public class ScrabbleController implements ActionListener {
         else if (e.getActionCommand().equals("Quit Game")) {
             scrabbleModel.endGame();
         }
+        //Undo selected
+        else if (e.getActionCommand().equals("Undo")) {
+            undoSelected();
+        }
+        //Redo selected
+        else if (e.getActionCommand().equals("Redo")) {
+            redoSelected();
+        }
+    }
+
+    /**
+     * Resets the controller and redoes the last move undid.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    private void redoSelected() {
+        resetController();
+        scrabbleModel.redoTurn();
+    }
+
+    /**
+     * Resets the controller and undoes the last move made by the players.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 02, 2022
+     */
+    private void undoSelected() {
+        resetController();
+        scrabbleModel.undoTurn();
+    }
+
+    /**
+     * Resets the controller.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    private void resetController() {
+        if (this.selectedTile != null) {
+            selectedTile.setBackground(Color.WHITE);
+        }
+        this.resetRedrawnTilesColour();
+        squaresInWord.clear();
+        tilesPlaced.clear();
+        tilesToRedraw.clear();
+        this.isPlaying = false;
+        this.isRedrawing = false;
+        this.scrabbleFrame.getRedrawButton().setEnabled(true);
+        this.scrabbleFrame.getRedrawButton().setText("Redraw");
+        this.scrabbleFrame.getRedrawButton().setBackground(ScrabbleFrameView.ACCENT_COLOR);
+        this.scrabbleFrame.getPlayButton().setEnabled(true);
+        this.scrabbleFrame.getPlayButton().setText("Play");
+        this.scrabbleFrame.getPlayButton().setBackground(ScrabbleFrameView.ACCENT_COLOR);
+        this.scrabbleFrame.getSkipButton().setEnabled(true);
     }
 
     /**
@@ -314,6 +372,7 @@ public class ScrabbleController implements ActionListener {
             {
                 // If no errors, start the game
                 scrabbleFrame.startGame();
+                scrabbleModel.pushStatusToUndoStack();
                 scrabbleFrame.update();
             }
         }

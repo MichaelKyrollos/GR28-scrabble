@@ -35,7 +35,7 @@ public class BoardModel extends ScrabbleModel{
             {4,10},{7,7},{10,4},{10,10},{11,3},{11,11},{12,2},{12,12},{13,1},{13,13}};
     public static final int[][] TRIPLE_WORD_SQUARE_COORDS = new int[][] {{0,0},{0,7},{0,14},{7,0},{7,14},{14,0},{14,7},
             {14,14}};
-    private Square squares[][];
+    private Square[][] squares;
 
     private Square copiedSquares[][];
 
@@ -62,6 +62,21 @@ public class BoardModel extends ScrabbleModel{
 
         copiedSquares = null; // not needed until a play occurs
         isEmpty = true;
+    }
+
+    /**
+     * Copy constructor for BoardModel.
+     * @param board BoardModel to be copied.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    public BoardModel(BoardModel board) {
+        this.game = board.game;
+        this.isEmpty = board.isEmpty;
+        this.squares = board.copyBoardSquaresToAnother();
+        this.copiedSquares = board.copiedSquares;
     }
 
     /**
@@ -149,34 +164,24 @@ public class BoardModel extends ScrabbleModel{
      *
      * @author Pathum Danthanarayana, 101181411
      * @author Amin Zeina, 101186297
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 04, 2022
      */
     public void copyBoardSquares() {
-        // Save the state of the board before placing any tiles
-        // (create a copy of the array of squares)
-        Square[][] savedSquares = new Square[SIZE][SIZE];
-
-
-        // Traverse through each square on the current board
-        for (int i = 0; i < squares.length; i++)
-        {
-            for (int j = 0; j < squares[i].length; j++)
-            {
-                Square currSquare = squares[i][j];
-                // Save a copy of the current square depending on its type
-                if (currSquare instanceof LetterPremiumSquare) {
-                    savedSquares[i][j] = new LetterPremiumSquare((LetterPremiumSquare) currSquare);
-                } else if (currSquare instanceof WordPremiumSquare) {
-                    savedSquares[i][j] = new WordPremiumSquare((WordPremiumSquare) currSquare);
-                } else {
-                    savedSquares[i][j] = new Square(currSquare);
-                }
-
-            }
-        }
-        this.copiedSquares = savedSquares;
+        this.copiedSquares = this.copyBoardSquaresToAnother();
     }
 
-    public BoardModel copyBoardSquaresToAnother() {
+    /**
+     * Helper function to copy construct an 2D array list of squares.
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @author Amin Zeina, 101186297
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 04, 2022
+     */
+    private Square[][] copyBoardSquaresToAnother() {
         // Save the state of the board before placing any tiles
         // (create a copy of the array of squares)
         Square[][] savedSquares = new Square[SIZE][SIZE];
@@ -199,7 +204,7 @@ public class BoardModel extends ScrabbleModel{
 
             }
         }
-        return new BoardModel(game);
+        return savedSquares;
     }
 
     /**
@@ -500,22 +505,23 @@ public class BoardModel extends ScrabbleModel{
      */
     @Override
     public String toString(){
-        String s = "\n------------------------------------------------------------\n" ;
+        StringBuilder repr = new StringBuilder();
+        repr.append("-------------------------------\n");
         for (int i = 0; i < SIZE; i++) {
+            repr.append("|");
             for (int j = 0; j < SIZE; j++) {
-                if (getSquares()[i][j] !=null){
-                    s += "   |";
+                if (this.getSquares()[i][j].getTile() == null) {
+                    repr.append(" |");
                 }
                 else {
-                    s += getSquares()[i][j].getTile().getLetter();
+                    repr.append(this.getSquares()[i][j].getTile().getLetter() + "|");
                 }
             }
-            s += "\n------------------------------------------------------------\n";
+            repr.append("\n");
+            repr.append("-------------------------------\n");
         }
-        return s;
-
+        return repr.toString();
         }
-
 
     public ScrabbleGameModel getGame() {
         return game;

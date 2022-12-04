@@ -52,6 +52,21 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
     }
 
     /**
+     * Copy constructor for PlayerModel.
+     * @param player PlayerModel to be copied.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    public PlayerModel(PlayerModel player) {
+        this.name = player.name;
+        this.board = new BoardModel(player.board);
+        this.score = player.score;
+        this.rack = new RackModel(player.rack);
+    }
+
+    /**
      * Plays the given word entered by the user at the given coordinates. Returns true if the word was successfully
      * placed (i.e. the user had the necessary tiles and the placement of the word on the board was valid)
      *
@@ -135,6 +150,16 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
     }
 
     /**
+     * Sets the board model of this player model.
+     * @param board BoardModel to be set to.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    public void setBoard(BoardModel board) {this.board = board;}
+
+    /**
      * Places the given tile on the given square on the board
      *
      * @param square the square to place the tile in
@@ -144,7 +169,6 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
     public void playTile(Square square, Tile tile) {
         board.playTile(square, tile);
         rack.removeTile(tile.getLetter());
-
     }
 
     public BoardModel getBoard() {

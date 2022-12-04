@@ -23,11 +23,16 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JPanel boardPanel;
     private JPanel boardContainerPanel;
     private JPanel playerPanel;
+    private JPanel buttonsPanel;
     private JLabel currentTurn;
+    private JPanel horizontalLabelPanel;
+    private JPanel verticalLabelPanel;
     private JButton playButton;
     private JButton redrawButton;
     private JButton skipButton;
     private JMenuItem quitMenuItem;
+    private JMenuItem undoItem;
+    private JMenuItem redoItem;
     private ScrabbleGameModel scrabbleModel;
     private ScrabbleController scrabbleController;
 
@@ -113,6 +118,17 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         quitMenuItem.addActionListener(scrabbleController);
         quitMenuItem.setEnabled(false);
 
+        JMenu move = new JMenu("Move");
+        menuBar.add(move);
+        undoItem = new JMenuItem("Undo");
+        redoItem = new JMenuItem(("Redo"));
+        move.add(undoItem);
+        move.add(redoItem);
+        undoItem.addActionListener(scrabbleController);
+        redoItem.addActionListener(scrabbleController);
+        redoItem.setEnabled(false);
+        undoItem.setEnabled(false);
+
         // Setup the menu to play the game
         this.setupMenu();
         this.setVisible(true);
@@ -170,7 +186,6 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         {
             System.out.println("Error in creating custom fonts in setupFonts method: " + e);
         }
-        //System.out.println(Arrays.toString(ge.getAvailableFontFamilyNames()));
     }
 
     /**
@@ -247,7 +262,11 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         boardPanel = new BoardPanelView(scrabbleModel.getGameBoard(), scrabbleController);
 
         // Add the horizontal and vertical labels to the Scrabble board
+        horizontalLabelPanel = new JPanel();
+        verticalLabelPanel = new JPanel();
         this.addScrabbleBoardLabels();
+
+        buttonsPanel = new JPanel();
 
         // JPanel #2: PlayerModel Panel
         playerPanel = new JPanel();
@@ -305,7 +324,6 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         Dimension LETTER_SPACING = new Dimension(0, 23);
 
         // JPanel #1b: Horizontal labelling for scrabble board
-        JPanel horizontalLabelPanel = new JPanel();
         horizontalLabelPanel.setBackground(BOARD_COLOR);
         horizontalLabelPanel.setPreferredSize(HORIZONTAL_BOARD_LABEL_DIMENSIONS);
         horizontalLabelPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -340,7 +358,6 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         }
 
         // JPanel #1c: Vertical labelling for scrabble board
-        JPanel verticalLabelPanel = new JPanel();
         verticalLabelPanel.setBackground(BOARD_COLOR);
         verticalLabelPanel.setLayout(new BoxLayout(verticalLabelPanel, BoxLayout.PAGE_AXIS));
         verticalLabelPanel.setPreferredSize(VERTICAL_BOARD_LABEL_DIMENSIONS);
@@ -394,6 +411,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
             this.playerCards.add(playerCard);
             playerPanel.add(playerCard);
             playerPanel.add(Box.createRigidArea(PLAYER_CARD_SPACING));
+            player.updateScrabbleViews();
         }
     }
 
@@ -411,7 +429,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private void addButtons(JButton[] buttons)
     {
         // Create and configure JPanel to store the buttons
-        JPanel buttonsPanel = new JPanel();
+        buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout());
         buttonsPanel.setMaximumSize(BUTTON_PANEL_DIMENSIONS);
         buttonsPanel.setBackground(BOARD_COLOR);
@@ -432,15 +450,51 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     }
 
     /**
-     * Updates the current turn text with the name of the current player.
+     * Updates the scrabble frame view with any updates that happened in the model.
      *
      * @author Yehan De Silva
-     * @version 1.1
-     * @date November 11, 2022
+     * @version 4.0
+     * @date December 02, 2022
      */
     @Override
     public void update() {
+        //Update current turn string with current player
         currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer().getName());
+
+        //Enable/disable the undo item if there are turns to undo
+        if(scrabbleModel.getUndoStack().size() <= 1) {this.undoItem.setEnabled(false);}
+        else {this.undoItem.setEnabled(true);}
+
+        //Enable/disable the redo item if there are turns to redo
+        if(scrabbleModel.getRedoStack().isEmpty()) {this.redoItem.setEnabled(false);}
+        else {this.redoItem.setEnabled(true);}
+
+        if (scrabbleModel.getGameStatusChanged()) {
+            //Updating board
+            for (Component component : this.boardContainerPanel.getComponents()) {
+                this.boardContainerPanel.remove(component);
+            }
+            boardPanel = new BoardPanelView(scrabbleModel.getGameBoard(), scrabbleController);
+            boardContainerPanel.add(boardPanel, BorderLayout.CENTER);
+            boardContainerPanel.add(horizontalLabelPanel, BorderLayout.NORTH);
+            boardContainerPanel.add(verticalLabelPanel, BorderLayout.WEST);
+            BoardPanelView bpv = (BoardPanelView) this.boardPanel;
+            bpv.update();
+
+            //Updating players
+            for (Component component : this.playerPanel.getComponents()) {
+                this.playerPanel.remove(component);
+            }
+            playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
+            playerPanel.add(currentTurn);
+            playerPanel.add(Box.createRigidArea(CURRENT_TURN_SPACING));
+            this.playerCards.clear();
+            this.addPlayerCards();
+            playerPanel.add(buttonsPanel);
+        }
+
+        this.revalidate();
+        this.repaint();
     }
 
     /** Main method **/
