@@ -1,4 +1,4 @@
-<customBoard>
+<board>
 	<doubleLetterSquares>
 		<coord>7,6</coord>	
 	</doubleLetterSquares>
@@ -11,4 +11,4 @@
 	<tripleWordSquares>
 		<coord>8,7</coord>	
 	</tripleWordSquares>
-</customBoard>
+</board>

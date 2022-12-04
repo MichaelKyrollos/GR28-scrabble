@@ -23,6 +23,8 @@ public class CustomBoardHandler extends DefaultHandler {
      * Called at the start of parsing a document, initializes the allSquaresMap hashmap
      *
      * @author Amin Zeina, 101186297
+     * @version 4.0
+     * @date December 1, 2022
      */
     @Override
     public void startDocument() throws SAXException {
@@ -33,6 +35,8 @@ public class CustomBoardHandler extends DefaultHandler {
      * Called at the start of a new element
      *
      * @author Amin Zeina, 101186297
+     * @version 4.0
+     * @date December 1, 2022
      */
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -49,6 +53,8 @@ public class CustomBoardHandler extends DefaultHandler {
      * Called at the end of each element
      *
      * @author Amin Zeina, 101186297
+     * @version 4.0
+     * @date December 1, 2022
      */
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
@@ -61,8 +67,9 @@ public class CustomBoardHandler extends DefaultHandler {
      * Called to process the characters of each element; creates int[] coordinates
      *
      * @author Amin Zeina, 101186297
+     * @version 4.0
+     * @date December 1, 2022
      */
-
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         if (isCoord) {
