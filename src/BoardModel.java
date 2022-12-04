@@ -415,6 +415,9 @@ public class BoardModel extends ScrabbleModel{
      * @param placedWord the word or letter to be placed who's adjacent squares are being checked.
      * @return the score of the adjacent word, or -1 if invalid word, or 0 if there is no adjacent word
      * @author Amin Zeina, 101186297
+     * @author Michael Kyrollos
+     * @version 3.1
+     * @date December 4th, 2022
      */
     private int checkVerticalAdjacentWord(Square initialSquare, String placedWord) {
         int row = initialSquare.getXCoord();
@@ -456,6 +459,9 @@ public class BoardModel extends ScrabbleModel{
      * @param placedWord the word or letter to be placed who's adjacent squares are being checked.
      * @return the score of the adjacent word, or -1 if invalid word, or 0 if there is no adjacent word
      * @author Amin Zeina, 101186297
+     * @author Michael Kyrollos
+     * @version 2.1
+     * @date December 4th, 2022
      */
     private int checkHorizontalAdjacentWord(Square initialSquare, String placedWord) {
         int row = initialSquare.getXCoord();

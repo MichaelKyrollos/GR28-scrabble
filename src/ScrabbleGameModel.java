@@ -1,12 +1,5 @@
-import org.xml.sax.SAXException;
-
 import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -185,7 +178,7 @@ public class ScrabbleGameModel extends ScrabbleModel {
 
     public boolean addAI(String nameAI) {
         if (players.size() <= 4) {
-            players.add(new AIPlayer(nameAI, gameBoard));
+            players.add(new AIPlayerModel(nameAI, gameBoard));
             return true;
         }
         return false;
@@ -205,7 +198,7 @@ public class ScrabbleGameModel extends ScrabbleModel {
         String word = playEvent.getWord();
         boolean isWord = true;
         // check that the word is a valid english scrabble word
-        if (!(currentPlayer instanceof AIPlayer)) {
+        if (!(currentPlayer instanceof AIPlayerModel)) {
                   isWord = SCRABBLE_DICTIONARY.validateWord(word);
         }
         if (isWord)
