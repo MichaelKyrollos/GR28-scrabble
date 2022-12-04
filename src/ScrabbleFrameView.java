@@ -477,6 +477,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
             boardContainerPanel.add(boardPanel, BorderLayout.CENTER);
             boardContainerPanel.add(horizontalLabelPanel, BorderLayout.NORTH);
             boardContainerPanel.add(verticalLabelPanel, BorderLayout.WEST);
+            BoardPanelView bpv = (BoardPanelView) this.boardPanel;
+            bpv.update();
 
             //Updating players
             for (Component component : this.playerPanel.getComponents()) {

@@ -149,6 +149,8 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
         return this.rack;
     }
 
+    public void setBoard(BoardModel board) {this.board = board;}
+
     /**
      * Places the given tile on the given square on the board
      *

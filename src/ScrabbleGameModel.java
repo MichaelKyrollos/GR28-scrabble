@@ -375,6 +375,9 @@ public class ScrabbleGameModel extends ScrabbleModel {
 
         this.gameBoard = lastTurn.getBoard();
         this.players = lastTurn.getPlayers();
+        for (PlayerModel pm : this.players) {
+            pm.setBoard(this.gameBoard);
+        }
         this.currentTurn = lastTurn.getCurrentTurn();
         GAME_TILE_BAG = lastTurn.getTileBag();
         this.pushStatusToUndoStack();
