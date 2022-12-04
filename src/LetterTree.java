@@ -64,12 +64,6 @@ public class LetterTree {
         return word_node.is_word;
     }
 
-//    for testing
-    public static void main(String[] args)
-    {
-        LetterTree dict = new LetterTree();
-        System.out.println(dict.is_word("eg"));
-    }
 
 }
 

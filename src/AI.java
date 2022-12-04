@@ -23,7 +23,7 @@ public class AI {
     private int best_score;
     private StringBuilder  rack;
     private AIBoard board;
-    private static AIBoard best_board;
+    static AIBoard best_board;
     private AIMove best_move;
     private LetterTree dictionary;
     private String direction;
@@ -152,6 +152,7 @@ public class AI {
     private void legal_move(String word, int[] last_pos) {
         AIBoard board_to_be = board.copy();
         int[] play_pos = last_pos;
+        String full_word = word;
         for (int word_i = word.length()-1; word_i >= 0; word_i--){
             List<Integer> arr = Arrays.asList(play_pos[0],play_pos[1]);
             if (cross_check_results.get(arr) != null && cross_check_results.get(arr).indexOf(word.charAt(word_i)) == -1){
@@ -160,8 +161,14 @@ public class AI {
             board_to_be.set_tile(play_pos,word.charAt(word_i));
             play_pos = before(play_pos);
         }
+        while (board_to_be.in_bounds(play_pos) && board_to_be.is_filled(play_pos)){
+            full_word = board_to_be.get_tile(play_pos) + full_word;
+            play_pos = before(play_pos);
+        }
+        if (!dictionary.is_word(full_word)){
+            return;
+        }
         int score = getScore(board_to_be,last_pos);
-        System.out.println(board_to_be);
         if (score>best_score){
             best_score = score;
             best_move = new AIMove(word,last_pos,direction);
@@ -263,8 +270,28 @@ public class AI {
             }
         }
     }
+
+    private void make_first_move(String word,LetterTree.LetterTreeNode current_node) {
+        int[] start_pos = {7, 7};
+        if(dictionary.is_word(word)) {
+            legal_move(word, start_pos);
+        }
+        HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
+        for (Character next_letter : children.keySet()) {
+            int rack_i = rack.indexOf(String.valueOf(next_letter));
+            if (rack_i != -1) {
+                rack.deleteCharAt(rack_i);
+                make_first_move(word + next_letter,current_node.children.get(next_letter));
+                rack.append(next_letter);
+            }
+        }
+    }
+
+
+
     public AIMove find_all_options(){
-        for (int i=0;i<1;i++){
+        int[] start_pos = {7,7};
+        for (int i=0;i<2;i++){
             if (i==0){
                 direction = "across";
             } else {
@@ -272,6 +299,10 @@ public class AI {
             }
             ArrayList<int[]> anchors = find_anchors();
             cross_check_results = cross_check();
+            if (!board.is_filled(start_pos)) {
+                make_first_move("",dictionary.root);
+                return best_move;
+            }
             for (int[] anchor_pos : anchors){
                 if (board.is_filled(before(anchor_pos))){
                     int[] scan_pos = before(anchor_pos);
@@ -297,36 +328,6 @@ public class AI {
 
         }
         return best_move;
-    }
-
-    public static void main(String[] args)
-    {
-        LetterTree dict = new LetterTree();
-        int size = 15;
-        char[][] c = new char[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                c[i][j] = '_';
-            }
-        }
-        AIBoard board = new AIBoard(c,size);
-        int[] pos = {7,7};
-        board.set_tile(pos,'m');
-        pos[1] = 8;
-        board.set_tile(pos,'e');
-        pos[1] = 9;
-        board.set_tile(pos,'d');
-        pos[0] = 8;
-        pos[1] = 7;
-        board.set_tile(pos,'e');
-        pos[1] = 8;
-        board.set_tile(pos,'z');
-        System.out.print(board);
-        StringBuilder rack = new StringBuilder("gugeeje");
-        AI aiplayer = new AI(dict,board,rack);
-        System.out.println(aiplayer.find_all_options());
-        System.out.println(best_board);
-
     }
 }
 

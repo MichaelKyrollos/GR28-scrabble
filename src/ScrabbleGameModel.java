@@ -129,9 +129,13 @@ public class ScrabbleGameModel extends ScrabbleModel {
     public boolean playWord(PlayWordEvent playEvent) {
         PlayerModel currentPlayer = getCurrentPlayer();
         String word = playEvent.getWord();
-
+        boolean isWord = true;
         // check that the word is a valid english scrabble word
-        if (SCRABBLE_DICTIONARY.validateWord(word)) {
+        if (!(currentPlayer instanceof AIPlayer)) {
+                  isWord = SCRABBLE_DICTIONARY.validateWord(word);
+        }
+        if (isWord)
+        {
             // check if the word can actually be played
             if (currentPlayer.playWord(playEvent)) {
                 JOptionPane.showMessageDialog(null, "You have successfully played \"" +

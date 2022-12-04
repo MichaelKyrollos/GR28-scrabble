@@ -24,6 +24,9 @@ public class AIPlayer extends PlayerModel{
     }
 
     private PlayWordEvent convertEvent(AI.AIMove move) {
+        if (move==null){
+            return null;
+        }
         ArrayList<Square> squaresForWord = new ArrayList<Square>();
         ArrayList<Tile> tiles = new ArrayList<Tile>();
         String word = move.getWord();
@@ -33,10 +36,12 @@ public class AIPlayer extends PlayerModel{
         int col = pos[1];
         for (int word_i = word.length()-1; word_i >= 0; word_i--){
             char letter = word.charAt(word_i);
-            Tile curr_tile = getRack().takeTile(toUpperCase(letter));
-            tiles.add(curr_tile);
-            getBoard().getSquares()[row][col].placeSquare(curr_tile);
-            squaresForWord.add(getBoard().getSquares()[row][col]);
+            if (getBoard().getSquares()[row][col].getTile() == null) {
+                Tile curr_tile = getRack().takeTile(toUpperCase(letter));
+                tiles.add(curr_tile);
+                getBoard().getSquares()[row][col].placeSquare(curr_tile);
+                squaresForWord.add(getBoard().getSquares()[row][col]);
+            }
             if (move.getDirection().equals("across")) {
                 col -= 1;
             } else {
@@ -54,8 +59,6 @@ public class AIPlayer extends PlayerModel{
         StringBuilder aiRack = getRack().forAI();
         AI aiPlayer = new AI(dict,aiBoard,aiRack);
         AI.AIMove bestMove = aiPlayer.find_all_options();
-        System.out.println(aiBoard);
-        System.out.println(bestMove);
         PlayWordEvent wordEvent = convertEvent(bestMove);
         return wordEvent;
     }
