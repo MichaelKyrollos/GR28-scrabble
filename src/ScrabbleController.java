@@ -118,6 +118,22 @@ public class ScrabbleController implements ActionListener {
         else if (e.getActionCommand().equals("Undo")) {
             undoSelected();
         }
+        //Redo selected
+        else if (e.getActionCommand().equals("Redo")) {
+            redoSelected();
+        }
+    }
+
+    /**
+     * Resets the controller and redoes the last move undid.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    private void redoSelected() {
+        resetController();
+        scrabbleModel.redoTurn();
     }
 
     /**
@@ -128,6 +144,18 @@ public class ScrabbleController implements ActionListener {
      * @date December 02, 2022
      */
     private void undoSelected() {
+        resetController();
+        scrabbleModel.undoTurn();
+    }
+
+    /**
+     * Resets the controller.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    private void resetController() {
         if (this.selectedTile != null) {
             selectedTile.setBackground(Color.WHITE);
         }
@@ -135,7 +163,6 @@ public class ScrabbleController implements ActionListener {
         squaresInWord.clear();
         tilesPlaced.clear();
         tilesToRedraw.clear();
-        scrabbleModel.undoTurn();
         this.isPlaying = false;
         this.isRedrawing = false;
         this.scrabbleFrame.getRedrawButton().setEnabled(true);

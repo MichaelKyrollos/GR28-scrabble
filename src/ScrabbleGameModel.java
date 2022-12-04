@@ -367,26 +367,49 @@ public class ScrabbleGameModel extends ScrabbleModel {
      *
      * @author Yehan De Silva
      * @version 4.0
-     * @date December 02, 2022
+     * @date December 03, 2022
      */
     public void undoTurn() {
         this.redoStack.push(this.undoStack.pop());
         ScrabbleGameStatus lastTurn = this.undoStack.pop();
+        restoreStatus(lastTurn);
+    }
 
-        this.gameBoard = lastTurn.getBoard();
-        this.players = lastTurn.getPlayers();
+    /**
+     * Redo the last move that was undone.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    public void redoTurn() {
+        ScrabbleGameStatus lastTurn = this.redoStack.pop();
+        restoreStatus(lastTurn);
+    }
+
+    /**
+     * Restores game status to the one specified.
+     * @param status Status to be set to.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
+    private void restoreStatus(ScrabbleGameStatus status) {
+        this.gameBoard = status.getBoard();
+        this.players = status.getPlayers();
         for (PlayerModel pm : this.players) {
             pm.setBoard(this.gameBoard);
         }
-        this.currentTurn = lastTurn.getCurrentTurn();
-        GAME_TILE_BAG = lastTurn.getTileBag();
+        this.currentTurn = status.getCurrentTurn();
+        GAME_TILE_BAG = status.getTileBag();
+
         this.pushStatusToUndoStack();
 
         this.gameStatusChanged = true;
         this.updateScrabbleViews();
         this.gameStatusChanged = false;
 
-        this.redoStack.push(lastTurn);
         for (PlayerModel pm : this.players) {
             this.setEnableTiles(pm, pm.equals(this.getCurrentPlayer()));
         }

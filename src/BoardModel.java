@@ -164,7 +164,9 @@ public class BoardModel extends ScrabbleModel{
      *
      * @author Pathum Danthanarayana, 101181411
      * @author Amin Zeina, 101186297
-     * Yehan De Silva
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 04, 2022
      */
     public void copyBoardSquares() {
         this.copiedSquares = this.copyBoardSquaresToAnother();
@@ -175,7 +177,9 @@ public class BoardModel extends ScrabbleModel{
      *
      * @author Pathum Danthanarayana, 101181411
      * @author Amin Zeina, 101186297
-     * @Yehan De Silva
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 04, 2022
      */
     private Square[][] copyBoardSquaresToAnother() {
         // Save the state of the board before placing any tiles

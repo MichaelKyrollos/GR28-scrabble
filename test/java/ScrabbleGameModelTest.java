@@ -19,6 +19,7 @@ class ScrabbleGameModelTest {
     @BeforeEach
     void setUp() {
         newScrabbleGameModel = new ScrabbleGameModel();
+        newScrabbleGameModel.
         newScrabbleGameModel.GAME_TILE_BAG.fillBag();
         TEST_TILE_BAG = new TileBag();
         tiles = new ArrayList<>();

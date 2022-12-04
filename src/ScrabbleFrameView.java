@@ -411,6 +411,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
             this.playerCards.add(playerCard);
             playerPanel.add(playerCard);
             playerPanel.add(Box.createRigidArea(PLAYER_CARD_SPACING));
+            player.updateScrabbleViews();
         }
     }
 
