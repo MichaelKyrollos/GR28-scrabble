@@ -301,13 +301,23 @@ public class ScrabbleController implements ActionListener {
         scrabbleFrame.getPlayButton().setBackground(ScrabbleFrameView.ACCENT_COLOR);
         if (scrabbleModel.getCurrentPlayer()instanceof AIPlayer) {
             PlayWordEvent wordEvent = ((AIPlayer) scrabbleModel.getCurrentPlayer()).makeMove();
+            if (wordEvent==null){
+                selectedTile = scrabbleModel.getCurrentPlayer().getRack().getTiles().get(0);
+                redrawSelected();
+                tilesToRedraw.add(selectedTile);
+                scrabbleModel.redraw(tilesToRedraw);
+                tilesToRedraw.clear();
+                return;
+            }
             squaresInWord = wordEvent.getSquaresInWord();
             tilesPlaced = wordEvent.getTilesPlaced();
             for(int i=tilesPlaced.size()-1;i>0;i--){
                 scrabbleModel.getCurrentPlayer().playTile(squaresInWord.get(i), tilesPlaced.get(i));
             }
         }
-        scrabbleModel.playWord(new PlayWordEvent(scrabbleModel, squaresInWord, tilesPlaced));
+        PlayWordEvent playEvent = new PlayWordEvent(scrabbleModel, squaresInWord, tilesPlaced);
+        scrabbleModel.playWord(playEvent);
+//        scrabbleModel.updateScrabbleViews();
         for (Square square : squaresInWord) {
             square.setEnabled(true);
         }

@@ -424,14 +424,16 @@ public class BoardModel extends ScrabbleModel{
         }
         // at this point, row is the row of the highest connected tile in this column
         // Now iterate down until we reach a null tile, and store the results
-        Tile currTile = squares[row][col].getTile();
+
         String word = "";
         int score = 0;
-        while (currTile != null) {
+        for(int row_i =row;row_i<SIZE;row_i++) {
+            Tile currTile = squares[row_i][col].getTile();
+            if (currTile==null){
+                break;
+            }
             word += currTile.getLetter();
             score += currTile.getValue();
-            row++;
-            currTile = squares[row][col].getTile();
         }
         // ensure there is an adjacent word (not only the tile just placed in playWord(), which is already counted)
         if (word.equals(placedWord.toUpperCase())) {
@@ -463,14 +465,15 @@ public class BoardModel extends ScrabbleModel{
         }
         // at this point, col is the column of the leftmost connected tile in this row
         // Now iterate down until we reach a null tile, and store the results
-        Tile currTile = squares[row][col].getTile();
         String word = "";
         int score = 0;
-        while (currTile != null) {
+        for(int col_i =col;col_i<SIZE;col_i++) {
+            Tile currTile = squares[row][col_i].getTile();
+            if (currTile==null){
+                break;
+            }
             word += currTile.getLetter();
             score += currTile.getValue();
-            col++;
-            currTile = squares[row][col].getTile();
         }
         // ensure there is an adjacent word (not only the tile just placed in playWord(), which is already counted)
         if (word.equals(placedWord.toUpperCase())) {
