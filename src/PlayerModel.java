@@ -149,6 +149,14 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
         return this.rack;
     }
 
+    /**
+     * Sets the board model of this player model.
+     * @param board BoardModel to be set to.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 03, 2022
+     */
     public void setBoard(BoardModel board) {this.board = board;}
 
     /**

@@ -116,8 +116,35 @@ public class ScrabbleController implements ActionListener {
         }
         //Undo selected
         else if (e.getActionCommand().equals("Undo")) {
-            scrabbleModel.undoTurn();
+            undoSelected();
         }
+    }
+
+    /**
+     * Resets the controller and undoes the last move made by the players.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 02, 2022
+     */
+    private void undoSelected() {
+        if (this.selectedTile != null) {
+            selectedTile.setBackground(Color.WHITE);
+        }
+        this.resetRedrawnTilesColour();
+        squaresInWord.clear();
+        tilesPlaced.clear();
+        tilesToRedraw.clear();
+        scrabbleModel.undoTurn();
+        this.isPlaying = false;
+        this.isRedrawing = false;
+        this.scrabbleFrame.getRedrawButton().setEnabled(true);
+        this.scrabbleFrame.getRedrawButton().setText("Redraw");
+        this.scrabbleFrame.getRedrawButton().setBackground(ScrabbleFrameView.ACCENT_COLOR);
+        this.scrabbleFrame.getPlayButton().setEnabled(true);
+        this.scrabbleFrame.getPlayButton().setText("Play");
+        this.scrabbleFrame.getPlayButton().setBackground(ScrabbleFrameView.ACCENT_COLOR);
+        this.scrabbleFrame.getSkipButton().setEnabled(true);
     }
 
     /**
