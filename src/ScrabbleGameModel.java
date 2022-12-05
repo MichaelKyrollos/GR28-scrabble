@@ -438,7 +438,12 @@ public class ScrabbleGameModel extends ScrabbleModel {
     public void pushStatusToUndoStack() {
         ArrayList<PlayerModel> lastPlayers = new ArrayList<>();
         for (PlayerModel pm : this.players) {
-            lastPlayers.add(new PlayerModel(pm));
+            if (pm instanceof AIPlayerModel) {
+                lastPlayers.add(new AIPlayerModel((AIPlayerModel) pm));
+            }
+            else {
+                lastPlayers.add(new PlayerModel(pm));
+            }
         }
         this.undoStack.push(new ScrabbleGameStatus(new BoardModel(this.gameBoard), lastPlayers, this.currentTurn, new TileBag(GAME_TILE_BAG)));
     }
