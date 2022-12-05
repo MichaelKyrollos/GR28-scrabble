@@ -1,35 +1,48 @@
 import java.util.*;
 import java.util.HashMap;
-
 import static java.util.Map.entry;
+
+/**
+ * The AIModel class models the game's AI logic. This is the brain's of the AI and part of the
+ * suite of classes reserved solely for the AI: AIBoard.java, AI.java, AIPlayer.java, LetterTree.java
+ * This aids in the encapsulation of the AI as a separate entity
+ * from the game. This aids in increasing computation speed, testing, debugging, modularity.
+ * (SEE DOCUMENTATION FOR MORE INFORMATION)
+ * Part of the suite of classes reserved solely for the AI: AIBoard.java, AI.java, AIPlayer.java, LetterTree.java
+ * This class has a larger number of fields due to the amount of data needed to generate a Scrabble play.
+ *
+ * @author Michael Kyrollos, 101183521
+ * @version 1.2
+ * @date December 1st 2022
+ */
 
 public class AI {
 
-    private Map<Character, Integer> points = Map.ofEntries(
-            entry(Character.valueOf('a'), 1),entry(Character.valueOf('n'), 1),
-            entry(Character.valueOf('b'), 3),entry(Character.valueOf('o'), 1),
-            entry(Character.valueOf('c'), 3),entry(Character.valueOf('p'), 3),
-            entry(Character.valueOf('d'), 2),entry(Character.valueOf('q'), 10),
-            entry(Character.valueOf('e'), 1),entry(Character.valueOf('r'), 1),
-            entry(Character.valueOf('f'), 4),entry(Character.valueOf('s'), 1),
-            entry(Character.valueOf('g'), 2),entry(Character.valueOf('t'), 1),
-            entry(Character.valueOf('h'), 4),entry(Character.valueOf('u'), 1),
-            entry(Character.valueOf('i'), 1),entry(Character.valueOf('v'), 4),
-            entry(Character.valueOf('j'), 8),entry(Character.valueOf('w'), 4),
-            entry(Character.valueOf('k'), 5),entry(Character.valueOf('x'), 8),
-            entry(Character.valueOf('l'), 1),entry(Character.valueOf('y'), 4),
-            entry(Character.valueOf('m'), 3),entry(Character.valueOf('z'), 10)
-            );
+    // Mapping all the point values of letters, this uses less resources than creating a TileBag instance
+    private Map<Character, Integer> points;
+    // best score that the AI can produce
     private int bestScore;
+    // String representation of the rack
     private StringBuilder stringRack;
     private AIBoard aiBoard;
+    // the best board that the AI can produce (includes current board and the word that the AI placed)
     static AIBoard bestBoard;
+    // Stores reference to the subclass
     private AIMove bestMove;
-    private LetterTree dictionary;
+    private final LetterTree dictionary;
     private String direction;
-    private HashMap<int[],String> crossCheckResults;
+    // map of the result of crossCheckResults
+    private HashMap<List<Integer>, String>  crossCheckResults;
 
-    public class AIMove{
+    /**
+     * Subclass representing a move that the AI can make
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 1.2
+     * @date December 1st 2022
+     */
+    public static class AIMove{
+
         private final String direction;
         private final int[] pos;
         private final String word;
@@ -37,22 +50,48 @@ public class AI {
         public String getDirection() {
             return direction;
         }
-
-        public int[] getPos() {
-            return pos;
-        }
-
-        public String getWord() {
-            return word;
-        }
-
-        public AIMove(String word, int[] last_pos, String direction){
+        public AIMove(String word, int[] lastPos, String direction){
             this.word = word;
-            this.pos = last_pos;
+            this.pos = lastPos;
             this.direction = direction;
 
         }
 
+        /**
+         * Getter method for position
+         *
+         * @return position of an AI move
+         *
+         * @author Michael Kyrollos, 101183521
+         * @version 1.2
+         * @date December 1st 2022
+         */
+        public int[] getPos() {
+            return pos;
+        }
+
+        /**
+         * Getter method for word
+         *
+         * @return word in an AI move
+         *
+         * @author Michael Kyrollos, 101183521
+         * @version 1.2
+         * @date December 1st 2022
+         */
+        public String getWord() {
+            return word;
+        }
+
+        /**
+         * Printing for the AIMove, useful for testing
+         *
+         * @return String representation of the AIMove
+         *
+         * @author Michael Kyrollos, 101183521
+         * @version 1.2
+         * @date December 1st 2022
+         */
         @Override
         public String toString() {
             return "AIMove{" +
@@ -63,16 +102,39 @@ public class AI {
         }
     }
     public AI(LetterTree dictionary, AIBoard aiBoard, StringBuilder stringRack) {
+        points = Map.ofEntries(
+                entry('a', 1),entry(('n'), 1),
+                entry('b', 3),entry(('o'), 1),
+                entry(('c'), 3),entry(('p'), 3),
+                entry(('d'), 2),entry(('q'), 10),
+                entry(('e'), 1),entry(('r'), 1),
+                entry(('f'), 4),entry(('s'), 1),
+                entry(('g'), 2),entry(('t'), 1),
+                entry(('h'), 4),entry(('u'), 1),
+                entry(('i'), 1),entry(('v'), 4),
+                entry(('j'), 8),entry(('w'), 4),
+                entry(('k'), 5),entry(('x'), 8),
+                entry(('l'), 1),entry(('y'), 4),
+                entry(('m'), 3),entry(('z'), 10)
+        );
         this.aiBoard = aiBoard;
         this.stringRack = stringRack;
         this.direction = "";
         this.crossCheckResults = null;
         this.dictionary = dictionary;
         this.bestScore = 0;
-        this.bestBoard = null;
+        bestBoard = null;
     }
 
-
+    /**
+     * Helper method to find the position before inputted position
+     * @param pos the position that we will be using
+     * @return  int[] of the position before pos
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 1.2
+     * @date December 1st 2022
+     */
     private int[] before(int[] pos) {
         int row = pos[0];
         int col = pos[1];
@@ -84,6 +146,15 @@ public class AI {
         }
     }
 
+    /**
+     * Helper method to find the position after inputted position
+     * @param pos the position that we will be using
+     * @return  int[] of the position after pos
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 1.2
+     * @date December 1st 2022
+     */
     private int[] after(int[] pos) {
         int row = pos[0];
         int col = pos[1];
@@ -95,7 +166,16 @@ public class AI {
         }
     }
 
-    private int[] before_cross(int[] pos) {
+    /**
+     * Helper method to find the position before inputted position that crosses
+     * @param pos the position that we will be using
+     * @return int[] of the position before pos
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 1.2
+     * @date December 1st 2022
+     */
+    private int[] beforeCross(int[] pos) {
         int row = pos[0];
         int col = pos[1];
         if (direction.equals("across")) {
@@ -106,7 +186,16 @@ public class AI {
         }
     }
 
-    private int[] after_cross(int[] pos) {
+    /**
+     * Helper method to find the position after inputted position
+     * @param pos the position that we will be using
+     * @return int[] of the position after pos
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 1.2
+     * @date December 1st 2022
+     */
+    private int[] afterCross(int[] pos) {
         int row = pos[0];
         int col = pos[1];
         if (direction.equals("across")) {
@@ -117,212 +206,334 @@ public class AI {
         }
     }
 
-    private int getScore(AIBoard board_to_be, int[] last_pos){
-        int[] play_pos = last_pos;
+    /**
+     * Finds the score of the play that the AI has made. This will be used when determining the highest scoring plays.
+     * This does not take into account special squares.
+     * This uses its own calculation system as it allows us to find score without placing anything on the actual
+     * scrabble board, everything is done behind the scenes.
+     * @param boardToBe AIBoard that we are looking at to find the score
+     * @param lastPos int[] of the last position of the last letter in the word to be placed.
+     * @return int representation of the score
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 1.2
+     * @date December 1st 2022
+     */
+    private int getScore(AIBoard boardToBe, int[] lastPos){
+        int[] playPos = lastPos;
         int score = 0;
-        while (board_to_be.isInBounds(play_pos) && board_to_be.getAITile(play_pos) != '_'){
-            play_pos = before(play_pos);
+        // checking where the word ends on the board.
+        while (boardToBe.isInBounds(playPos) && boardToBe.getAITile(playPos) != '_'){
+            playPos = before(playPos);
         }
-        play_pos = after(play_pos);
-        while (board_to_be.isInBounds(play_pos) && board_to_be.getAITile(play_pos) != '_'){
-            char curr_letter = board_to_be.getAITile(play_pos);
-            score += points.get(Character.valueOf(curr_letter));
-            if((board_to_be.isInBounds(before_cross(play_pos)) && board_to_be.getAITile(before_cross(play_pos)) != '_') | (board_to_be.isInBounds(after_cross(play_pos)) && board_to_be.getAITile(after_cross(play_pos)) != '_')){
-                score += getVertScore(board_to_be, play_pos);
+        playPos = after(playPos);
+        while (boardToBe.isInBounds(playPos) && boardToBe.getAITile(playPos) != '_'){
+            // get the letter from that tile
+            char currLetter = boardToBe.getAITile(playPos);
+            // add the point value of the char placed on that position to the total score
+            score += points.get(currLetter);
+            //check until the there is no letter placed
+            if((boardToBe.isInBounds(beforeCross(playPos)) && boardToBe.getAITile(beforeCross(playPos)) != '_')
+                    | (boardToBe.isInBounds(afterCross(playPos)) && boardToBe.getAITile(afterCross(playPos)) != '_')){
+                score += getVertScore(boardToBe, playPos);
             }
-            play_pos = after(play_pos);
+            // check any letters after the last letter in placed word
+            playPos = after(playPos);
         }
         return score;
     }
 
-    private int getVertScore(AIBoard board_to_be, int[] last_pos){
-        int[] play_pos = last_pos;
+    /**
+     * Helper method for finding score of the AIBoard.This finds the score of words formed vertically when placed on
+     * board.
+     * @param boardToBe AIBoard that we are looking at to find the score
+     * @param lastPos int[] of the last position of the last letter in the word to be placed.
+     * @return int representation of the score
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 1.2
+     * @date December 1st 2022
+     */
+    private int getVertScore(AIBoard boardToBe, int[] lastPos){
+        int[] playPos = lastPos;
         int score = 0;
-        while (board_to_be.isInBounds(play_pos) && board_to_be.getAITile(play_pos) != '_'){
-            play_pos = before_cross(play_pos);
+        while (boardToBe.isInBounds(playPos) && boardToBe.getAITile(playPos) != '_'){
+            playPos = beforeCross(playPos);
         }
-        play_pos = after_cross(play_pos);
-        while (board_to_be.isInBounds(play_pos) && board_to_be.getAITile(play_pos) != '_'){
-            char curr_letter = board_to_be.getAITile(play_pos);
-            score += points.get(Character.valueOf(curr_letter));
-            play_pos = after_cross(play_pos);
+        playPos = afterCross(playPos);
+        while (boardToBe.isInBounds(playPos) && boardToBe.getAITile(playPos) != '_'){
+            char currLetter = boardToBe.getAITile(playPos);
+            score += points.get(currLetter);
+            playPos = afterCross(playPos);
         }
         return score;
     }
-    private void legalMove(String word, int[] last_pos) {
-        AIBoard board_to_be = aiBoard.copyBoard();
-        int[] play_pos = last_pos;
-        String full_word = word;
-        for (int word_i = word.length()-1; word_i >= 0; word_i--){
-            List<Integer> arr = Arrays.asList(play_pos[0],play_pos[1]);
-            if (crossCheckResults.get(arr) != null && crossCheckResults.get(arr).indexOf(word.charAt(word_i)) == -1){
-                return;
-            }
-            board_to_be.setAITile(play_pos,word.charAt(word_i));
-            play_pos = before(play_pos);
-        }
-        while (board_to_be.isInBounds(play_pos) && board_to_be.isFilled(play_pos)){
-            full_word = board_to_be.getAITile(play_pos) + full_word;
-            play_pos = before(play_pos);
-        }
-        if (!dictionary.isWord(full_word)){
-            return;
-        }
-        int score = getScore(board_to_be,last_pos);
-        if (score> bestScore){
-            bestScore = score;
-            bestMove = new AIMove(word,last_pos,direction);
-            bestBoard = board_to_be;
-        }
-    }
 
-    private HashMap crossCheck() {
-        HashMap result = new HashMap<List<Integer>,String>();
+    /**
+     * Check/scan where/what letters can be placed in the positions on the board.
+     * i.e. if the square on the board is null, then you can place any letter in the alphabet.
+     * @return Hashmap of the positions of letters that can be placed at various positions.
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 2.1
+     * @date December 1st 2022
+     */
+    private HashMap<List<Integer>, String> crossCheck() {
+        // Store the result of the crosscheck that gives possible letters to place and positions.
+        HashMap<List<Integer>, String> result = new HashMap<>();
         for (int[] pos: aiBoard.createAllPositions()) {
             if (aiBoard.isFilled(pos)){
                 continue;
             }
-            String letters_before ="";
-            int[] scan_pos = pos;
-            while (aiBoard.isFilled(before_cross(scan_pos))){
-                scan_pos = before_cross(scan_pos);
-                letters_before = aiBoard.getAITile(scan_pos) + letters_before;
+            // checking for letters before given position
+            String lettersBefore ="";
+            int[] scanPos = pos;
+            while (aiBoard.isFilled(beforeCross(scanPos))){
+                scanPos = beforeCross(scanPos);
+                lettersBefore = aiBoard.getAITile(scanPos) + lettersBefore;
             }
-            String letters_after ="";
-            scan_pos = pos;
-            while (aiBoard.isFilled(after_cross(scan_pos))){
-                scan_pos = after_cross(scan_pos);
-                letters_after = letters_after + aiBoard.getAITile(scan_pos);
+            // checking for letters after given position
+            String lettersAfter ="";
+            scanPos = pos;
+            while (aiBoard.isFilled(afterCross(scanPos))){
+                scanPos = afterCross(scanPos);
+                lettersAfter = lettersAfter + aiBoard.getAITile(scanPos);
             }
-            String all_letters = "abcdefghijklmnopqrstuvwxyz";
-            String legal_here = "";
-            if (letters_before.length() == 0 && letters_after.length() == 0){
-                legal_here = all_letters;
+            // out of all letters in the alphabet, legalHere will show the letters
+            // that are possible to be played in a position.
+            String allLetters = "abcdefghijklmnopqrstuvwxyz";
+            String legalHere = "";
+            // if there's no char in the way, then you can place any letter
+            if (lettersBefore.length() == 0 && lettersAfter.length() == 0){
+                legalHere = allLetters;
             } else {
-                for (int i=0; i < all_letters.length(); i++){
-                    char letter =  all_letters.charAt(i);
-                    String word_formed = letters_before + letter + letters_after;
-                    if (dictionary.isWord(word_formed)) {
-                        legal_here += letter;
+                //make sure that the letters that we can place adjacent to the other square will possibly
+                // form a word.
+                for (int i=0; i < allLetters.length(); i++){
+                    char letter =  allLetters.charAt(i);
+                    String wordFormed = lettersBefore + letter + lettersAfter;
+                    if (dictionary.isWord(wordFormed)) {
+                        legalHere += letter;
                     }
                 }
             }
-            List<Integer> arr = Arrays.asList(pos[0],pos[1]);;
-            result.put(arr,legal_here);
+            List<Integer> arr = Arrays.asList(pos[0],pos[1]);
+            // place calculation in the hashmap
+            result.put(arr,legalHere);
         }
         return result;
     }
 
+    /**
+     * Find the 'anchors' meaning any connection the word can be formed from.
+     * i.e. if the square on the board is null, then you can place any letter in the alphabet.
+     * @return ArrayList of int[] positions that indicate which anchors the AI has.
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 2.1
+     * @date December 1st 2022
+     */
     private ArrayList<int[]> findAnchors() {
         ArrayList<int[]> anchors = new ArrayList<>();
         for (int[] pos: aiBoard.createAllPositions()) {
-                boolean empty = aiBoard.isEmpty(pos);
-                boolean neighbor_filled = (aiBoard.isFilled(before(pos)) | aiBoard.isFilled(after(pos))
-                        | aiBoard.isFilled(before_cross(pos)) | aiBoard.isFilled(after_cross(pos)));
-                if (empty && neighbor_filled) {
-                    anchors.add(pos);
-                }
+            boolean empty = aiBoard.isEmpty(pos);
+            boolean isNeighborFilled = (aiBoard.isFilled(before(pos)) | aiBoard.isFilled(after(pos))
+                    | aiBoard.isFilled(beforeCross(pos)) | aiBoard.isFilled(afterCross(pos)));
+            if (empty && isNeighborFilled) {
+                anchors.add(pos);
+            }
         }
         return anchors;
     }
-    private void beforePart(String partial_word, LetterTree.LetterTreeNode current_node, int[] anchor_pos, int limit){
-        extendAfter(partial_word,current_node, anchor_pos,false);
+
+    /**
+     * Find partial and full words that can be formed before a given position and limit.
+     * NOTE: this is a recursive function.
+     * @param partialWord The partial word that can be placed, crossing the anchor
+     * @param currentNode The node corresponding to the partial word
+     * @param anchorPos Position of the anchor
+     * @param limit How far the word can go before the anchor
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 2.1
+     * @date December 1st 2022
+     */
+    private void beforePart(String partialWord, LetterTree.LetterTreeNode currentNode, int[] anchorPos, int limit){
+        extendAfter(partialWord,currentNode, anchorPos,false);
         if (limit>0){
-            HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
-            for (Character next_letter : children.keySet()) {
-                int rack_i = stringRack.indexOf(String.valueOf(next_letter));
-                if (rack_i!=-1){
-                    stringRack.deleteCharAt(rack_i);
-                    beforePart(partial_word + next_letter,
-                            current_node.children.get(next_letter),anchor_pos,limit - 1);
-                    stringRack.append(next_letter);
+            //if we have space, set the character value to the node that corresponds to it
+            HashMap<Character, LetterTree.LetterTreeNode> children = currentNode.children;
+            for (Character nextLetter : children.keySet()) {
+                int rackIndex = stringRack.indexOf(String.valueOf(nextLetter));
+                if (rackIndex!=-1){
+                    // while we still have a rack, call beforePart again and continue the cycle.
+                    stringRack.deleteCharAt(rackIndex);
+                    beforePart(partialWord + nextLetter,
+                            currentNode.children.get(nextLetter),anchorPos,limit - 1);
+                    stringRack.append(nextLetter);
                 }
             }
         }
-
     }
-    private void extendAfter(String partial_word, LetterTree.LetterTreeNode current_node, int[] next_pos, boolean anchor_filled){
-        if (!aiBoard.isFilled(next_pos) && current_node.isWord && anchor_filled){
-            legalMove(partial_word,before(next_pos));
+    /**
+     * Find partial and full words that can be formed after a given position and limit.
+     * NOTE: this is a recursive function.
+     * @param partialWord The partial word that can be placed, crossing the anchor
+     * @param letterTreeNode The node corresponding to the partial word
+     * @param nextPos Position of the anchor
+     * @param anchorFilled If there's an anchor that already has a letter
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 2.1
+     * @date December 1st 2022
+     */
+    private void extendAfter(String partialWord, LetterTree.LetterTreeNode letterTreeNode, int[] nextPos, boolean anchorFilled){
+        if (!aiBoard.isFilled(nextPos) && letterTreeNode.isWord && anchorFilled){
+            // check if the move is legal if the anchor is already filled
+            legalMove(partialWord,before(nextPos));
         }
-        if (aiBoard.isInBounds(next_pos)) {
-            if (aiBoard.isEmpty(next_pos)){
-                HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
-                for (Character next_letter : children.keySet()) {
-                    int rack_i = stringRack.indexOf(String.valueOf(next_letter));
-                    List<Integer> arr = Arrays.asList(next_pos[0],next_pos[1]);
-                    int cc_i = crossCheckResults.get(arr).indexOf(next_letter);
-                    if (rack_i!=-1 && cc_i!=-1){
-                        stringRack.deleteCharAt(rack_i);
-                        extendAfter(partial_word + next_letter,
-                                current_node.children.get(next_letter),after(next_pos),true);
-                        stringRack.append(next_letter);
+        if (aiBoard.isInBounds(nextPos)) {
+            if (aiBoard.isEmpty(nextPos)){
+                //if we have space, set the character value to the node that corresponds to it
+                HashMap<Character, LetterTree.LetterTreeNode> children = letterTreeNode.children;
+                for (Character nextLetter : children.keySet()) {
+                    int rackIndex = stringRack.indexOf(String.valueOf(nextLetter));
+                    List<Integer> arr = Arrays.asList(nextPos[0],nextPos[1]);
+                    // ensure all crosses still form words
+                    int crossCheckIndex = crossCheckResults.get(arr).indexOf(nextLetter);
+                    // continue calling the recursion until the rack is empty
+                    if (rackIndex!=-1 && crossCheckIndex!=-1){
+                        stringRack.deleteCharAt(rackIndex);
+                        extendAfter(partialWord + nextLetter,
+                                letterTreeNode.children.get(nextLetter),after(nextPos),true);
+                        stringRack.append(nextLetter);
                     }
                 }
             } else {
-                Character existing_letter = aiBoard.getAITile(next_pos);
-                HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
-                for (Character next_letter : children.keySet()) {
-                    if (next_letter==existing_letter){
-                        extendAfter(partial_word + existing_letter, current_node.children.get(existing_letter),after(next_pos),true);
+                Character existingLetter = aiBoard.getAITile(nextPos);
+                HashMap<Character, LetterTree.LetterTreeNode> children = letterTreeNode.children;
+                for (Character nextLetter : children.keySet()) {
+                    // if the next letter already exists in this position then we can extend after it and form a word
+                    if (nextLetter==existingLetter){
+                        extendAfter(partialWord + existingLetter, letterTreeNode.children.get(existingLetter),after(nextPos),true);
                     }
                 }
             }
         }
     }
 
-    private void makeFirstMove(String word, LetterTree.LetterTreeNode current_node) {
-        int[] start_pos = {7, 7};
+    /**
+     * Allows the AI to make the first word by ensuring that start position is the center.
+     * @param word The word that can be placed, crossing the anchor
+     * @param letterTreeNode The node corresponding to the word
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 2.1
+     * @date December 1st 2022
+     */
+    private void makeFirstMove(String word, LetterTree.LetterTreeNode letterTreeNode) {
+        int[] startPos = {7, 7};
+        // make sure it is a word
         if(dictionary.isWord(word)) {
-            legalMove(word, start_pos);
+            legalMove(word, startPos);
         }
-        HashMap<Character, LetterTree.LetterTreeNode> children = current_node.children;
-        for (Character next_letter : children.keySet()) {
-            int rack_i = stringRack.indexOf(String.valueOf(next_letter));
-            if (rack_i != -1) {
-                stringRack.deleteCharAt(rack_i);
-                makeFirstMove(word + next_letter,current_node.children.get(next_letter));
-                stringRack.append(next_letter);
+        //as with other functions add it to a map and start the recursion until rack is empty
+        HashMap<Character, LetterTree.LetterTreeNode> children = letterTreeNode.children;
+        for (Character nextLetter : children.keySet()) {
+            int rackIndex = stringRack.indexOf(String.valueOf(nextLetter));
+            if (rackIndex != -1) {
+                stringRack.deleteCharAt(rackIndex);
+                makeFirstMove(word + nextLetter,letterTreeNode.children.get(nextLetter));
+                stringRack.append(nextLetter);
             }
         }
     }
 
 
+    /**
+     * Determines the highest scoring board produced by the AI and sets the fields accordingly.
+     * This will also ensure that the placement is still correct.
+     * @param word String representation of the word to be placed.
+     * @param lastPos int[] of the last position of the last letter in the word to be placed.
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 2.1
+     * @date December 1st 2022
+     */
+    private void legalMove(String word, int[] lastPos) {
+        AIBoard boardToBe = aiBoard.copyBoard();
+        int[] playPos = lastPos;
+        String fullWord = word;
+        for (int wordIndex = word.length()-1; wordIndex >= 0; wordIndex--){
+            List<Integer> arr = Arrays.asList(playPos[0],playPos[1]);
+            if (crossCheckResults.get(arr) != null && crossCheckResults.get(arr).indexOf(word.charAt(wordIndex)) == -1){
+                return;
+            }
+            boardToBe.setAITile(playPos,word.charAt(wordIndex));
+            playPos = before(playPos);
+        }
+        while (boardToBe.isInBounds(playPos) && boardToBe.isFilled(playPos)){
+            fullWord = boardToBe.getAITile(playPos) + fullWord;
+            playPos = before(playPos);
+        }
+        if (!dictionary.isWord(fullWord)){
+            return;
+        }
+        int score = getScore(boardToBe,lastPos);
+        if (score> bestScore){
+            bestScore = score;
+            bestMove = new AIMove(word, lastPos, direction);
+            bestBoard = boardToBe;
+        }
+    }
 
+    /**
+     * Find all possible plays using the possible anchors, and crossing between other words.
+     * @return AIMove that is created from the options.
+     *
+     * @author Michael Kyrollos, 101183521
+     * @version 2.1
+     * @date December 1st 2022
+     */
     public AIMove findAllOptions(){
-        int[] start_pos = {7,7};
+        int[] startPos = {7,7};
         for (int i=0;i<2;i++){
             if (i==0){
                 direction = "across";
             } else {
                 direction = "down";
             }
+            // find the anchors
             ArrayList<int[]> anchors = findAnchors();
+            // check the crossing of words
             crossCheckResults = crossCheck();
-            if (!aiBoard.isFilled(start_pos)) {
+            // if it is the first play, then...
+            if (!aiBoard.isFilled(startPos)) {
                 makeFirstMove("",dictionary.root);
                 return bestMove;
             }
-            for (int[] anchor_pos : anchors){
-                if (aiBoard.isFilled(before(anchor_pos))){
-                    int[] scan_pos = before(anchor_pos);
-                    String partial_word = Character.toString(aiBoard.getAITile(scan_pos));
-                    while (aiBoard.isFilled(before(scan_pos))) {
-                        scan_pos = before(scan_pos);
-                        partial_word = aiBoard.getAITile(scan_pos) + partial_word;
+            for (int[] anchorPos : anchors){
+                // can fill it before anchor
+                if (aiBoard.isFilled(before(anchorPos))){
+                    int[] scanPos = before(anchorPos);
+                    String partialWord = Character.toString(aiBoard.getAITile(scanPos));
+                    while (aiBoard.isFilled(before(scanPos))) {
+                        scanPos = before(scanPos);
+                        partialWord = aiBoard.getAITile(scanPos) + partialWord;
                     }
-                    LetterTree.LetterTreeNode pw_node = dictionary.lookup(partial_word);
-                    if (pw_node != null){
-                        extendAfter(partial_word,pw_node,anchor_pos,false);
+                    // ensure word is valid
+                    LetterTree.LetterTreeNode pwNode = dictionary.lookup(partialWord);
+                    if (pwNode != null){
+                        extendAfter(partialWord,pwNode,anchorPos,false);
                     }
                 } else {
                     int limit = 0;
-                    int[] scan_pos = anchor_pos;
-                    while (aiBoard.isEmpty(before(scan_pos)) && !anchors.contains(before(scan_pos))){
+                    int[] scanPos = anchorPos;
+                    while (aiBoard.isEmpty(before(scanPos)) && !anchors.contains(before(scanPos))){
                         limit += 1;
-                        scan_pos = before(scan_pos);
+                        scanPos = before(scanPos);
                     }
-                    beforePart("",dictionary.root,anchor_pos,limit);
+                    beforePart("",dictionary.root,anchorPos,limit);
                 }
             }
 
