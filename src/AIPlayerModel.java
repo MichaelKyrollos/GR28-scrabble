@@ -10,7 +10,7 @@ import static java.lang.Character.toUpperCase;
  * @version 1.2
  * @date December 1st 2022
  */
-public class AIPlayerModel extends PlayerModel{
+public class AIPlayerModel extends PlayerModel implements ScrabblePlayer{
     /** Fields **/
     // Stores a field of the dictionary which is to be used
     // when playing.
@@ -30,6 +30,19 @@ public class AIPlayerModel extends PlayerModel{
         super(name,board);
         this.dict = new LetterTree();
 
+    }
+
+    /**
+     * Copy constructor for AIPlayerModel.
+     * @param player AIPlayerModel to be copied.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    public AIPlayerModel(AIPlayerModel player) {
+        super(player);
+        this.dict = player.dict;
     }
 
     /**
