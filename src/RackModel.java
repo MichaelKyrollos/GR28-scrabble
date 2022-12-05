@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static java.lang.Character.toLowerCase;
@@ -13,7 +14,7 @@ import static java.lang.Character.toLowerCase;
  * @version 1.0
  * @date November 11, 2022
  */
-public class RackModel extends ScrabbleModel {
+public class RackModel extends ScrabbleModel implements Serializable {
 
     /** Fields **/
     private final ArrayList<Tile> tiles;

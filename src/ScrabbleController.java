@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -108,6 +109,16 @@ public class ScrabbleController implements ActionListener {
             else if (isRedrawing) {
                 submitRedrawSelected();
             }
+        }
+        // Load game selected
+        else if (e.getActionCommand().equals("Load Game..."))
+        {
+            this.loadScrabbleGame();
+        }
+        // Save game selected
+        else if (e.getActionCommand().equals("Save Game..."))
+        {
+            this.saveScrabbleGame();
         }
         //Quit game selected
         else if (e.getActionCommand().equals("Quit Game")) {
@@ -527,8 +538,100 @@ public class ScrabbleController implements ActionListener {
      * @date November 13, 2022
      */
     private void addControllerToGameTiles() {
-        for (Tile tile : scrabbleModel.GAME_TILE_BAG.getTiles()) {
+        for (Tile tile : ScrabbleGameModel.GAME_TILE_BAG.getTiles()) {
             tile.addActionListener(this);
+        }
+    }
+
+    /**
+     * The loadScrabbleGame method loads a Scrabble game from a save
+     * file at the specified path.
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date December 5th, 2022
+     */
+    private void loadScrabbleGame()
+    {
+        // Prompt the user to select a save file to load the Scrabble game
+        JFileChooser fileChooser = new JFileChooser();
+        // Set file extension filters for the file chooser (only .txt and .ser)
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt and .ser files", "txt", "ser");
+        fileChooser.setFileFilter(filter);
+
+        // Store the result of choosing the save file
+        int fileSelectionResult = fileChooser.showOpenDialog(null);
+
+        // Check if the user selected a save file to load (and didn't click cancel or close out of the file chooser)
+        if (fileSelectionResult == JFileChooser.APPROVE_OPTION)
+        {
+            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+            System.out.println("Load file path: " + filePath);
+            // Check if the user is clicking Load Game before the starting a Scrabble game or after
+            if (!scrabbleFrame.isScrabbleGameStarted())
+            {
+                // If not, start the Scrabble game first
+                scrabbleFrame.startGame();
+            }
+            if (this.scrabbleModel.loadScrabbleGame(filePath))
+            {
+                // Traverse through each of the Player models
+                for (PlayerModel playerModel : scrabbleModel.getPlayers())
+                {
+                    // Traverse through each of the tiles in the player's rack
+                    for (Tile tile : playerModel.getRack().getTiles())
+                    {
+                        // Add the tile's action listener to this controller
+                        tile.addActionListener(this);
+                    }
+                }
+                // Add this controller as the action listener for all tiles in the tile game bag
+                this.addControllerToGameTiles();
+                // Notify the user that the Scrabble game was successfully loaded in
+                JOptionPane.showMessageDialog(scrabbleFrame, "Scrabble game successfully loaded.");
+            }
+        }
+    }
+
+    /**
+     * The saveScrabbleGame method saves the Scrabble game to a save file
+     * at the specified file path.
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date December 5th, 2022
+     */
+    private void saveScrabbleGame()
+    {
+        // Prompt the user to select a save file to load the Scrabble game
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        // Set file extension filters for the file chooser (only .txt and .ser)
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt and .ser files", "txt", "ser");
+        fileChooser.setFileFilter(filter);
+        // Store the result of choosing a directory and entering file name
+        int directorySelectionResult = fileChooser.showSaveDialog(null);
+
+        // Check if the user selected a directory and entered a valid file name
+        if (directorySelectionResult == JFileChooser.APPROVE_OPTION)
+        {
+            String exportFilePath = fileChooser.getSelectedFile().getAbsolutePath();
+            // Check if the file name ends with '.txt' or '.ser'
+            if (exportFilePath.endsWith(".txt") || exportFilePath.endsWith(".ser"))
+            {
+                // If so, proceed with saving the game to the specified path
+                System.out.println("Export file path: " + exportFilePath);
+                if (this.scrabbleModel.saveScrabbleGame(exportFilePath))
+                {
+                    JOptionPane.showMessageDialog(scrabbleFrame, "Scrabble game successfully saved.");
+                }
+            }
+            else
+            {
+                // If not, notify the user to add a valid file extension to the file path
+                String message = "Please specify a file name at the end of the Folder Path with a valid file extension (.txt or .ser), and try again.\n" + "Example folder path: C:\\Users\\SomeUser\\Desktop\\scrabbleGame.ser";
+                JOptionPane.showMessageDialog(scrabbleFrame, message);
+            }
         }
     }
 

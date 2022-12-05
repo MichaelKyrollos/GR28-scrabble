@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,7 +11,7 @@ import java.util.Scanner;
  * @version 2.0
  * @date November 11, 2022
  */
-public class PlayerModel extends ScrabbleModel implements ScrabblePlayer {
+public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serializable {
 
     /**
      * Name of the player.

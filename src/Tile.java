@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * The Tile class models a tile in the game of Scrabble.
@@ -10,7 +11,7 @@ import java.awt.*;
  * @version 3.0
  * @date November 14, 2022
  */
-public class Tile extends JButton {
+public class Tile extends JButton implements Serializable {
 
     /** Fields **/
     protected char letter;

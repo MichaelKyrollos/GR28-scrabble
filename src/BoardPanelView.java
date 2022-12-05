@@ -78,7 +78,6 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
                 {
                     squares[i][j].setBackground(ScrabbleFrameView.CENTER_SQUARE_COLOR);
                 }
-
             }
         }
     }
