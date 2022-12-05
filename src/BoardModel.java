@@ -27,15 +27,9 @@ import static java.lang.Character.*;
  */
 public class BoardModel extends ScrabbleModel implements Serializable {
     public static final int SIZE = 15;
-    public static final int[][] DOUBLE_LETTER_SQUARE_COORDS = new int[][] {{0,3},{0,11},{2,6},{2,8},{3,0},{3,7},{3,14},
-            {6,2},{6,6},{6,8},{6,12},{7,3},{7,11},{8,2},{8,6},{8,8},{8,12},{11,0},{11,7},{11,14},{12,6},{12,8},
-            {14,3},{14,11}};
-    public static final int[][] TRIPLE_LETTER_SQUARE_COORDS = new int[][] {{1,5},{1,9},{5,1},{5,5},{5,9},{5,13},{9,1},
-            {9,5},{9,9},{9,13},{13,5},{13,9}};
-    public static final int[][] DOUBLE_WORD_SQUARE_COORDS = new int[][] {{1,1},{1,13},{2,2},{2,12},{3,3},{3,11},{4,4},
-            {4,10},{7,7},{10,4},{10,10},{11,3},{11,11},{12,2},{12,12},{13,1},{13,13}};
-    public static final int[][] TRIPLE_WORD_SQUARE_COORDS = new int[][] {{0,0},{0,7},{0,14},{7,0},{7,14},{14,0},{14,7},
-            {14,14}};
+
+    public static final File DEFAULT_BOARD = new File("src/resources/DefaultBoard.xml");
+
     private Square[][] squares;
 
     private Square copiedSquares[][];
@@ -47,22 +41,14 @@ public class BoardModel extends ScrabbleModel implements Serializable {
     private boolean isEmpty;
 
     /**
-     * Constructs a board object, which contains a 2-D array of Squares
+     * Constructs a board object, which contains a 2-D array of Squares, using the default board layout
+     *
+     * @author Amin Zeina, 101186297
+     * @version 4.0
+     * @date December 4, 2022
      */
-    public BoardModel(ScrabbleGameModel game) {
-        this.game = game;
-
-        squares = new Square[SIZE][SIZE];
-
-        createLetterPremiumSquares(Arrays.asList(DOUBLE_LETTER_SQUARE_COORDS), 2);
-        createLetterPremiumSquares(Arrays.asList(TRIPLE_LETTER_SQUARE_COORDS), 3);
-        createWordPremiumSquares(Arrays.asList(DOUBLE_WORD_SQUARE_COORDS), 2);
-        createWordPremiumSquares(Arrays.asList(TRIPLE_WORD_SQUARE_COORDS), 3);
-
-        createDefaultSquares();
-
-        copiedSquares = null; // not needed until a play occurs
-        isEmpty = true;
+    public BoardModel(ScrabbleGameModel game) throws ParserConfigurationException, IOException, SAXException {
+        this(game, DEFAULT_BOARD);
     }
 
     /**
@@ -85,15 +71,19 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      * will be created if there is an issue with the XML file
      *
      * @param game the ScrabbleGameModel this belongs to
-     * @param customBoard the custom board layout XML file
+     * @param xmlBoard the custom board layout XML file
+     *
+     * @author Amin Zeina, 101186297
+     * @version 4.0
+     * @date December 1, 2022
      */
-    public BoardModel(ScrabbleGameModel game, File customBoard) throws ParserConfigurationException, SAXException, IOException {
+    public BoardModel(ScrabbleGameModel game, File xmlBoard) throws ParserConfigurationException, SAXException, IOException {
         this.game = game;
 
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser = factory.newSAXParser();
         CustomBoardHandler handler = new CustomBoardHandler();
-        saxParser.parse(customBoard, handler);
+        saxParser.parse(xmlBoard, handler);
 
         squares = new Square[SIZE][SIZE];
 
@@ -426,6 +416,9 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      * @param placedWord the word or letter to be placed who's adjacent squares are being checked.
      * @return the score of the adjacent word, or -1 if invalid word, or 0 if there is no adjacent word
      * @author Amin Zeina, 101186297
+     * @author Michael Kyrollos
+     * @version 3.1
+     * @date December 4th, 2022
      */
     private int checkVerticalAdjacentWord(Square initialSquare, String placedWord) {
         int row = initialSquare.getXCoord();
@@ -435,14 +428,16 @@ public class BoardModel extends ScrabbleModel implements Serializable {
         }
         // at this point, row is the row of the highest connected tile in this column
         // Now iterate down until we reach a null tile, and store the results
-        Tile currTile = squares[row][col].getTile();
+
         String word = "";
         int score = 0;
-        while (currTile != null) {
+        for(int row_i =row;row_i<SIZE;row_i++) {
+            Tile currTile = squares[row_i][col].getTile();
+            if (currTile==null){
+                break;
+            }
             word += currTile.getLetter();
             score += currTile.getValue();
-            row++;
-            currTile = squares[row][col].getTile();
         }
         // ensure there is an adjacent word (not only the tile just placed in playWord(), which is already counted)
         if (word.equals(placedWord.toUpperCase())) {
@@ -465,6 +460,9 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      * @param placedWord the word or letter to be placed who's adjacent squares are being checked.
      * @return the score of the adjacent word, or -1 if invalid word, or 0 if there is no adjacent word
      * @author Amin Zeina, 101186297
+     * @author Michael Kyrollos
+     * @version 2.1
+     * @date December 4th, 2022
      */
     private int checkHorizontalAdjacentWord(Square initialSquare, String placedWord) {
         int row = initialSquare.getXCoord();
@@ -474,14 +472,15 @@ public class BoardModel extends ScrabbleModel implements Serializable {
         }
         // at this point, col is the column of the leftmost connected tile in this row
         // Now iterate down until we reach a null tile, and store the results
-        Tile currTile = squares[row][col].getTile();
         String word = "";
         int score = 0;
-        while (currTile != null) {
+        for(int col_i =col;col_i<SIZE;col_i++) {
+            Tile currTile = squares[row][col_i].getTile();
+            if (currTile==null){
+                break;
+            }
             word += currTile.getLetter();
             score += currTile.getValue();
-            col++;
-            currTile = squares[row][col].getTile();
         }
         // ensure there is an adjacent word (not only the tile just placed in playWord(), which is already counted)
         if (word.equals(placedWord.toUpperCase())) {

@@ -259,4 +259,5 @@ public class ScrabbleDictionary {
     public String toString() {
         return this.dictionary.toString();
     }
+
 }

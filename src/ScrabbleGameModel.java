@@ -1,3 +1,4 @@
+
 // Import libraries
 import org.xml.sax.SAXException;
 
@@ -83,13 +84,29 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      */
     public void createGameBoard(File customBoard) {
         if (customBoard == null) {
-            gameBoard = new BoardModel(this);
+            try {
+                gameBoard = new BoardModel(this);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Default board XML is either missing or " +
+                        "has been modified. Please ensure you have the correct XML file downloaded, then try again. " +
+                        "The game will now exit");
+                System.exit(0);
+            }
         } else {
             try {
                 gameBoard = new BoardModel(this, customBoard);
             } catch (Exception e) {
                 // invalid XML -> create default board
-                gameBoard = new BoardModel(this);
+                try {
+                    gameBoard = new BoardModel(this);
+                } catch (Exception ex) {
+                    // Default XML has been modified or removed
+                    JOptionPane.showMessageDialog(null, "Default board XML is either missing or " +
+                            "has been modified. Please ensure you have the correct XML file downloaded, then try again. " +
+                            "The game will now exit");
+                    System.exit(0);
+                }
+
             }
         }
 
@@ -268,7 +285,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
 
     public boolean addAI(String nameAI) {
         if (players.size() <= 4) {
-            players.add(new AIPlayer(nameAI, gameBoard));
+            players.add(new AIPlayerModel(nameAI, gameBoard));
             return true;
         }
         return false;
@@ -286,9 +303,13 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
     public boolean playWord(PlayWordEvent playEvent) {
         PlayerModel currentPlayer = getCurrentPlayer();
         String word = playEvent.getWord();
-
+        boolean isWord = true;
         // check that the word is a valid english scrabble word
-        if (SCRABBLE_DICTIONARY.validateWord(word)) {
+        if (!(currentPlayer instanceof AIPlayerModel)) {
+                  isWord = SCRABBLE_DICTIONARY.validateWord(word);
+        }
+        if (isWord)
+        {
             // check if the word can actually be played
             if (currentPlayer.playWord(playEvent)) {
                 JOptionPane.showMessageDialog(null, "You have successfully played \"" +
@@ -524,7 +545,12 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
     public void pushStatusToUndoStack() {
         ArrayList<PlayerModel> lastPlayers = new ArrayList<>();
         for (PlayerModel pm : this.players) {
-            lastPlayers.add(new PlayerModel(pm));
+            if (pm instanceof AIPlayerModel) {
+                lastPlayers.add(new AIPlayerModel((AIPlayerModel) pm));
+            }
+            else {
+                lastPlayers.add(new PlayerModel(pm));
+            }
         }
         this.undoStack.push(new ScrabbleGameStatus(new BoardModel(this.gameBoard), lastPlayers, this.currentTurn, new TileBag(GAME_TILE_BAG)));
     }
