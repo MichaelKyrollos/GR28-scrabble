@@ -14,7 +14,7 @@ public class AIPlayerModel extends PlayerModel{
     /** Fields **/
     // Stores a field of the dictionary which is to be used
     // when playing.
-    private LetterTree dict;
+    private final LetterTree dict;
 
     /**
      * Constructs a new AIPlayerModel with given name and board

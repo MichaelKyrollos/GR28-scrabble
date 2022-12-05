@@ -29,7 +29,6 @@ public class ScrabbleController implements ActionListener {
     private boolean isPlaying;
     private boolean isRedrawing;
 
-    private AI aiPlayer;
     private ArrayList<Tile> tilesPlaced;
     private ArrayList<Tile> tilesToRedraw;
     private ArrayList<Square> squaresInWord;
