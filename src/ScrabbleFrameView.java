@@ -473,6 +473,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      */
     @Override
     public void update() {
+
         //Update current turn string with current player
         currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer().getName());
 

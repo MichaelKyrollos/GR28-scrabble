@@ -1,3 +1,4 @@
+// Import libraries
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -177,10 +178,13 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
             // Clear the undo and redo stack
             this.undoStack.clear();
             this.redoStack.clear();
+            // Set the new board for all the players
             for (PlayerModel playerModel : this.players)
             {
                 playerModel.setBoard(this.gameBoard);
             }
+            // Push the current game's status to the undo stack
+            this.pushStatusToUndoStack();
             // Update the Scrabble game views
             this.gameStatusChanged = true;
             this.updateScrabbleViews();
@@ -190,6 +194,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
             {
                 this.setEnableTiles(playerModel, playerModel.equals(this.getCurrentPlayer()));
             }
+
 
             // Close the object input stream
             objectInputStream.close();
