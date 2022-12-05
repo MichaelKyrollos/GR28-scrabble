@@ -36,6 +36,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JMenuItem saveGame;
     private ScrabbleGameModel scrabbleModel;
     private ScrabbleController scrabbleController;
+    private boolean scrabbleGameStarted;
 
     /** Constants **/
     // Colours
@@ -134,7 +135,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         menuBar.add(loadSaveMenu);
         loadGame = new JMenuItem("Load Game...");
         loadGame.addActionListener(scrabbleController);
-        loadGame.setEnabled(false);
+        loadGame.setEnabled(true);
         saveGame = new JMenuItem("Save Game...");
         saveGame.addActionListener(scrabbleController);
         saveGame.setEnabled(false);
@@ -143,6 +144,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
         // Set up the menu to play the game
         this.setupMenu();
+        // Set the game started flag to false
+        this.scrabbleGameStarted = false;
         this.setVisible(true);
     }
 
@@ -173,6 +176,20 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * @date November 17, 2022
      */
     public JButton getSkipButton() {return this.skipButton;}
+
+    /**
+     * The isScrabbleGameStarted method returns the boolean flag
+     * for indicating whether the Scrabble game has started or not
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date December 5th, 2022
+     *
+     * @return true if the Scrabble game has started, and false otherwise
+     */
+    public boolean isScrabbleGameStarted()
+    {
+        return this.scrabbleGameStarted;
+    }
 
     /**
      * The setupFonts method sets up and registers all the necessary fonts
@@ -316,6 +333,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         loadGame.setEnabled(true);
         saveGame.setEnabled(true);
 
+        // Set the game started flag to true
+        this.scrabbleGameStarted = true;
     }
 
     /**

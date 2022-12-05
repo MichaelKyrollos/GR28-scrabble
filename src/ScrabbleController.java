@@ -67,7 +67,6 @@ public class ScrabbleController implements ActionListener {
         //If tile is selected
         if (e.getSource() instanceof Tile) {
             Tile tile = (Tile) e.getSource();
-            System.out.println("Tile clicked");
             //Tile is to be played
             if (isPlaying) {
                 playTileSelected(tile);
@@ -549,6 +548,12 @@ public class ScrabbleController implements ActionListener {
         {
             String filePath = fileChooser.getSelectedFile().getAbsolutePath();
             System.out.println("Load file path: " + filePath);
+            // Check if the user is clicking Load Game before the starting a Scrabble game or after
+            if (!scrabbleFrame.isScrabbleGameStarted())
+            {
+                // If not, start the Scrabble game first
+                scrabbleFrame.startGame();
+            }
             if (this.scrabbleModel.loadScrabbleGame(filePath))
             {
                 // Traverse through each of the Player models

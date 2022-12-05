@@ -178,7 +178,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
             // Clear the undo and redo stack
             this.undoStack.clear();
             this.redoStack.clear();
-            // Set the new board for all the players
+            // Set the updated board for all the players
             for (PlayerModel playerModel : this.players)
             {
                 playerModel.setBoard(this.gameBoard);
@@ -190,11 +190,11 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
             this.updateScrabbleViews();
             this.gameStatusChanged = false;
 
+            // Enable the tiles on the rack for the player with the current turn
             for (PlayerModel playerModel : this.players)
             {
                 this.setEnableTiles(playerModel, playerModel.equals(this.getCurrentPlayer()));
             }
-
 
             // Close the object input stream
             objectInputStream.close();
@@ -237,7 +237,9 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
 
             // Write the current Scrabble game's status
             objectOutputStream.writeObject(new ScrabbleGameStatus(this.gameBoard, this.players, this.currentTurn, GAME_TILE_BAG));
+            // Close the object output stream
             objectOutputStream.close();
+            // Close the file output stream
             fileOutputStream.close();
             return true;
         }
