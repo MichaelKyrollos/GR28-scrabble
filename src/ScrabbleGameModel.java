@@ -4,8 +4,7 @@ import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -20,7 +19,7 @@ import java.util.*;
  * @version 2.0
  * @date November 11, 2022
  */
-public class ScrabbleGameModel extends ScrabbleModel {
+public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
 
     /** Player number constants **/
     public static final int MIN_PLAYERS = 2;
@@ -44,8 +43,8 @@ public class ScrabbleGameModel extends ScrabbleModel {
     /**
      * The stacks to hold game status' inorder to undo/redo.
      */
-    private Stack<ScrabbleGameStatus> undoStack;
-    private Stack<ScrabbleGameStatus> redoStack;
+    private transient Stack<ScrabbleGameStatus> undoStack;
+    private transient Stack<ScrabbleGameStatus> redoStack;
     private Boolean gameStatusChanged;
 
     /**
@@ -94,7 +93,6 @@ public class ScrabbleGameModel extends ScrabbleModel {
         }
 
     }
-
 
     /**
      * Returns the PlayerModel whose currently playing their turn
@@ -150,6 +148,100 @@ public class ScrabbleGameModel extends ScrabbleModel {
      * @date November 11, 2022
      */
     public BoardModel getGameBoard() {return this.gameBoard;}
+
+    /**
+     * The loadScrabbleGame method loads a Scrabble game save file
+     * from the specified file path.
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date December 4th, 2022
+     *
+     * @param loadFilePath - The file path at which the Scrabble game save file will be imported from
+     * @return true if the Scrabble game was successfully loaded, and false otherwise
+     */
+    public boolean loadScrabbleGame(String loadFilePath)
+    {
+        System.out.println("Using serialized import method...");
+        try
+        {
+            FileInputStream fileInputStream = new FileInputStream(loadFilePath);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+
+            // Read the written Scrabble game model
+            ScrabbleGameStatus gameStatus = (ScrabbleGameStatus) objectInputStream.readObject();
+            this.gameBoard = gameStatus.getBoard();
+            this.players = gameStatus.getPlayers();
+            this.currentTurn = gameStatus.getCurrentTurn();
+            GAME_TILE_BAG = gameStatus.getTileBag();
+
+            // Clear the undo and redo stack
+            this.undoStack.clear();
+            this.redoStack.clear();
+            for (PlayerModel playerModel : this.players)
+            {
+                playerModel.setBoard(this.gameBoard);
+            }
+            // Update the Scrabble game views
+            this.gameStatusChanged = true;
+            this.updateScrabbleViews();
+            this.gameStatusChanged = false;
+
+            for (PlayerModel playerModel : this.players)
+            {
+                this.setEnableTiles(playerModel, playerModel.equals(this.getCurrentPlayer()));
+            }
+
+            // Close the object input stream
+            objectInputStream.close();
+            // Close the file input stream
+            fileInputStream.close();
+            return true;
+        }
+        catch (EOFException e)
+        {
+            // System.out.println("End of file reached: " + e);
+        }
+        catch (IOException e)
+        {
+            System.out.println("IO Exception: " + e);
+        }
+        catch (ClassNotFoundException e)
+        {
+            System.out.println("Class not found: " + e);
+        }
+        return false;
+    }
+
+    /**
+     * The saveScrabbleGame method saves the current Scrabble game to a
+     * save file at the specified file path.
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date December 4th, 2022
+     *
+     * @param exportFilePath - The file path at which the Scrabble game will be saved to
+     * @return true if the Scrabble game was successfully saved, and false otherwise
+     */
+    public boolean saveScrabbleGame(String exportFilePath)
+    {
+        System.out.println("Using serialized save method...");
+        try
+        {
+            FileOutputStream fileOutputStream = new FileOutputStream(exportFilePath);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
+            // Write the current Scrabble game's status
+            objectOutputStream.writeObject(new ScrabbleGameStatus(this.gameBoard, this.players, this.currentTurn, GAME_TILE_BAG));
+            objectOutputStream.close();
+            fileOutputStream.close();
+            return true;
+        }
+        catch (IOException e)
+        {
+            System.out.println("Error in exporting Scrabble game model: " + e);
+        }
+        return false;
+    }
 
     /**
      * Adds a player to this scrabble game. Only 4 players may be playing at one time.

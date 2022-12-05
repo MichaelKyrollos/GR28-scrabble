@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * @version 4.0
  * @date December 05, 2022
  */
-public class ScrabbleGameStatus {
+public class ScrabbleGameStatus implements Serializable {
 
     private BoardModel board;
     private List<PlayerModel> players;

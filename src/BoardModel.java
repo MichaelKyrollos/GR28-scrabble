@@ -7,6 +7,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.lang.*;
@@ -24,7 +25,7 @@ import static java.lang.Character.*;
  * @version 3.0
  * @date November 14, 2022
  */
-public class BoardModel extends ScrabbleModel{
+public class BoardModel extends ScrabbleModel implements Serializable {
     public static final int SIZE = 15;
     public static final int[][] DOUBLE_LETTER_SQUARE_COORDS = new int[][] {{0,3},{0,11},{2,6},{2,8},{3,0},{3,7},{3,14},
             {6,2},{6,6},{6,8},{6,12},{7,3},{7,11},{8,2},{8,6},{8,8},{8,12},{11,0},{11,7},{11,14},{12,6},{12,8},

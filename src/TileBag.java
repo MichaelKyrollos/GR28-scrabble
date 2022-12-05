@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ import java.util.*;
  * @version 3.0
  * @date November 14, 2022
  */
-public class TileBag {
+public class TileBag implements Serializable {
 
     /** Fields **/
     private final ArrayList<Tile> tiles;

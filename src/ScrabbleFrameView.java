@@ -3,7 +3,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -33,6 +32,8 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private JMenuItem quitMenuItem;
     private JMenuItem undoItem;
     private JMenuItem redoItem;
+    private JMenuItem loadGame;
+    private JMenuItem saveGame;
     private ScrabbleGameModel scrabbleModel;
     private ScrabbleController scrabbleController;
 
@@ -129,7 +130,18 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         redoItem.setEnabled(false);
         undoItem.setEnabled(false);
 
-        // Setup the menu to play the game
+        JMenu loadSaveMenu = new JMenu("Load/Save");
+        menuBar.add(loadSaveMenu);
+        loadGame = new JMenuItem("Load Game...");
+        loadGame.addActionListener(scrabbleController);
+        loadGame.setEnabled(false);
+        saveGame = new JMenuItem("Save Game...");
+        saveGame.addActionListener(scrabbleController);
+        saveGame.setEnabled(false);
+        loadSaveMenu.add(loadGame);
+        loadSaveMenu.add(saveGame);
+
+        // Set up the menu to play the game
         this.setupMenu();
         this.setVisible(true);
     }
@@ -300,6 +312,9 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
         // enable quit menu now that the game is running.
         quitMenuItem.setEnabled(true);
+        // Enable load and save game
+        loadGame.setEnabled(true);
+        saveGame.setEnabled(true);
 
     }
 

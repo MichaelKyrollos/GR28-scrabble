@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Objects;
  * @version 3.0
  * @date November 22, 2022
  */
-public class Square extends JButton {
+public class Square extends JButton implements Serializable {
 
     private Tile tile;
 
