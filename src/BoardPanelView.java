@@ -92,7 +92,6 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
      */
     @Override
     public void update() {
-
         squares = boardModel.getSquares();
         //Clear all components before adding new
         Component[] componentList = this.getComponents();
@@ -103,5 +102,18 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
         this.addSquares();
         this.revalidate();
         this.repaint();
+    }
+
+    /**
+     * Displays message from model.
+     * @param message Message to be shown.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    @Override
+    public void getMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 }

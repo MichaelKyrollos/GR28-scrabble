@@ -172,7 +172,7 @@ public class RackModel extends ScrabbleModel implements Serializable {
         }
 
         if (tiles.size() < MAX_TILES) {
-            JOptionPane.showMessageDialog(null, "Cannot fill rack completely," +
+            this.messageScrabbleViews("Cannot fill rack completely," +
                     " the Tile Bag is empty.");
         }
     }

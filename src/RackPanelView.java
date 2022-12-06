@@ -61,6 +61,19 @@ public class RackPanelView extends JPanel implements ScrabbleView {
     }
 
     /**
+     * Displays message from model.
+     * @param message Message to be shown.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    @Override
+    public void getMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    /**
      * Helper function that adds the current tiles in the rack model to this view.
      *
      * @author Yehan De Silva
