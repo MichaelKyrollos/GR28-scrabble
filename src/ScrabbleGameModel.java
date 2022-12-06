@@ -179,7 +179,6 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      */
     public boolean loadScrabbleGame(String loadFilePath)
     {
-        System.out.println("Using serialized import method...");
         try
         {
             FileInputStream fileInputStream = new FileInputStream(loadFilePath);
@@ -221,7 +220,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
         }
         catch (EOFException e)
         {
-            // System.out.println("End of file reached: " + e);
+            //Do nothing
         }
         catch (IOException e)
         {
@@ -246,7 +245,6 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      */
     public boolean saveScrabbleGame(String exportFilePath)
     {
-        System.out.println("Using serialized save method...");
         try
         {
             FileOutputStream fileOutputStream = new FileOutputStream(exportFilePath);
@@ -304,6 +302,12 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
         PlayerModel currentPlayer = getCurrentPlayer();
         String word = playEvent.getWord();
         boolean isWord = true;
+
+        //Check if no words were played
+        if (playEvent.getSquaresInWord().isEmpty()) {
+            return false;
+        }
+
         // check that the word is a valid english scrabble word
         if (!(currentPlayer instanceof AIPlayerModel)) {
                   isWord = SCRABBLE_DICTIONARY.validateWord(word);

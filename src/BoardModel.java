@@ -233,8 +233,9 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      * @author Michael Kyrollos, ID: 101183521
      * @author Pathum Danthanarayana, 101181411
      * @author Amin Zeina, 101186297
-     * @version 2.3
-     * @date November 12, 2022
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
      *
      * @param playEvent the PlayWordEvent that was generated to play this word
      * @return the score of the word, if placed successfully. Return -1 if unsuccessful
@@ -247,6 +248,17 @@ public class BoardModel extends ScrabbleModel implements Serializable {
         int originalWordScore = 0;
         int adjacentWordScore = 0;
         boolean isConnectedToExistingWord = false;
+        boolean newTilesPlaced = false;
+
+        //Check if player has placed at least one new tile.
+        for (Square square : playEvent.getSquaresInWord()) {
+            if (!square.getSquareFinalized()) {
+                newTilesPlaced = true;
+            }
+        }
+        if (!newTilesPlaced) {
+            return notifyInvalidPlacement("Invalid play: Must play at least one tile from the rack");
+        }
 
         if (!playEvent.areSquaresConnected())
         {
@@ -558,6 +570,20 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      */
     public void playTile(Square square, Tile tile) {
         square.placeSquare(tile);
+        updateScrabbleViews();
+    }
+
+    /**
+     * Removes the given tile on the given square on the board.
+     * @param square Square to be removed from.
+     * @param tile Tile to be removed.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    public void removeTile(Square square, Tile tile) {
+        square.removeTile();
         updateScrabbleViews();
     }
 }
