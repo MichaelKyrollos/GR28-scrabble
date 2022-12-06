@@ -29,7 +29,6 @@ public class AIPlayerModel extends PlayerModel implements ScrabblePlayer{
         // calls the constructor of PlayerModel
         super(name,board);
         this.dict = new LetterTree();
-
     }
 
     /**
@@ -110,7 +109,6 @@ public class AIPlayerModel extends PlayerModel implements ScrabblePlayer{
         StringBuilder aiRack = getRack().forAI();
         AI aiPlayer = new AI(dict,aiBoard,aiRack);
         AI.AIMove bestMove = aiPlayer.findAllOptions();
-        PlayWordEvent wordEvent = convertEvent(bestMove);
-        return wordEvent;
+        return convertEvent(bestMove);
     }
 }

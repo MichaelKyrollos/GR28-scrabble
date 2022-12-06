@@ -19,12 +19,12 @@ import static java.util.Map.entry;
 public class AI {
 
     // Mapping all the point values of letters, this uses less resources than creating a TileBag instance
-    private Map<Character, Integer> points;
+    private final Map<Character, Integer> points;
     // best score that the AI can produce
     private int bestScore;
     // String representation of the rack
-    private StringBuilder stringRack;
-    private AIBoard aiBoard;
+    private final StringBuilder stringRack;
+    private final AIBoard aiBoard;
     // the best board that the AI can produce (includes current board and the word that the AI placed)
     static AIBoard bestBoard;
     // Stores reference to the subclass
@@ -47,14 +47,32 @@ public class AI {
         private final int[] pos;
         private final String word;
 
-        public String getDirection() {
-            return direction;
-        }
+        /**
+         * Constructs an AIMove object.
+         * @param word Word to be played.
+         * @param lastPos Position of the word.
+         * @param direction Direction of the word.
+         *
+         * @author Michael Kyrollos, 101183521
+         * @version 1.2
+         * @date December 1st 2022
+         */
         public AIMove(String word, int[] lastPos, String direction){
             this.word = word;
             this.pos = lastPos;
             this.direction = direction;
+        }
 
+        /**
+         * Returns the direction of the move.
+         * @return Direction of the move
+         *
+         * @author Michael Kyrollos, 101183521
+         * @version 1.2
+         * @date December 1st 2022
+         */
+        public String getDirection() {
+            return direction;
         }
 
         /**
@@ -101,6 +119,13 @@ public class AI {
                     '}';
         }
     }
+
+    /**
+     * Constructs an AI object.
+     * @param dictionary LetterTree of the AI.
+     * @param aiBoard Board of the AI.
+     * @param stringRack String representing rack of the AI.
+     */
     public AI(LetterTree dictionary, AIBoard aiBoard, StringBuilder stringRack) {
         points = Map.ofEntries(
                 entry('a', 1),entry(('n'), 1),
@@ -286,40 +311,40 @@ public class AI {
                 continue;
             }
             // checking for letters before given position
-            String lettersBefore ="";
+            StringBuilder lettersBefore = new StringBuilder();
             int[] scanPos = pos;
             while (aiBoard.isFilled(beforeCross(scanPos))){
                 scanPos = beforeCross(scanPos);
-                lettersBefore = aiBoard.getAITile(scanPos) + lettersBefore;
+                lettersBefore.insert(0, aiBoard.getAITile(scanPos));
             }
             // checking for letters after given position
-            String lettersAfter ="";
+            StringBuilder lettersAfter = new StringBuilder();
             scanPos = pos;
             while (aiBoard.isFilled(afterCross(scanPos))){
                 scanPos = afterCross(scanPos);
-                lettersAfter = lettersAfter + aiBoard.getAITile(scanPos);
+                lettersAfter.append(aiBoard.getAITile(scanPos));
             }
             // out of all letters in the alphabet, legalHere will show the letters
             // that are possible to be played in a position.
             String allLetters = "abcdefghijklmnopqrstuvwxyz";
-            String legalHere = "";
+            StringBuilder legalHere = new StringBuilder();
             // if there's no char in the way, then you can place any letter
             if (lettersBefore.length() == 0 && lettersAfter.length() == 0){
-                legalHere = allLetters;
+                legalHere = new StringBuilder(allLetters);
             } else {
                 //make sure that the letters that we can place adjacent to the other square will possibly
                 // form a word.
                 for (int i=0; i < allLetters.length(); i++){
                     char letter =  allLetters.charAt(i);
-                    String wordFormed = lettersBefore + letter + lettersAfter;
+                    String wordFormed = lettersBefore.toString() + letter + lettersAfter;
                     if (dictionary.isWord(wordFormed)) {
-                        legalHere += letter;
+                        legalHere.append(letter);
                     }
                 }
             }
             List<Integer> arr = Arrays.asList(pos[0],pos[1]);
             // place calculation in the hashmap
-            result.put(arr,legalHere);
+            result.put(arr, legalHere.toString());
         }
         return result;
     }
@@ -375,6 +400,7 @@ public class AI {
             }
         }
     }
+
     /**
      * Find partial and full words that can be formed after a given position and limit.
      * NOTE: this is a recursive function.
@@ -449,7 +475,6 @@ public class AI {
         }
     }
 
-
     /**
      * Determines the highest scoring board produced by the AI and sets the fields accordingly.
      * This will also ensure that the placement is still correct.
@@ -463,7 +488,7 @@ public class AI {
     private void legalMove(String word, int[] lastPos) {
         AIBoard boardToBe = aiBoard.copyBoard();
         int[] playPos = lastPos;
-        String fullWord = word;
+        StringBuilder fullWord = new StringBuilder(word);
         for (int wordIndex = word.length()-1; wordIndex >= 0; wordIndex--){
             List<Integer> arr = Arrays.asList(playPos[0],playPos[1]);
             if (crossCheckResults.get(arr) != null && crossCheckResults.get(arr).indexOf(word.charAt(wordIndex)) == -1){
@@ -473,10 +498,10 @@ public class AI {
             playPos = before(playPos);
         }
         while (boardToBe.isInBounds(playPos) && boardToBe.isFilled(playPos)){
-            fullWord = boardToBe.getAITile(playPos) + fullWord;
+            fullWord.insert(0, boardToBe.getAITile(playPos));
             playPos = before(playPos);
         }
-        if (!dictionary.isWord(fullWord)){
+        if (!dictionary.isWord(fullWord.toString())){
             return;
         }
         int score = getScore(boardToBe,lastPos);
@@ -516,15 +541,15 @@ public class AI {
                 // can fill it before anchor
                 if (aiBoard.isFilled(before(anchorPos))){
                     int[] scanPos = before(anchorPos);
-                    String partialWord = Character.toString(aiBoard.getAITile(scanPos));
+                    StringBuilder partialWord = new StringBuilder(Character.toString(aiBoard.getAITile(scanPos)));
                     while (aiBoard.isFilled(before(scanPos))) {
                         scanPos = before(scanPos);
-                        partialWord = aiBoard.getAITile(scanPos) + partialWord;
+                        partialWord.insert(0, aiBoard.getAITile(scanPos));
                     }
                     // ensure word is valid
-                    LetterTree.LetterTreeNode pwNode = dictionary.lookup(partialWord);
+                    LetterTree.LetterTreeNode pwNode = dictionary.lookup(partialWord.toString());
                     if (pwNode != null){
-                        extendAfter(partialWord,pwNode,anchorPos,false);
+                        extendAfter(partialWord.toString(),pwNode,anchorPos,false);
                     }
                 } else {
                     int limit = 0;
@@ -536,7 +561,6 @@ public class AI {
                     beforePart("",dictionary.root,anchorPos,limit);
                 }
             }
-
         }
         return bestMove;
     }

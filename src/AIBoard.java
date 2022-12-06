@@ -13,7 +13,9 @@ import java.util.ArrayList;
  */
 
 public class AIBoard {
+    //Tiles of the board
     private final char[][] tiles;
+    //Size of the board
     private final int SIZE;
 
     /**
@@ -65,18 +67,17 @@ public class AIBoard {
 
     /**
      * Set the letter representation of a tile at a given position
-     * @param pos A coordinate of the wanted tile from the board
-     * @param tile The letter to be placed
-     * @return The letter that has been placed.
      *
+     * @param pos  A coordinate of the wanted tile from the board
+     * @param tile The letter to be placed
      * @author Michael Kyrollos, 101183521
      * @version 1.2
      * @date December 4th 2022
      */
-    public char setAITile(int[] pos, char tile){
+    public void setAITile(int[] pos, char tile){
         int row = pos[0];
         int col = pos[1];
-        return tiles[row][col] = tile;
+        tiles[row][col] = tile;
     }
 
     /**
@@ -138,8 +139,7 @@ public class AIBoard {
         for (int[] pos: createAllPositions()){
             cloned[pos[0]][pos[1]] =  getAITile(pos);
         }
-        AIBoard copy = new AIBoard(cloned, SIZE);
-        return copy;
+        return new AIBoard(cloned, SIZE);
     }
 
     /**
@@ -162,5 +162,4 @@ public class AIBoard {
         }
         return repr.toString();
     }
-
 }
