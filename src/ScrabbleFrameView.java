@@ -47,7 +47,6 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     public static final Color TRIPLE_LETTER_SQUARE_BACKGROUND_COLOR = new Color(113, 210, 113);
     public static final Color DOUBLE_WORD_SQUARE_BACKGROUND_COLOR = new Color(255,  120,  120);
     public static final Color TRIPLE_WORD_SQUARE_BACKGROUND_COLOR = new Color(243, 170, 68);
-    public static final Color SQUARE_BORDER_COLOR = new Color(34, 178, 194);
     public static final Color PLAYER_CARD_COLOR = new Color(28, 62, 91);
     public static final Color SELECTED_TILE_COLOR = new Color(223, 223, 223);
     public static final Color CENTER_SQUARE_COLOR = PLAYER_CARD_COLOR;

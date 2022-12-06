@@ -75,6 +75,21 @@ public class RackModel extends ScrabbleModel implements Serializable {
     }
 
     /**
+     * Adds the specified tile to the rack if it is not full
+     * @param tile Tile to be added
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    public void addSpecifiedTile(Tile tile) {
+        if(this.tiles.size() < MAX_TILES) {
+            this.tiles.add(tile);
+            updateScrabbleViews();
+        }
+    }
+
+    /**
      * The addTiles method adds the specified ArrayList of tiles to
      * the player's rack.
      * @author Pathum Danthanarayana, 101181411

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static java.lang.Character.isAlphabetic;
 import static java.lang.Character.toUpperCase;
@@ -202,6 +203,12 @@ public class ScrabbleController implements ActionListener {
                 while (!isCharLetter) {
                     String tileLetter = JOptionPane.showInputDialog(scrabbleFrame, "Enter the letter " +
                             "you'd like to use for this blank tile: ");
+                    //Break if user cancels prompt
+                    if (tileLetter == null) {
+                        selectedTile.setBackground(Color.WHITE);
+                        selectedTile = null;
+                        return;
+                    }
                     if (tileLetter.length() == 1 && isAlphabetic(tileLetter.charAt(0))) {
                         blankTile.setLetter(toUpperCase(tileLetter.charAt(0)));
                         isCharLetter = true;
@@ -215,17 +222,26 @@ public class ScrabbleController implements ActionListener {
             squaresInWord.add(square);
             tilesPlaced.add(selectedTile);
             selectedTile = null;
-            square.setEnabled(false);
+            square.setBorder(BorderFactory.createLineBorder(Square.SQUARE_SELECTED_COLOUR));
         } else if (square.getTile() != null && selectedTile != null) {
-            // Change colour of tile to show it is unselected
-            selectedTile.setBackground(Color.WHITE);
             // square not empty -> unselect tile and prompt user
-            selectedTile = null;
-            JOptionPane.showMessageDialog(null, "That square is full. Tile unselected.");
+            JOptionPane.showMessageDialog(null, "That square is full.");
         } else if (square.getTile() != null && selectedTile == null){
-            // square not empty but no tile selected -> add existing clicked square to word
-            squaresInWord.add(square);
-            square.setEnabled(false);
+            // Square unselected
+            if (squaresInWord.contains(square)) {
+                // Square was played on by the current player on the current turn
+                if (!(square.getSquareFinalized())) {
+                    this.tilesPlaced.remove(square.getTile());
+                    this.scrabbleModel.getCurrentPlayer().removeTile(square, square.getTile());
+                }
+                squaresInWord.remove(square);
+                square.setBorder(BorderFactory.createLineBorder(Square.SQUARE_UNSELECTED_COLOR));
+            }
+            // Square selected
+            else {
+                squaresInWord.add(square);
+                square.setBorder(BorderFactory.createLineBorder(Square.SQUARE_SELECTED_COLOUR));
+            }
         }
         // otherwise, square empty and no tile selected, do nothing
     }
@@ -317,6 +333,11 @@ public class ScrabbleController implements ActionListener {
         scrabbleFrame.getSkipButton().setEnabled(true);
         scrabbleFrame.getPlayButton().setText("Play");
         scrabbleFrame.getPlayButton().setBackground(ScrabbleFrameView.ACCENT_COLOR);
+
+        for (Square square : squaresInWord) {
+            square.setBorder(BorderFactory.createLineBorder(Square.SQUARE_UNSELECTED_COLOR));
+        }
+
         // if an AIPlayer Submit was clicked, call AIPlayer to directly make the move.
         if (scrabbleModel.getCurrentPlayer()instanceof AIPlayerModel) {
             PlayWordEvent wordEvent = ((AIPlayerModel) scrabbleModel.getCurrentPlayer()).makeMove();
@@ -336,11 +357,13 @@ public class ScrabbleController implements ActionListener {
                 scrabbleModel.getCurrentPlayer().playTile(squaresInWord.get(i), tilesPlaced.get(i));
             }
         }
+        if (selectedTile != null) {
+            selectedTile.setBackground(Color.WHITE);
+            selectedTile = null;
+        }
+        Collections.sort(squaresInWord);
         PlayWordEvent playEvent = new PlayWordEvent(scrabbleModel, squaresInWord, tilesPlaced);
         scrabbleModel.playWord(playEvent);
-        for (Square square : squaresInWord) {
-            square.setEnabled(true);
-        }
         squaresInWord.clear();
         tilesPlaced.clear();
         tilesToRedraw.clear();
@@ -566,7 +589,6 @@ public class ScrabbleController implements ActionListener {
         if (fileSelectionResult == JFileChooser.APPROVE_OPTION)
         {
             String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-            System.out.println("Load file path: " + filePath);
             // Check if the user is clicking Load Game before the starting a Scrabble game or after
             if (!scrabbleFrame.isScrabbleGameStarted())
             {
@@ -620,7 +642,6 @@ public class ScrabbleController implements ActionListener {
             if (exportFilePath.endsWith(".txt") || exportFilePath.endsWith(".ser"))
             {
                 // If so, proceed with saving the game to the specified path
-                System.out.println("Export file path: " + exportFilePath);
                 if (this.scrabbleModel.saveScrabbleGame(exportFilePath))
                 {
                     JOptionPane.showMessageDialog(scrabbleFrame, "Scrabble game successfully saved.");

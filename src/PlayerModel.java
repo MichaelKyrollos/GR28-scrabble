@@ -92,6 +92,10 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
             //Word is valid and has been played
             rack.fillRack(); //refill rack
             this.score += wordScore;
+            //Finalize the squares
+            for (Square square : playEvent.getSquaresInWord()) {
+                square.setSquareFinalized(true);
+            }
             updateScrabbleViews();
             return true;
         }
@@ -172,6 +176,25 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
         rack.removeTile(tile.getLetter());
     }
 
+    /**
+     * Removes the given tile from the board and returns it back to the player's rack.
+     * @param square Square to be removed from.
+     * @param tile Tile to be removed
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    public void removeTile(Square square, Tile tile) {
+        board.removeTile(square, tile);
+        rack.addSpecifiedTile(tile);
+    }
+
+    /**
+     * Gets the board of this player.
+     *
+     * @return BoardModel of this player.
+     */
     public BoardModel getBoard() {
         return board;
     }

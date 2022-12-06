@@ -13,23 +13,37 @@ import java.util.Objects;
  * @version 3.0
  * @date November 22, 2022
  */
-public class Square extends JButton implements Serializable {
+public class Square extends JButton implements Serializable, Comparable {
 
     private Tile tile;
+
+    public static final Color SQUARE_UNSELECTED_COLOR = new Color(34, 178, 194);
+    public static final Color SQUARE_SELECTED_COLOUR = Color.white;
 
     private final int xCoord;
     private final int yCoord;
 
+    private boolean squareFinalized;
+
+    /**
+     * Constructs a square object.
+     * @param x x coordinate of the square.
+     * @param y y coordinate of the square.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
     public Square(int x, int y) {
         super(" ");
         this.xCoord = x;
         this.yCoord = y;
+        this.squareFinalized = false;
         this.setBackground(ScrabbleFrameView.SQUARE_BACKGROUND_COLOR);
         this.setFont(new Font("Manrope", Font.BOLD, 18));
         this.setFocusPainted(false);
         // Create and add a border to the button
-        Border border = BorderFactory.createLineBorder(ScrabbleFrameView.SQUARE_BORDER_COLOR);
-        this.setBorder(border);
+        this.setBorder(BorderFactory.createLineBorder(SQUARE_UNSELECTED_COLOR));
         this.setForeground(Color.WHITE);
     }
 
@@ -48,11 +62,12 @@ public class Square extends JButton implements Serializable {
         this.tile = otherSquare.tile;
         this.xCoord = otherSquare.xCoord;
         this.yCoord = otherSquare.yCoord;
+        this.squareFinalized = otherSquare.squareFinalized;
         this.setBackground(ScrabbleFrameView.SQUARE_BACKGROUND_COLOR);
         this.setFont(new Font("Manrope", Font.BOLD, 18));
         this.setFocusPainted(false);
         // Create and add a border to the button
-        Border border = BorderFactory.createLineBorder(ScrabbleFrameView.SQUARE_BORDER_COLOR);
+        Border border = BorderFactory.createLineBorder(SQUARE_UNSELECTED_COLOR);
         this.setBorder(border);
         this.setForeground(Color.WHITE);
     }
@@ -97,6 +112,30 @@ public class Square extends JButton implements Serializable {
     }
 
     /**
+     * Returns the square finalized field of the square.
+     * @return True if the square is finalized, false otherwise.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    public boolean getSquareFinalized() {
+        return this.squareFinalized;
+    }
+
+    /**
+     * Sets the square finalized field to the given boolean.
+     * @param b The value to be set to.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    public void setSquareFinalized(Boolean b) {
+        this.squareFinalized = b;
+    }
+
+    /**
      * Places a tile on a square, regardless of the square's state
      *
      * @param tile The tile to be placed on the Square
@@ -104,6 +143,15 @@ public class Square extends JButton implements Serializable {
     public void placeSquare(Tile tile) {
         this.tile = tile;
     }
+
+    /**
+     * Removes tile from this square.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    public void removeTile() {this.tile = null;}
 
     /**
      * Returns a string representing the current state of the tile.
@@ -131,4 +179,16 @@ public class Square extends JButton implements Serializable {
         return this.tile;
     }
 
+    /**
+     * Compares a square to another.
+     * @param o the object to be compared.
+     * @return 1 if this square has greater x/y values than other square, 0 if they are equal and -1 otherwise.
+     */
+    @Override
+    public int compareTo(Object o) {
+        Square otherSquare = (Square) o;
+        if (this.xCoord == otherSquare.xCoord && this.yCoord == otherSquare.yCoord) {return 0;}
+        else if (this.xCoord > otherSquare.xCoord || this.yCoord > otherSquare.yCoord) {return 1;}
+        else {return -1;}
+    }
 }
