@@ -185,6 +185,11 @@ public class ScrabbleDictionary {
     public static final File DEFAULT_DICTIONARY = new File(new File("").getAbsolutePath() + "/src/resources/default_dictionary.txt");
 
     /**
+     * The second default dictionary file to be used.
+     */
+    public static final File DEFAULT_DICTIONARY_2 = new File(new File("").getAbsolutePath() + "/src/resources/default_dictionary2.txt");
+
+    /**
      * The dictionary structure to hold the dictionary.
      */
     final DictionaryNode dictionary;
