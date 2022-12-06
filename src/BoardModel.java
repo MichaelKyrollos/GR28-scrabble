@@ -436,27 +436,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
         }
         // at this point, row is the row of the highest connected tile in this column
         // Now iterate down until we reach a null tile, and store the results
-
-        StringBuilder word = new StringBuilder();
-        int score = 0;
-        for(int row_i =row;row_i<SIZE;row_i++) {
-            Tile currTile = squares[row_i][col].getTile();
-            if (currTile==null){
-                break;
-            }
-            word.append(currTile.getLetter());
-            score += currTile.getValue();
-        }
-        // ensure there is an adjacent word (not only the tile just placed in playWord(), which is already counted)
-        if (word.toString().equals(placedWord.toUpperCase())) {
-            return 0;
-        }
-        // check if word is a valid word
-        if (!ScrabbleGameModel.SCRABBLE_DICTIONARY.validateWord(word.toString())) {
-            return -1;
-        }
-        // word is valid, return score
-        return score;
+        return calculateScoreAdjacentWord(placedWord, row, col, true);
     }
 
     /**
@@ -480,11 +460,31 @@ public class BoardModel extends ScrabbleModel implements Serializable {
         }
         // at this point, col is the column of the leftmost connected tile in this row
         // Now iterate down until we reach a null tile, and store the results
+        return calculateScoreAdjacentWord(placedWord, col, row, false);
+    }
+
+    /**
+     * Helper method that calculates the score of the placed word.
+     * @param placedWord Word that was placed.
+     * @param changingValue Row if word placed is horizontal, column if vertical.
+     * @param constValue Row if word placed is vertical, column if horizontal.
+     * @param isVertical True if word is vertical, false if horizontal.
+     * @return the score of the adjacent word, or -1 if invalid word, or 0 if there is no adjacent word
+     *
+     * @author Amin Zeina, 101186297
+     * @author Michael Kyrollos
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    private int calculateScoreAdjacentWord(String placedWord, int changingValue, int constValue, boolean isVertical) {
         StringBuilder word = new StringBuilder();
         int score = 0;
-        for(int col_i =col;col_i<SIZE;col_i++) {
-            Tile currTile = squares[row][col_i].getTile();
-            if (currTile==null){
+        Tile currTile;
+        for (int i = changingValue; i < SIZE; i++) {
+            if (isVertical) {currTile = squares[i][constValue].getTile();}
+            else {currTile = squares[constValue][i].getTile();}
+            if (currTile == null) {
                 break;
             }
             word.append(currTile.getLetter());
@@ -498,7 +498,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
         if (!ScrabbleGameModel.SCRABBLE_DICTIONARY.validateWord(word.toString())) {
             return -1;
         }
-        // word is valid (or there is no adjacent word), return score
+        // word is valid, return score
         return score;
     }
 
