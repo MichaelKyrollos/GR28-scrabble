@@ -16,4 +16,14 @@ public interface ScrabbleView {
      * @date November 11, 2022
      */
     void update();
+
+    /**
+     * Show message with view.
+     * @param message Message to be shown.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    void getMessage(String message);
 }

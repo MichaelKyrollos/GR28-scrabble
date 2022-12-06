@@ -34,8 +34,6 @@ public class BoardModel extends ScrabbleModel implements Serializable {
 
     private Square copiedSquares[][];
 
-
-
     private ScrabbleGameModel game;
 
     private boolean isEmpty;
@@ -383,8 +381,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      */
     private int notifyInvalidPlacement(String message)
     {
-        // Create a message dialog with the specified message
-        JOptionPane.showMessageDialog(null, message);
+        this.messageScrabbleViews(message);
         // Revert the board to its previous state
         revertBoard();
         return -1;

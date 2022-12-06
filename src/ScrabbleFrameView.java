@@ -531,6 +531,19 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         this.repaint();
     }
 
+    /**
+     * Displays message from model.
+     * @param message Message to be shown.
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    @Override
+    public void getMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
     /** Main method **/
     public static void main(String[] args)
     {

@@ -50,4 +50,17 @@ public abstract class ScrabbleModel {
             v.update();
         }
     }
+
+    /**
+     * Notifies all subscribers of new message
+     *
+     * @author Yehan De Silva
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    protected void messageScrabbleViews(String message) {
+        for(ScrabbleView v: scrabbleViews) {
+            v.getMessage(message);
+        }
+    }
 }
