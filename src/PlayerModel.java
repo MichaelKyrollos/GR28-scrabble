@@ -186,7 +186,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
      * @date December 05, 2022
      */
     public void removeTile(Square square, Tile tile) {
-        board.removeTile(square, tile);
+        board.removeTile(square);
         rack.addSpecifiedTile(tile);
     }
 

@@ -1,6 +1,5 @@
 import org.xml.sax.SAXException;
 
-import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -8,7 +7,6 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.lang.*;
 import static java.lang.Character.*;
@@ -32,9 +30,9 @@ public class BoardModel extends ScrabbleModel implements Serializable {
 
     private Square[][] squares;
 
-    private Square copiedSquares[][];
+    private Square[][] copiedSquares;
 
-    private ScrabbleGameModel game;
+    private final ScrabbleGameModel game;
 
     private boolean isEmpty;
 
@@ -252,6 +250,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
         for (Square square : playEvent.getSquaresInWord()) {
             if (!square.getSquareFinalized()) {
                 newTilesPlaced = true;
+                break;
             }
         }
         if (!newTilesPlaced) {
@@ -297,7 +296,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
                     isConnectedToExistingWord = true;
                 }
             }
-            // check that there isnt a word directly connected to this word vertically
+            // check that there isn't a word directly connected to this word vertically
             int adjScore = checkVerticalAdjacentWord(wordSquares.get(0), word);
             if (adjScore == -1)
             {
@@ -344,7 +343,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
                     isConnectedToExistingWord = true;
                 }
             }
-            // check that there isnt a word directly connected to this word vertically
+            // check that there isn't a word directly connected to this word vertically
             int adjScore = checkHorizontalAdjacentWord(wordSquares.get(0), word);
             if (adjScore == -1)
             {
@@ -391,7 +390,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      * Returns the bonus score multiplier for this word, which will be 1 if there is no premium tile used for this word,
      * or > 1 if one or multiple premium squares are used.
      * @param squares the list of squares the word to check was placed on
-     * @return the bonus score multipler of the placed word
+     * @return the bonus score multiplier of the placed word
      */
     private int checkWordBonus(ArrayList<Square> squares) {
         int multiplier = 1;
@@ -438,22 +437,22 @@ public class BoardModel extends ScrabbleModel implements Serializable {
         // at this point, row is the row of the highest connected tile in this column
         // Now iterate down until we reach a null tile, and store the results
 
-        String word = "";
+        StringBuilder word = new StringBuilder();
         int score = 0;
         for(int row_i =row;row_i<SIZE;row_i++) {
             Tile currTile = squares[row_i][col].getTile();
             if (currTile==null){
                 break;
             }
-            word += currTile.getLetter();
+            word.append(currTile.getLetter());
             score += currTile.getValue();
         }
         // ensure there is an adjacent word (not only the tile just placed in playWord(), which is already counted)
-        if (word.equals(placedWord.toUpperCase())) {
+        if (word.toString().equals(placedWord.toUpperCase())) {
             return 0;
         }
         // check if word is a valid word
-        if (!game.SCRABBLE_DICTIONARY.validateWord(word)) {
+        if (!ScrabbleGameModel.SCRABBLE_DICTIONARY.validateWord(word.toString())) {
             return -1;
         }
         // word is valid, return score
@@ -481,22 +480,22 @@ public class BoardModel extends ScrabbleModel implements Serializable {
         }
         // at this point, col is the column of the leftmost connected tile in this row
         // Now iterate down until we reach a null tile, and store the results
-        String word = "";
+        StringBuilder word = new StringBuilder();
         int score = 0;
         for(int col_i =col;col_i<SIZE;col_i++) {
             Tile currTile = squares[row][col_i].getTile();
             if (currTile==null){
                 break;
             }
-            word += currTile.getLetter();
+            word.append(currTile.getLetter());
             score += currTile.getValue();
         }
         // ensure there is an adjacent word (not only the tile just placed in playWord(), which is already counted)
-        if (word.equals(placedWord.toUpperCase())) {
+        if (word.toString().equals(placedWord.toUpperCase())) {
             return 0;
         }
         // check if word is a valid word
-        if (!game.SCRABBLE_DICTIONARY.validateWord(word)) {
+        if (!ScrabbleGameModel.SCRABBLE_DICTIONARY.validateWord(word.toString())) {
             return -1;
         }
         // word is valid (or there is no adjacent word), return score
@@ -523,7 +522,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
                     repr.append(" |");
                 }
                 else {
-                    repr.append(this.getSquares()[i][j].getTile().getLetter() + "|");
+                    repr.append(this.getSquares()[i][j].getTile().getLetter()).append("|");
                 }
             }
             repr.append("\n");
@@ -573,13 +572,12 @@ public class BoardModel extends ScrabbleModel implements Serializable {
     /**
      * Removes the given tile on the given square on the board.
      * @param square Square to be removed from.
-     * @param tile Tile to be removed.
      *
      * @author Yehan De Silva
      * @version 4.0
      * @date December 05, 2022
      */
-    public void removeTile(Square square, Tile tile) {
+    public void removeTile(Square square) {
         square.removeTile();
         updateScrabbleViews();
     }
