@@ -13,6 +13,7 @@ import java.util.Objects;
  * @version 3.0
  * @date November 22, 2022
  */
+@SuppressWarnings("rawtypes")
 public class Square extends JButton implements Serializable, Comparable {
 
     private Tile tile;
