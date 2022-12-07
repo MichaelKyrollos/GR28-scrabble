@@ -30,6 +30,7 @@ public class Tile extends JButton implements Serializable {
         this.setFocusPainted(false);
         this.setForeground(Color.BLACK);
         this.setFont(new Font("Manrope", Font.BOLD, 18));
+        this.setPreferredSize(new Dimension(55, 45));
     }
 
     /**
