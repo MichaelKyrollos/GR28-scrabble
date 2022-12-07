@@ -1,13 +1,7 @@
 
 // Import libraries
-import org.xml.sax.SAXException;
 
-import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -186,10 +180,10 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
 
             // Read the written Scrabble game model
             ScrabbleGameStatus gameStatus = (ScrabbleGameStatus) objectInputStream.readObject();
-            this.gameBoard = gameStatus.getBoard();
-            this.players = gameStatus.getPlayers();
-            this.currentTurn = gameStatus.getCurrentTurn();
-            GAME_TILE_BAG = gameStatus.getTileBag();
+            this.gameBoard = gameStatus.board();
+            this.players = gameStatus.players();
+            this.currentTurn = gameStatus.currentTurn();
+            GAME_TILE_BAG = gameStatus.tileBag();
 
             // Clear the undo and redo stack
             this.undoStack.clear();
@@ -520,13 +514,13 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      * @date December 03, 2022
      */
     private void restoreStatus(ScrabbleGameStatus status) {
-        this.gameBoard = status.getBoard();
-        this.players = status.getPlayers();
+        this.gameBoard = status.board();
+        this.players = status.players();
         for (PlayerModel pm : this.players) {
             pm.setBoard(this.gameBoard);
         }
-        this.currentTurn = status.getCurrentTurn();
-        GAME_TILE_BAG = status.getTileBag();
+        this.currentTurn = status.currentTurn();
+        GAME_TILE_BAG = status.tileBag();
 
         this.pushStatusToUndoStack();
 
