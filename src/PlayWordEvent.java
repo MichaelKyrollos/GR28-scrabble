@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EventObject;
 
 /**
@@ -11,11 +10,11 @@ import java.util.EventObject;
  */
 public class PlayWordEvent extends EventObject {
 
-    private ArrayList<Square> squaresInWord;
+    private final ArrayList<Square> squaresInWord;
 
-    private ArrayList<Tile> tilesPlaced;
+    private final ArrayList<Tile> tilesPlaced;
 
-    private String word;
+    private final String word;
 
     /**
      * Constructs a PlayWordEvent object
@@ -72,7 +71,6 @@ public class PlayWordEvent extends EventObject {
 
     /**
      * Returns a formatted string of the placed word.
-     *
      * New letters that were just placed (new tiles) are lowercase, and letters that were already placed (existing tiles)
      * are uppercase. For example, if word == h(e)llo return hEllo
      *
@@ -82,19 +80,19 @@ public class PlayWordEvent extends EventObject {
      * @return a formatted string of the placed word
      */
     private String createWordString() {
-        String word = "";
+        StringBuilder word = new StringBuilder();
         int tileIndex = 0;
         for (Square square : squaresInWord) {
             if (tileIndex < tilesPlaced.size() && square.getTile() == tilesPlaced.get(tileIndex)) { // checking object references ==
                 // this square contains a new tile -> new letter, lowercase in string
-                word += Character.toLowerCase(square.getTile().getLetter());
+                word.append(Character.toLowerCase(square.getTile().getLetter()));
                 tileIndex++;
             } else {
-                // no new tiles left, or this sqaure's tile not in new tile list -> existing letter, uppercase in string
-                word += Character.toUpperCase(square.getTile().getLetter());
+                // no new tiles left, or this square's tile not in new tile list -> existing letter, uppercase in string
+                word.append(Character.toUpperCase(square.getTile().getLetter()));
             }
         }
-        return word;
+        return word.toString();
     }
 
     /**
@@ -107,11 +105,8 @@ public class PlayWordEvent extends EventObject {
      */
     public boolean isVerticalPlacement() {
 
-        if (squaresInWord.size() < 2 || squaresInWord.get(1).getXCoord() == squaresInWord.get(0).getXCoord() + 1) {
-            // squares are being placed vertically
-            return true;
-        }
-        return false;
+        // squares are being placed vertically
+        return squaresInWord.size() < 2 || squaresInWord.get(1).getXCoord() == squaresInWord.get(0).getXCoord() + 1;
     }
 
     /**
@@ -144,6 +139,4 @@ public class PlayWordEvent extends EventObject {
         }
         return true;
     }
-
-
 }

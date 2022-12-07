@@ -59,7 +59,7 @@ public class Tile extends JButton implements Serializable {
      * The toString method overrides the default toString method to
      * describe a tile by its letter.
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.1
      * @date October 25, 2022
      *

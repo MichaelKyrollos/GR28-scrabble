@@ -29,14 +29,13 @@ public class AIPlayerModel extends PlayerModel implements ScrabblePlayer{
         // calls the constructor of PlayerModel
         super(name,board);
         this.dict = new LetterTree();
-
     }
 
     /**
      * Copy constructor for AIPlayerModel.
      * @param player AIPlayerModel to be copied.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -110,7 +109,6 @@ public class AIPlayerModel extends PlayerModel implements ScrabblePlayer{
         StringBuilder aiRack = getRack().forAI();
         AI aiPlayer = new AI(dict,aiBoard,aiRack);
         AI.AIMove bestMove = aiPlayer.findAllOptions();
-        PlayWordEvent wordEvent = convertEvent(bestMove);
-        return wordEvent;
+        return convertEvent(bestMove);
     }
 }

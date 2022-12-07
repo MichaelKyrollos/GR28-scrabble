@@ -12,7 +12,7 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
  * Scrabble game.
  *
  * @author Pathum Danthanarayana, 101181411
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 1.2
  * @date November 13, 2022
  */
@@ -72,7 +72,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     /**
      * Constructs a Scrabble Frame.
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina, 101186297
      * @version 1.4
      * @date November 13, 2022
@@ -156,7 +156,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     /**
      * Returns the frame's play button.
      * @return frame's play button.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 13, 2022
      */
@@ -165,7 +165,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     /**
      * Returns the frame's redraw button.
      * @return frame's redraw button.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 13, 2022
      */
@@ -175,7 +175,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     /**
      * Returns the frame's skip button.
      * @return frame's skip button.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 17, 2022
      */
@@ -252,7 +252,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * game, and the name of each player.
      *
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.1
      * @date November 11, 2022
      */
@@ -295,7 +295,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * player cards, etc.).
      *
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina, 101186297
      * @version 1.3
      * @date November 13, 2022
@@ -461,13 +461,13 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * that will hold all the player cards.
      *
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.1
      */
     private void addPlayerCards()
     {
         for (PlayerModel player : scrabbleModel.getPlayers()) {
-            PlayerCardView playerCard = new PlayerCardView(player, scrabbleController);
+            PlayerCardView playerCard = new PlayerCardView(player);
             // Keep a reference to the player card
             this.playerCards.add(playerCard);
             playerPanel.add(playerCard);
@@ -483,7 +483,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
      * @param buttons - An array of Buttons to be added
      *
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.2
      * @date November 13, 2022
      */
@@ -513,7 +513,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     /**
      * Updates the scrabble frame view with any updates that happened in the model.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 02, 2022
      */
@@ -557,6 +557,19 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
         this.revalidate();
         this.repaint();
+    }
+
+    /**
+     * Displays message from model.
+     * @param message Message to be shown.
+     *
+     * @author Yehan De Silva, 101185388
+     * @version 4.0
+     * @date December 05, 2022
+     */
+    @Override
+    public void getMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 
     /** Main method **/

@@ -7,14 +7,17 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * This class tests the RackModel of the Scrabble game.
+ *
+ * @author Michael Kyrollos, 101183521
+ * @version 1.0
+ * @date November 11, 2022
+ */
 class RackModelTest {
 
-    /**
-     *@author Michael Kyrollos, 101183521
-     * @version 1.0
-     * @date November 11, 2022
-     */
-    RackModel rack;
+    private RackModel rack;
+
     @BeforeEach
     void setUp() {
         rack = new RackModel();
@@ -22,7 +25,6 @@ class RackModelTest {
 
     @AfterEach
     void tearDown() {rack = null;}
-
 
     @Test
     void testRackInitiallyEmpty(){
@@ -155,6 +157,4 @@ class RackModelTest {
         rack.fillRack();
         assertFalse(rack.isEmpty());
     }
-
-
 }
