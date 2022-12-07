@@ -8,7 +8,7 @@
  */
 public class WordPremiumSquare extends Square {
 
-    private int wordValueMultiplier;
+    private final int wordValueMultiplier;
 
     /** Used to track if this square's bonus has been used already (should be only used once, on the first word play)*/
     private boolean isBonusScoreUsed;
@@ -43,6 +43,7 @@ public class WordPremiumSquare extends Square {
     public WordPremiumSquare(WordPremiumSquare otherSquare) {
         super(otherSquare);
         this.wordValueMultiplier = otherSquare.wordValueMultiplier;
+        this.isBonusScoreUsed = otherSquare.isBonusScoreUsed;
         if (this.wordValueMultiplier == 2) {
             this.setBackground(ScrabbleFrameView.DOUBLE_WORD_SQUARE_BACKGROUND_COLOR);
         } else {
@@ -52,7 +53,7 @@ public class WordPremiumSquare extends Square {
     }
 
     /**
-     * Getter method for the wordValueMultipler field. Returns the word score multiplier for this square
+     * Getter method for the wordValueMultiplier field. Returns the word score multiplier for this square
      *
      * @author Amin Zeina, 101186297
      * @version 3.0
@@ -67,18 +68,4 @@ public class WordPremiumSquare extends Square {
             return 1;
         }
     }
-
-    /**
-     * Getter method for the isBonusScoreUsed field. Returns true if this square's bonus has already been used, false
-     * otherwise
-     *
-     * @author Amin Zeina, 101186297
-     * @version 3.0
-     * @date November 16, 2022
-     * @return true if this square's bonus has already been used, false otherwise
-     */
-    public boolean isBonusWordScoreUsed() {
-        return this.isBonusScoreUsed;
-    }
-
 }
