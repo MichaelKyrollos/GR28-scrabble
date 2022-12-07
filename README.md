@@ -88,8 +88,11 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
 8. Premium square implemented as sub-classes of Square to easily distinguish preimium squares and to avoid code duplication
       - This should also allow for easier implementation of custom boards (milestone 4)
 
-
-
+9. For the AI: 
+      - The AI is treated as a seperate and external entity of the game. There is a suite of classes dedicated for the AI: AIBoard, AI, AIPlayerModel, LetterTree. 
+      - ``AIPlayerModel.java``: This class implements the ScrabblePlayer interface, allowing all players (AI or human) to be interpreted at the same level (necessary when adding points, creating a rack, etc.) and stored in the same list. The ``AIPlayerModel`` class is necessary for the encapsulation of the extra computation necessary to mimic a ``ScrabblePlayer``. Since the AI will also be using many ``PlayerModel.java`` methods, it will be extending this class and using some of the relevant methods (i.e. ``playWord()``). The class is responsible for handling a new move created by the AI, known as an ``AIMove`` -> this is a subclass of ``AI.java``. The ``AIPlayerModel`` will be responsible for converting the ``AIMove`` to a PlayWordEvent which is a format understandable by the ``PlayerModel``. 
+      - ``AI.java``: This class contains all the logic for the necessary to create a Scrabble move. It scans the board and uses its own rack to create ALL possible moves, given the circumstances. It will return an ``AIBoard`` for each move which represents what the board will ressemble once the AI makes that move. The AI logic will also iterate through all the moves that it has created and will return the highest scoring one, creating an AIMove which can then be processed by the ``AIPlayerModel``.
+      
 
 ## Data Structures
 | Data Structure | Use |
