@@ -6,7 +6,7 @@ import java.util.Scanner;
  * It can be used to check if a word is a legal word that can be played.
  * A text file containing a list of words can be used to create the dictionary,
  * but this class assumes that all words in the text file are valid and only contain letters from the alphabet.
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 3.0
  * @date November 17, 2022
  */
@@ -14,7 +14,7 @@ public class ScrabbleDictionary {
 
     /**
      * This class represents the data structure used to store the dictionary.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date October 25, 2022
      */
@@ -39,7 +39,7 @@ public class ScrabbleDictionary {
 
         /**
          * Constructor to create an instance of a DictionaryNode.
-         * @author Yehan De Silva
+         * @author Yehan De Silva, 101185388
          * @version 1.0
          * @date October 23, 2022
          */
@@ -52,7 +52,7 @@ public class ScrabbleDictionary {
          * Converts a given character to its numerical representation.
          * @param letter Letter to be converted.
          * @return Numerical representation of the letter.
-         * @author Yehan De Silva
+         * @author Yehan De Silva, 101185388
          * @version 1.0
          * @date October 23, 2022
          */
@@ -65,7 +65,7 @@ public class ScrabbleDictionary {
          * Converts only if given a positive integer.
          * @param num Number to be converted.
          * @return String representation of the number, empty String if negative number given.
-         * @author Yehan De Silva
+         * @author Yehan De Silva, 101185388
          * @version 1.1
          * @date October 25, 2022
          */
@@ -76,7 +76,7 @@ public class ScrabbleDictionary {
         /**
          * Adds a specified word to the dictionary structure.
          * @param word Word to be added to the dictionary.
-         * @author Yehan De Silva
+         * @author Yehan De Silva, 101185388
          * @version 1.0
          * @date October 23, 2022
          */
@@ -100,7 +100,7 @@ public class ScrabbleDictionary {
          * Check if a specified word is in the dictionary structure.
          * @param word Word to check if it is in the dictionary structure.
          * @return True if word is in the dictionary structure, false otherwise.
-         * @author Yehan De Silva
+         * @author Yehan De Silva, 101185388
          * @version 1.0
          * @date October 23, 2022
          */
@@ -138,7 +138,7 @@ public class ScrabbleDictionary {
         }
         /**
          * Helper method that returns a string representation of the contents in the dictionary structure.
-         * @author Yehan De Silva
+         * @author Yehan De Silva, 101185388
          * @version 1.0
          * @date October 25, 2022
          * @param node Node whose contents will be returned as a string representation.
@@ -167,7 +167,7 @@ public class ScrabbleDictionary {
         /**
          * Overrides the default toString method to return a string representation of the contents in
          * the dictionary structure.
-         * @author Yehan De Silva
+         * @author Yehan De Silva, 101185388
          * @version 1.0
          * @date October 25, 2022
          * @return The string representation of contents in the dictionary structure.
@@ -196,7 +196,7 @@ public class ScrabbleDictionary {
 
     /**
      * Constructor to instantiate a default dictionary.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date October 23, 2022
      */
@@ -207,7 +207,7 @@ public class ScrabbleDictionary {
     /**
      * Constructor to instantiate a dictionary with the given file.
      * @param file File to be used to create the dictionary.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date October 23, 2022
      */
@@ -219,7 +219,7 @@ public class ScrabbleDictionary {
     /**
      * Creates the dictionary.
      * @param file Text file containing all valid words for the dictionary.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.1
      * @date November 09, 2022
      */
@@ -244,7 +244,7 @@ public class ScrabbleDictionary {
      * Checks if a specified word is in the dictionary (Type-case is not checked).
      * @param word Word to check if it is in the dictionary.
      * @return True if the word is in the dictionary, false otherwise.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.1
      * @date November 09, 2022
      */
@@ -255,7 +255,7 @@ public class ScrabbleDictionary {
     /**
      * Returns a string representation of the dictionary structure, a list of all dictionary words in alphabetic
      * order seperated by a new line.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date October 25, 2022
      * @return String representation of the dictionary

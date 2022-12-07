@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class RackModelTest {
 
-    RackModel rack;
+    private RackModel rack;
 
     @BeforeEach
     void setUp() {

@@ -13,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class SquareTest {
 
-    Square square1;
-    Square square2;
-    Square square3;
-    Tile tile1;
-    Tile tile2;
-    Tile tile3;
+    private Square square1;
+    private Square square2;
+    private Square square3;
+    private Tile tile1;
+    private Tile tile2;
+    private Tile tile3;
 
     @BeforeEach
     void setUp() {

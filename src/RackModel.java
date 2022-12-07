@@ -10,7 +10,7 @@ import static java.lang.Character.toLowerCase;
  * the player must fill the rack by drawing 7 tiles from the tile bag.
  *
  * @author Pathum Danthanarayana, 101181411
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 1.0
  * @date November 11, 2022
  */
@@ -35,7 +35,7 @@ public class RackModel extends ScrabbleModel implements Serializable {
      * Copy constructor for rack model.
      * @param rack Rack to be copied.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -56,7 +56,7 @@ public class RackModel extends ScrabbleModel implements Serializable {
      * The addTile method adds a tile that is drawn from the tile bag
      * to the player's rack.
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.2
      *
      * @return True if tile is added to rack, false otherwise
@@ -78,7 +78,7 @@ public class RackModel extends ScrabbleModel implements Serializable {
      * Adds the specified tile to the rack if it is not full
      * @param tile Tile to be added
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -93,7 +93,7 @@ public class RackModel extends ScrabbleModel implements Serializable {
      * The addTiles method adds the specified ArrayList of tiles to
      * the player's rack.
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina, 101186297
      * @version 3.1
      *
@@ -145,7 +145,7 @@ public class RackModel extends ScrabbleModel implements Serializable {
      * Removes list of tiles from player's rack.
      * @param tiles Tiles to be redrawn.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.1
      * @date November 13, 2022
      */
@@ -160,7 +160,7 @@ public class RackModel extends ScrabbleModel implements Serializable {
     /**
      * The fillRack method fills the player's rack with up to 7 tiles.
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina, 101186297
      * @version 1.2
      */
@@ -196,7 +196,7 @@ public class RackModel extends ScrabbleModel implements Serializable {
      * @return a String describing the player's rack
      *
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 22, 2022
      */

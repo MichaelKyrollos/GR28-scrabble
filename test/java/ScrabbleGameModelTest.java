@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ScrabbleGameModelTest {
 
-    ScrabbleGameModel newScrabbleGameModel;
-    ArrayList<Tile> tiles;
-    TileBag TEST_TILE_BAG;
+    private ScrabbleGameModel newScrabbleGameModel;
+    private ArrayList<Tile> tiles;
+    private TileBag TEST_TILE_BAG;
 
     @BeforeEach
     void setUp() {

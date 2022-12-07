@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @date December 07, 2022
  */
 class BoardModelTest {
-    ScrabbleGameModel newGame;
-    BoardModel newBoardModel;
-    ArrayList<Tile> tiles;
-    TileBag TEST_TILE_BAG;
+    private ScrabbleGameModel newGame;
+    private BoardModel newBoardModel;
+    private ArrayList<Tile> tiles;
+    private TileBag TEST_TILE_BAG;
 
     @BeforeEach
     void setUp() {
@@ -26,7 +26,6 @@ class BoardModelTest {
             newBoardModel = new BoardModel(newGame);
         } catch (Exception e) {
             // will never occur unless the default XML is missing
-
         }
 
         tiles = new ArrayList<>();

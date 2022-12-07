@@ -14,7 +14,7 @@ import static java.lang.Character.toUpperCase;
  * The ScrabbleController implements the Controller in the MVC design pattern. It listens to user-input performed on
  * the view, and communicates it to the model.
  *
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @author Amin Zeina, 101186297
  * @author Pathum Danthanarayana, 101181411
  * @version 3.1
@@ -56,7 +56,7 @@ public class ScrabbleController implements ActionListener {
      * Method is invoked whenever a user performs input that the Controller is listening to.
      * @param e the event to be processed.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina 101186297
      * @author Pathum Danthanarayana, 101181411
      * @version 3.1
@@ -138,7 +138,7 @@ public class ScrabbleController implements ActionListener {
     /**
      * Resets the controller and redoes the last move undid.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -150,7 +150,7 @@ public class ScrabbleController implements ActionListener {
     /**
      * Resets the controller and undoes the last move made by the players.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 02, 2022
      */
@@ -162,7 +162,7 @@ public class ScrabbleController implements ActionListener {
     /**
      * Resets the controller.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -189,7 +189,7 @@ public class ScrabbleController implements ActionListener {
      * Plays the currently selected tile if there is one in the given square.
      * @param square Square the selected tile is to be placed on
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      */
@@ -250,7 +250,7 @@ public class ScrabbleController implements ActionListener {
      * Adds the given tile to the list of tiles to be redrawn or removes it if it already exists.
      * @param tile Tile to be added/removed from the redrawn tiles list.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      */
@@ -272,7 +272,7 @@ public class ScrabbleController implements ActionListener {
      * Sets the given tile as the selected tile.
      * @param tile Tile to be set as the selected tile.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      * @author Michael Kyrollos
@@ -297,7 +297,7 @@ public class ScrabbleController implements ActionListener {
     /**
      * Redraws the list of the tiles to be redrawn.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      */
@@ -319,7 +319,7 @@ public class ScrabbleController implements ActionListener {
     /**
      * Attempts to play the user created word on the board.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      * @author Michael Kyrollos
@@ -372,7 +372,7 @@ public class ScrabbleController implements ActionListener {
     /**
      * Updates the controller state and game views to the play status.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      */
@@ -389,7 +389,7 @@ public class ScrabbleController implements ActionListener {
     /**
      * Updates the controller state and game views to the redraw status.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      */
@@ -435,7 +435,7 @@ public class ScrabbleController implements ActionListener {
      * Configures starting player information once a Scrabble game is started.
      * @return the number of players configured, or return -1 if error in configuring players
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Pathum Danthanarayana, 101181411
      * @version 1.1
      * @date November 11, 2022
@@ -556,7 +556,7 @@ public class ScrabbleController implements ActionListener {
     /**
      * Adds this ScrabbleController as a listener to all game tiles.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 13, 2022
      */

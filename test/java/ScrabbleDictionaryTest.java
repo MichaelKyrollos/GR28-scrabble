@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * This class tests the ScrabbleDictionary of the Scrabble game.
  *
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 4.0
  * @date December 07, 2022
  */
@@ -35,7 +35,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Runs setUp method before each test case.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -62,7 +62,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Runs tearDown method after each test case.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date November 30, 2022
      */
@@ -76,7 +76,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "a", the first word is valid in the default dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -87,7 +87,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "A", a capital word is valid in the default dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -98,7 +98,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "zus", the last word is valid in the default dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -109,7 +109,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "abcde", a fake word is valid in the default dictionary. Should return False.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -118,7 +118,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if all words in default dictionary are valid. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -132,7 +132,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Backgammon" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -143,7 +143,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Battleship" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -154,7 +154,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Checkers" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -165,7 +165,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Chess" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -176,7 +176,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Clue" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -187,7 +187,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Life" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -198,7 +198,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Monopoly" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -209,7 +209,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Risk" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -220,7 +220,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Scrabble" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -231,7 +231,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Stratego" is in the favorite games dictionary. Should return True.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -242,7 +242,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if "Twister" is in the favorite games dictionary. Should return False.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */
@@ -253,7 +253,7 @@ class ScrabbleDictionaryTest {
 
     /**
      * Test if the favorite games dictionary prints in the expected format.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 09, 2022
      */

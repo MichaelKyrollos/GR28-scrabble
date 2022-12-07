@@ -14,11 +14,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class TileTest {
 
-    Tile tileA;
-    Tile tileB;
-    Tile tileG;
-    Tile tileH;
-    Tile tileZ;
+    private Tile tileA;
+    private Tile tileB;
+    private Tile tileG;
+    private Tile tileH;
+    private Tile tileZ;
 
     @BeforeEach
     void setUp(){

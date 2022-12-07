@@ -4,7 +4,7 @@ import java.util.List;
 /**
  * Class to store that status of a Scrabble Game.
  *
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 4.0
  * @date December 05, 2022
  */
@@ -22,7 +22,7 @@ public class ScrabbleGameStatus implements Serializable {
      * @param currentTurn Status of teh current turn.
      * @param tileBag Status of the tile bag.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -37,7 +37,7 @@ public class ScrabbleGameStatus implements Serializable {
      * Gets the status of the board.
      * @return Status of the board.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -49,7 +49,7 @@ public class ScrabbleGameStatus implements Serializable {
      * Gets the status of the players.
      * @return Status of the players.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -61,7 +61,7 @@ public class ScrabbleGameStatus implements Serializable {
      * Gets the status of the current turn.
      * @return Status of the current turn.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -73,7 +73,7 @@ public class ScrabbleGameStatus implements Serializable {
      * Gets the status of the tile bag.
      * @return Status of the tile bag.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */

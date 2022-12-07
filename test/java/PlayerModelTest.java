@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * This class tests the PlayerModel class of the Scrabble game.
  *
  * @author Michael Kyrollos, 101183521
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 4.0
  * @date November 30, 2022
  */
@@ -20,10 +20,10 @@ class PlayerModelTest {
     private PlayerModel player1;
     private PlayerModel player2;
 
-    ScrabbleGameModel newGame;
-    BoardModel newBoardModel;
-    ArrayList<Tile> tiles;
-    TileBag TEST_TILE_BAG;
+    private ScrabbleGameModel newGame;
+    private BoardModel newBoardModel;
+    private ArrayList<Tile> tiles;
+    private TileBag TEST_TILE_BAG;
 
     @BeforeEach
     void setUp() {

@@ -23,7 +23,7 @@ public interface ScrabblePlayer
      * tile to play this word.
      *
      * @author Amin Zeina, 101186297
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 2.1
      * @date November 12, 2022
      *
@@ -36,7 +36,7 @@ public interface ScrabblePlayer
      * Redraws the given tiles from the player's rack.
      * @param redrawTiles Tiles to be redrawn.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 13, 2022
      */

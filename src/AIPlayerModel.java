@@ -35,7 +35,7 @@ public class AIPlayerModel extends PlayerModel implements ScrabblePlayer{
      * Copy constructor for AIPlayerModel.
      * @param player AIPlayerModel to be copied.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */

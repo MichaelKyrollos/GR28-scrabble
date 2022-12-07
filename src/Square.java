@@ -9,7 +9,7 @@ import java.util.Objects;
  * Each square has the possibility to have a tile placed
  *
  * @author Michael Kyrollos, 101183521
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 3.0
  * @date November 22, 2022
  */
@@ -30,7 +30,7 @@ public class Square extends JButton implements Serializable, Comparable {
      * @param x x coordinate of the square.
      * @param y y coordinate of the square.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -115,7 +115,7 @@ public class Square extends JButton implements Serializable, Comparable {
      * Returns the square finalized field of the square.
      * @return True if the square is finalized, false otherwise.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -127,7 +127,7 @@ public class Square extends JButton implements Serializable, Comparable {
      * Sets the square finalized field to the given boolean.
      * @param b The value to be set to.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -147,7 +147,7 @@ public class Square extends JButton implements Serializable, Comparable {
     /**
      * Removes tile from this square.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -158,7 +158,7 @@ public class Square extends JButton implements Serializable, Comparable {
      * @return String representing the scrabble game state
      *
      * @author Michael Kyrollos, ID: 101183521
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 22, 2022
      */

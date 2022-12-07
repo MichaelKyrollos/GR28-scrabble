@@ -6,7 +6,7 @@ import java.util.Scanner;
  * This class represents a player of the scrabble game.
  *
  * @author Amin Zeina 101186297
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @author Pathum Danthanarayana, 101181411
  * @version 2.0
  * @date November 11, 2022
@@ -36,7 +36,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
     /**
      * Constructs a new PlayerModel with a given name. The player's score is initially zero.
      * @author Amin Zeina
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.1
      * @date October 25, 2022
      *
@@ -56,7 +56,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
      * Copy constructor for PlayerModel.
      * @param player PlayerModel to be copied.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -76,7 +76,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
      * tile to play this word.
      *
      * @author Amin Zeina, 101186297
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 2.1
      * @date November 12, 2022
      *
@@ -110,7 +110,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
      * Redraws the given tiles from the player's rack.
      * @param redrawTiles Tiles to be redrawn.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 13, 2022
      */
@@ -158,7 +158,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
      * Sets the board model of this player model.
      * @param board BoardModel to be set to.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -181,7 +181,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
      * @param square Square to be removed from.
      * @param tile Tile to be removed
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */

@@ -8,7 +8,7 @@ import java.awt.*;
  * up to 7 buttons (each modelling a letter).
  *
  * @author Pathum Danthanarayana, 101181411
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 1.2
  * @date November 11th, 2022
  */
@@ -59,7 +59,7 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
      * Updates the score of the player.
      *
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.1
      * @date November 11th, 2022
      */
@@ -72,7 +72,7 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
      * Displays message from model.
      * @param message Message to be shown.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
