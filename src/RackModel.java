@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -208,7 +207,7 @@ public class RackModel extends ScrabbleModel implements Serializable {
 
     public StringBuilder forAI()
     {
-        StringBuilder rackString = new StringBuilder("");
+        StringBuilder rackString = new StringBuilder();
         for (Tile tile : tiles)
         {
             if (tile instanceof BlankTile){
