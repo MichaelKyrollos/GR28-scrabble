@@ -225,7 +225,7 @@ public class ScrabbleController implements ActionListener {
             square.setBorder(BorderFactory.createLineBorder(Square.SQUARE_SELECTED_COLOUR));
         } else if (square.getTile() != null && selectedTile != null) {
             // square not empty -> unselect tile and prompt user
-            JOptionPane.showMessageDialog(null, "That square is full.");
+            JOptionPane.showMessageDialog(scrabbleFrame, "That square is full.");
         } else if (square.getTile() != null && selectedTile == null){
             // Square unselected
             if (squaresInWord.contains(square)) {
@@ -470,12 +470,12 @@ public class ScrabbleController implements ActionListener {
             String playerName = JOptionPane.showInputDialog(scrabbleFrame, message);
 
             // Check if the user has entered an empty player name
-            if (playerName == null)
+            if (playerName == null || playerName.isEmpty())
             {
                 // If so, assign a default player name to the player
                 playerName = "Player " + (i + 1);
             }
-            scrabbleModel.addPlayer(playerName.toUpperCase());
+            scrabbleModel.addPlayer(playerName.toUpperCase());      //TODO: Add the players after the number of AI players has been configured
         }
         return numberPlayers;
     }
@@ -583,7 +583,7 @@ public class ScrabbleController implements ActionListener {
         fileChooser.setFileFilter(filter);
 
         // Store the result of choosing the save file
-        int fileSelectionResult = fileChooser.showOpenDialog(null);
+        int fileSelectionResult = fileChooser.showOpenDialog(scrabbleFrame);
 
         // Check if the user selected a save file to load (and didn't click cancel or close out of the file chooser)
         if (fileSelectionResult == JFileChooser.APPROVE_OPTION)
@@ -668,7 +668,7 @@ public class ScrabbleController implements ActionListener {
      */
     public File getCustomBoard() {
 
-        int confirm = JOptionPane.showConfirmDialog(null,
+        int confirm = JOptionPane.showConfirmDialog(scrabbleFrame,
                 "Do you want to load a custom XML board for this game?");
         if (confirm == JOptionPane.YES_OPTION) {
             JFileChooser fc = new JFileChooser();

@@ -1,9 +1,11 @@
+// Import libraries
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 
 /**
  * The ScrabbleFrameView class models the GUI (frame) of the
@@ -82,6 +84,9 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(450, 350);
         this.setResizable(false);
+
+        // Set the UI theme for the Scrabble game
+        this.setScrabbleGameUI();
 
         // Set icon for frame
         ImageIcon frameIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("resources/frame_icon.jpg")));
@@ -188,6 +193,29 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     public boolean isScrabbleGameStarted()
     {
         return this.scrabbleGameStarted;
+    }
+
+    /**
+     * The setScrabbleGameUI method sets the UI for the Scrabble game.
+     * The method uses the custom FlatLaf library to set the 'Flat IntelliJ Laf'
+     * theme, which provides a cleaner looking design for JOptionPanes and buttons.
+     *
+     * @author Pathum Danthanarayana, 101181411
+     * @version 1.0
+     * @date December 6th, 2022
+     */
+    private void setScrabbleGameUI()
+    {
+        try
+        {
+            // Set the Flat Laf IntelliJ UI for the Scrabble game
+            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+        }
+        catch(Exception e)
+        {
+            // If error in setting FlatLaf UI, the Scrabble UI will use the default Java look and feel
+            System.out.println( "Error in setting the UI for the Scrabble game: " + e);
+        }
     }
 
     /**

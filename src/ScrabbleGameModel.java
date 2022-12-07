@@ -87,7 +87,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
             try {
                 gameBoard = new BoardModel(this);
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Default board XML is either missing or " +
+                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Default board XML is either missing or " +
                         "has been modified. Please ensure you have the correct XML file downloaded, then try again. " +
                         "The game will now exit");
                 System.exit(0);
@@ -101,7 +101,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
                     gameBoard = new BoardModel(this);
                 } catch (Exception ex) {
                     // Default XML has been modified or removed
-                    JOptionPane.showMessageDialog(null, "Default board XML is either missing or " +
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Default board XML is either missing or " +
                             "has been modified. Please ensure you have the correct XML file downloaded, then try again. " +
                             "The game will now exit");
                     System.exit(0);
@@ -316,7 +316,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
         {
             // check if the word can actually be played
             if (currentPlayer.playWord(playEvent)) {
-                JOptionPane.showMessageDialog(null, "You have successfully played \"" +
+                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "You have successfully played \"" +
                         word.toUpperCase() + "\". You now have " + currentPlayer.getScore() + " points!");
 
                 // check if the game should end (rack empty and no tiles in bag)
@@ -329,7 +329,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
                 return true;
             }
         } else {
-            JOptionPane.showMessageDialog(null, "\""+ word.toUpperCase() +
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "\""+ word.toUpperCase() +
                     "\" is not a valid word. Try again.");
             this.gameBoard.revertBoard();
             currentPlayer.getRack().addTiles(playEvent.getTilesPlaced());
@@ -401,14 +401,14 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
         ArrayList<PlayerModel> winners = this.determineWinners();
         if (winners.size() == 1) {
             PlayerModel winner = winners.get(0);
-            JOptionPane.showMessageDialog(null, "The game has ended.\nPlayer " + winner.getName() +
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "The game has ended.\nPlayer " + winner.getName() +
                     " is the winner!" + " They had " + winner.getScore() + " points.");
         } else {
             String tieMessage = "";
             for (PlayerModel player: winners) {
                 tieMessage += "\n" + player.getName() + " - " + player.getScore() + " points";
             }
-            JOptionPane.showMessageDialog(null, "The game has ended. The following players have tied:" + tieMessage);
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "The game has ended. The following players have tied:" + tieMessage);
          }
 
         System.exit(0);
