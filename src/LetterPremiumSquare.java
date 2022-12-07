@@ -8,7 +8,7 @@
  */
 public class LetterPremiumSquare extends Square {
 
-    private int letterValueMultiplier;
+    private final int letterValueMultiplier;
     /** Used to track if this square's bonus has been used already (should be only used once, on the first word play)*/
     private boolean isBonusScoreUsed;
 
@@ -42,6 +42,7 @@ public class LetterPremiumSquare extends Square {
     public LetterPremiumSquare(LetterPremiumSquare otherSquare) {
         super(otherSquare);
         this.letterValueMultiplier = otherSquare.letterValueMultiplier;
+        this.isBonusScoreUsed = otherSquare.isBonusScoreUsed;
         if (this.letterValueMultiplier == 2) {
             this.setBackground(ScrabbleFrameView.DOUBLE_LETTER_SQUARE_BACKGROUND_COLOR);
         } else {
@@ -66,7 +67,7 @@ public class LetterPremiumSquare extends Square {
             isBonusScoreUsed = true;
             return super.getSquareValue() * letterValueMultiplier;
         } else {
-            // this square is part of a new word, not the original placement -> dont increase score
+            // this square is part of a new word, not the original placement -> don't increase score
             return super.getSquareValue();
         }
     }

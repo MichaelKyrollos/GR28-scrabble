@@ -45,7 +45,7 @@ public class TileBag implements Serializable {
      * Copy constructor for TileBag.
      * @param bag TileBag to be copied.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -61,7 +61,7 @@ public class TileBag implements Serializable {
 
     /**
      * Constructs an ArrayList containing all the letters corresponding to a point value
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina, 101186297
      * @version 3.0
      * @date November 14, 2022
@@ -82,7 +82,7 @@ public class TileBag implements Serializable {
      * the appropriate frequency and point values to each letter
      * that will be present in the tile bag.
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina, 101186297
      * @version 3.0
      * @date November 14, 2022
@@ -135,7 +135,7 @@ public class TileBag implements Serializable {
     /**
      * The prepareTileBag method creates and adds all the necessary tiles for the tile bag.
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 2.0
      * @date November 11, 2022
      */
@@ -163,7 +163,7 @@ public class TileBag implements Serializable {
      * @param pointValue Point value of tile.
      * @param frequency Frequency of tile.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      */
@@ -178,7 +178,7 @@ public class TileBag implements Serializable {
      * Helper function to create a blank tile and it to the tile bag with the given frequency.
      * @param frequency Frequency of tile.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      */
@@ -250,7 +250,7 @@ public class TileBag implements Serializable {
      * Returns the tiles within the tile bag.
      * @return ArrayList of tiles within the tile bag.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 13, 2022
      */
@@ -264,7 +264,7 @@ public class TileBag implements Serializable {
      * @return a String describing the tile bag
      *
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 22, 2022
      */
@@ -278,7 +278,7 @@ public class TileBag implements Serializable {
      * Returns a formatted string of the given tiles.
      * @param tiles Tiles to be written in a string format.
      * @return Formatted string of the given tiles.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 22, 2022
      */

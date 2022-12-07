@@ -2,7 +2,7 @@
  * The BlankTile class models a blank tile in the game of Scrabble.
  *
  * @author Amin Zeina, 101186297
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 3.1
  * @date November 17, 2022
  */
@@ -16,7 +16,7 @@ public class BlankTile extends Tile {
     /**
      * Creates a blank tile object with the default letter and score.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 17, 2022
      */

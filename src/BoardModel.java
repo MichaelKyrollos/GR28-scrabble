@@ -51,7 +51,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      * Copy constructor for BoardModel.
      * @param board BoardModel to be copied.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -151,7 +151,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      *
      * @author Pathum Danthanarayana, 101181411
      * @author Amin Zeina, 101186297
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 04, 2022
      */
@@ -164,7 +164,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      *
      * @author Pathum Danthanarayana, 101181411
      * @author Amin Zeina, 101186297
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 04, 2022
      */
@@ -198,7 +198,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      * Returns the 2D array of squares making up the board.
      * @return 2D array of squares making up the board.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 11, 2022
      */
@@ -229,7 +229,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      * @author Michael Kyrollos, ID: 101183521
      * @author Pathum Danthanarayana, 101181411
      * @author Amin Zeina, 101186297
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      *
@@ -473,7 +473,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      *
      * @author Amin Zeina, 101186297
      * @author Michael Kyrollos
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -573,7 +573,7 @@ public class BoardModel extends ScrabbleModel implements Serializable {
      * Removes the given tile on the given square on the board.
      * @param square Square to be removed from.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */

@@ -5,20 +5,20 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests the tile class
+ *
+ * @author Michael Kyrollos, 101183521
+ * @version 1.0
+ * @date November 11, 2022
+ */
 class TileTest {
-    /**
-     * Tests the tile class
-     *
-     * @author Michael Kyrollos, 101183521
-     * @version 1.0
-     * @date November 11, 2022
-     */
-    Tile tileA;
-    Tile tileB;
-    Tile tileG;
-    Tile tileH;
-    Tile tileZ;
 
+    private Tile tileA;
+    private Tile tileB;
+    private Tile tileG;
+    private Tile tileH;
+    private Tile tileZ;
 
     @BeforeEach
     void setUp(){
@@ -64,5 +64,4 @@ class TileTest {
         assertEquals("<html>H<sub>22</sub></html>",tileH.toString());
         assertEquals("<html>G<sub>8</sub></html>",tileG.toString());
     }
-
 }

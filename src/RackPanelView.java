@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * RackPaneView is a view that visualizes a Scrabble rack.
  *
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @version 1.0
  * @date November 11, 2022
  */
@@ -24,7 +24,7 @@ public class RackPanelView extends JPanel implements ScrabbleView {
      * Constructs a RackPanelView.
      * @param rackModel Model this view is related to.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 3.0
      * @date November 22, 2022
      */
@@ -43,7 +43,7 @@ public class RackPanelView extends JPanel implements ScrabbleView {
      * The updateRack method updates the letters in the player's rack.
      *
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.1
      * @date November 11th, 2022
      */
@@ -64,7 +64,7 @@ public class RackPanelView extends JPanel implements ScrabbleView {
      * Displays message from model.
      * @param message Message to be shown.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */
@@ -76,7 +76,7 @@ public class RackPanelView extends JPanel implements ScrabbleView {
     /**
      * Helper function that adds the current tiles in the rack model to this view.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina, 101186297
      * @version 1.1
      * @date November 11, 2022

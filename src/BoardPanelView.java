@@ -4,7 +4,7 @@ import java.awt.*;
 /**
  * BoardPanelView is a view that visualizes the Scrabble game board.
  *
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @author Pathum Danthanarayana, 101181411
  * @version 1.0
  * @date November 11, 2022
@@ -26,7 +26,7 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
      * Constructor that constructs a BoardPanelView.
      * @param boardModel Model this view is related to.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 11, 2022
      */
@@ -49,7 +49,7 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
      * TODO refactor this to solve the issue of buttons not showing correctly unless they are remade here
      *
      * @author Pathum Danthanarayana, 101181411
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina, 101186297
      * @version 1.3
      * @date November 11, 2022
@@ -83,7 +83,7 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
     /**
      * Updates the tiles placed on the board.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Amin Zeina
      * @version 1.1
      * @date November 11, 2022
@@ -106,7 +106,7 @@ public class BoardPanelView extends JPanel implements ScrabbleView {
      * Displays message from model.
      * @param message Message to be shown.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 05, 2022
      */

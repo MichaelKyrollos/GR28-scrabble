@@ -17,30 +17,29 @@ public interface ScrabblePlayer
     /**
      * Plays the given word entered by the user at the given coordinates. Returns true if the word was successfully
      * placed (i.e. the user had the necessary tiles and the placement of the word on the board was valid)
-     *
-     * Words are entered as strings with preplaced letters enclosed in (). For example, placing "h(e)ll(o)" states that
+     * Words are entered as strings with pre-placed letters enclosed in (). For example, placing "h(e)ll(o)" states that
      * the "e" and "o" are already on the board in the correct location, thus the player doesn't need to have an e or o
      * tile to play this word.
      *
      * @author Amin Zeina, 101186297
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 2.1
      * @date November 12, 2022
      *
      * @param playEvent the PlayWordEvent that was generated to play this word
      * @return true if the word was successfully placed, false otherwise
      */
-    public boolean playWord(PlayWordEvent playEvent);
+    boolean playWord(PlayWordEvent playEvent);
 
     /**
      * Redraws the given tiles from the player's rack.
      * @param redrawTiles Tiles to be redrawn.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 13, 2022
      */
-    public void redraw(ArrayList<Tile> redrawTiles);
+    void redraw(ArrayList<Tile> redrawTiles);
 
     /**
      * Returns the name of this player
@@ -48,7 +47,7 @@ public interface ScrabblePlayer
      *
      * @return The name of the player
      */
-    public String getName();
+    String getName();
 
     /**
      * Places the given tile on the given square on the board
@@ -56,17 +55,16 @@ public interface ScrabblePlayer
      * @param square the square to place the tile in
      * @param tile the tile to place
      */
-    public void playTile(Square square, Tile tile);
+    void playTile(Square square, Tile tile);
 
     /**
      * Adds the given score to this player's score. To decrease score, param score should be negative. If score becomes
      * negative after adjustment (score < 0), the player's score is set to 0.
-     *
      *
      * @author Amin Zeina, 101186297
      * @version 1.0
      *
      * @param score the score to add to this players score (or to subtract if negative)
      */
-    public void adjustScore(int score);
+    void adjustScore(int score);
 }

@@ -1,13 +1,7 @@
 
 // Import libraries
-import org.xml.sax.SAXException;
 
-import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -16,7 +10,7 @@ import java.util.*;
  * This scrabble game is compatible for 2-4 players.
  *
  * @author Michael Kyrollos, 101183521
- * @author Yehan De Silva
+ * @author Yehan De Silva, 101185388
  * @author Pathum Danthanarayana, 101181411
  * @version 2.0
  * @date November 11, 2022
@@ -62,7 +56,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
     /**
      * Creates a new scrabble game.
      * @author Michael Kyrollos, 101183521
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @author Pathum Danthanarayana, 101181411
      * @version 2.1
      * @date October 25, 2022
@@ -117,7 +111,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      *
      * @return the current player
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 11, 2022
      */
@@ -130,7 +124,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      *
      * @return the game undo stack.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 02, 2022
      */
@@ -141,7 +135,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      *
      * @return the game redo stack.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 02, 2022
      */
@@ -151,7 +145,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      * Returns the list of players playing this Scrabble Game.
      * @return List of players
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 11, 2022
      */
@@ -161,7 +155,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      * Returns the game board this Scrabble game is being played on.
      * @return The game board.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 1.0
      * @date November 11, 2022
      */
@@ -186,10 +180,10 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
 
             // Read the written Scrabble game model
             ScrabbleGameStatus gameStatus = (ScrabbleGameStatus) objectInputStream.readObject();
-            this.gameBoard = gameStatus.getBoard();
-            this.players = gameStatus.getPlayers();
-            this.currentTurn = gameStatus.getCurrentTurn();
-            GAME_TILE_BAG = gameStatus.getTileBag();
+            this.gameBoard = gameStatus.board();
+            this.players = gameStatus.players();
+            this.currentTurn = gameStatus.currentTurn();
+            GAME_TILE_BAG = gameStatus.tileBag();
 
             // Clear the undo and redo stack
             this.undoStack.clear();
@@ -269,7 +263,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      * Adds a player to this scrabble game. Only 4 players may be playing at one time.
      * @param playerName Name of player.
      * @return True if player was added, false otherwise.
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 2.1
      * @date November 11, 2022
      */
@@ -376,7 +370,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      * Redraws the given tiles for the current player.
      *
      * @author Michael Kyrollos, 101183521
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version  2.0
      * @date November 13, 2022
      *
@@ -478,7 +472,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      * Returns the game status changed boolean.
      * @return game status changed boolean
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -489,7 +483,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
     /**
      * Undo the last move made in the scrabble game.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -502,7 +496,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
     /**
      * Redo the last move that was undone.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -515,18 +509,18 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      * Restores game status to the one specified.
      * @param status Status to be set to.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
     private void restoreStatus(ScrabbleGameStatus status) {
-        this.gameBoard = status.getBoard();
-        this.players = status.getPlayers();
+        this.gameBoard = status.board();
+        this.players = status.players();
         for (PlayerModel pm : this.players) {
             pm.setBoard(this.gameBoard);
         }
-        this.currentTurn = status.getCurrentTurn();
-        GAME_TILE_BAG = status.getTileBag();
+        this.currentTurn = status.currentTurn();
+        GAME_TILE_BAG = status.tileBag();
 
         this.pushStatusToUndoStack();
 
@@ -542,7 +536,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
     /**
      * Pushes the current game status onto the undo stack.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 03, 2022
      */
@@ -563,7 +557,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
      * Enables/disables the tiles of the current player
      * @param enable True to enable tiles, false to disable tiles.
      *
-     * @author Yehan De Silva
+     * @author Yehan De Silva, 101185388
      * @version 4.0
      * @date December 02, 2022
      */
