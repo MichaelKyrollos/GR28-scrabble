@@ -1,6 +1,5 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * This class represents a player of the scrabble game.
@@ -16,7 +15,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
     /**
      * Name of the player.
      */
-    private String name;
+    private final String name;
     /**
      * Score of the player.
      */
@@ -24,14 +23,11 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
     /**
      * The player's tile rack.
      */
-    private RackModel rack;
-
-
+    private final RackModel rack;
     /**
      * The board the player is playing on.
      */
     private BoardModel board;
-
 
     /**
      * Constructs a new PlayerModel with a given name. The player's score is initially zero.
@@ -70,8 +66,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
     /**
      * Plays the given word entered by the user at the given coordinates. Returns true if the word was successfully
      * placed (i.e. the user had the necessary tiles and the placement of the word on the board was valid)
-     *
-     * Words are entered as strings with preplaced letters enclosed in (). For example, placing "h(e)ll(o)" states that
+     * Words are entered as strings with pre-placed letters enclosed in (). For example, placing "h(e)ll(o)" states that
      * the "e" and "o" are already on the board in the correct location, thus the player doesn't need to have an e or o
      * tile to play this word.
      *
@@ -122,7 +117,7 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
 
     /**
      * Returns the current score of this player.
-     * @Author Amin Zeina
+     * @author Amin Zeina
      *
      * @return The current score of the player
      */
@@ -140,7 +135,6 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
     public String getName() {
         return this.name;
     }
-
 
     /**
      * The getRack method returns the player's rack.
@@ -199,11 +193,9 @@ public class PlayerModel extends ScrabbleModel implements ScrabblePlayer, Serial
         return board;
     }
 
-
     /**
      * Adds the given score to this player's score. To decrease score, param score should be negative. If score becomes
      * negative after adjustment (score < 0), the player's score is set to 0.
-     *
      *
      * @author Amin Zeina, 101186297
      * @version 1.0
