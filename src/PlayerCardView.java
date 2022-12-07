@@ -14,20 +14,15 @@ import java.awt.*;
  */
 public class PlayerCardView extends JPanel implements ScrabbleView {
 
-    /** Fields **/
-    private JLabel playerName;
-    private JLabel playerScore;
-    private JPanel rackPanel;
-    private PlayerModel playerModel;
-    private ScrabbleController scrabbleController;
+    private final JLabel playerScore;
+    private final PlayerModel playerModel;
 
     /** Constructor **/
-    public PlayerCardView(PlayerModel player, ScrabbleController controller)
+    public PlayerCardView(PlayerModel player)
     {
         // Configure JPanel
         super();
 
-        this.scrabbleController = controller;
         this.playerModel = player;
         this.playerModel.addScrabbleView(this);
         this.setMaximumSize((ScrabbleFrameView.PLAYER_CARD_DIMENSIONS));
@@ -35,9 +30,9 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
         this.setLayout(new BorderLayout());
 
         // Configure player name
-        this.playerName = new JLabel(player.getName());
-        this.playerName.setFont(new Font("Manrope", Font.BOLD, 28));
-        this.playerName.setForeground(Color.WHITE);
+        JLabel playerName = new JLabel(player.getName());
+        playerName.setFont(new Font("Manrope", Font.BOLD, 28));
+        playerName.setForeground(Color.WHITE);
 
         // Configure player score
         this.playerScore = new JLabel("Score:   0");
@@ -45,10 +40,10 @@ public class PlayerCardView extends JPanel implements ScrabbleView {
         this.playerScore.setForeground(Color.WHITE);
 
         // Configure the JPanel that will store the letters (buttons) in the rack
-        this.rackPanel = new RackPanelView(player.getRack());
+        JPanel rackPanel = new RackPanelView(player.getRack());
 
         // Add the player name to the top of the panel
-        this.add(this.playerName, BorderLayout.NORTH);
+        this.add(playerName, BorderLayout.NORTH);
         // Add the player score to the center of the panel
         this.add(this.playerScore, BorderLayout.CENTER);
         // Add the rack to the bottom of the panel

@@ -439,7 +439,7 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
     private void addPlayerCards()
     {
         for (PlayerModel player : scrabbleModel.getPlayers()) {
-            PlayerCardView playerCard = new PlayerCardView(player, scrabbleController);
+            PlayerCardView playerCard = new PlayerCardView(player);
             // Keep a reference to the player card
             this.playerCards.add(playerCard);
             playerPanel.add(playerCard);
