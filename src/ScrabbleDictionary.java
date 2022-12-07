@@ -120,22 +120,7 @@ public class ScrabbleDictionary {
             //Return the terminal flag of the last node, which specifies end of word has been reached
             return curNode.terminal;
         }
-        public DictionaryNode wordLookup(char[] word) {
-            int charNumericalValue;
-            DictionaryNode curNode = this; //Get reference to the root node of the dictionary
 
-            //Looping for each character in the word to be checked
-            for (char c : word) {
-                charNumericalValue = charToInt(c);
-                //If the current letter is not a child of the node, return false
-                if (curNode.children[charNumericalValue] == null) {
-                    return null;
-                }
-                curNode = curNode.children[charNumericalValue]; //Go to the next node corresponding to the next letter
-            }
-            //Return the terminal flag of the last node, which specifies end of word has been reached
-            return curNode;
-        }
         /**
          * Helper method that returns a string representation of the contents in the dictionary structure.
          * @author Yehan De Silva, 101185388
@@ -183,11 +168,6 @@ public class ScrabbleDictionary {
      * The default dictionary file to be used.
      */
     public static final File DEFAULT_DICTIONARY = new File(new File("").getAbsolutePath() + "/src/resources/default_dictionary.txt");
-
-    /**
-     * The second default dictionary file to be used.
-     */
-    public static final File DEFAULT_DICTIONARY_2 = new File(new File("").getAbsolutePath() + "/src/resources/default_dictionary2.txt");
 
     /**
      * The dictionary structure to hold the dictionary.
