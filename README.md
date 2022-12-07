@@ -91,9 +91,27 @@ The game is played on a 15x15 board, is compatibile with 2-4 players and uses [t
       - This allows for a streamlined implementation of custom boards (completed in milestone 4)
 
 9. For the AI: 
-      - The AI is treated as a seperate and external entity of the game. There is a suite of classes dedicated for the AI: AIBoard, AI, AIPlayerModel, LetterTree. 
+
+      **Overall Architecture:**
+      - The AI logic is abstracted from the rest of the game. There is a suite of classes dedicated for the AI: AIBoard, AI, AIPlayerModel, LetterTree. The current               AI implementation is based off of the findings of a research paper known as [The World's Fastest Scrabble Game](https://www.cs.cmu.edu/afs/cs/academic/class/15451-s06/www/lectures/scrabble.pdf) which outlines data structures and architecture necessary to acheive a high speed logic. 
+
+      **How the AI Acheives High Efficiency**
+      - This AI can compute an average of over 400 legal moves per turn in a fraction of a second. It runs in constant time which is an outstanding acheivement. The high speed comes from the use of what is known as the *backtracking search strategy*. 
+      - The AI will never consider placing a tile that isn't already part of some word on the board (with the exception of the first turn).
+      - The algorithm begins its search from the anchor squares (squares that are adjacent to tiles already on the board) which will guarantee that the word created is adjacent to another tile. If the word search was done right away, there would be many moves created where the AI would fail to connect the partial word to tiles on the board
+      
+      **The Suite of classes needed to acheive it**
       - ``AIPlayerModel.java``: This class implements the ScrabblePlayer interface, allowing all players (AI or human) to be interpreted at the same level (necessary when adding points, creating a rack, etc.) and stored in the same list. The ``AIPlayerModel`` class is necessary for the encapsulation of the extra computation necessary to mimic a ``ScrabblePlayer``. Since the AI will also be using many ``PlayerModel.java`` methods, it will be extending this class and using some of the relevant methods (i.e. ``playWord()``). The class is responsible for handling a new move created by the AI, known as an ``AIMove`` -> this is a subclass of ``AI.java``. The ``AIPlayerModel`` will be responsible for converting the ``AIMove`` to a PlayWordEvent which is a format understandable by the ``PlayerModel``. 
-      - ``AI.java``: This class contains all the logic for the necessary to create a Scrabble move. It scans the board and uses its own rack to create ALL possible moves, given the circumstances. It will return an ``AIBoard`` for each move which represents what the board will ressemble once the AI makes that move. The AI logic will also iterate through all the moves that it has created and will return the highest scoring one, creating an AIMove which can then be processed by the ``AIPlayerModel``.
+      - ``AI.java``: This class contains all the logic for the necessary to create a Scrabble move. It scans the board and uses its own rack to create ALL possible moves, given the circumstances. It will return an ``AIBoard`` for each move which represents what the board will ressemble once the AI makes that move. The AI logic will also iterate through all the moves that it has created and will return the highest scoring one, creating an ``AIMove`` which can then be processed by the ``AIPlayerModel``
+      - ``AIBoard.java``: This class models uses a copy of the BoardModel in a char[][] format. This allows all calculations that the AI makes to be done on primitive data types (char), vastly simplifying the logic code in ``AI.java``.
+      - ``LetterTree.java``: This class uses a text file containing a list of words that can be used to create the dictionary. This dictionary uses the tree-node structure specifically implemented for the use-cases of the AI. This prevents access issues to ``ScrabbleDictionary.java``.
+      
+      
+      **Notes about the AI**
+      - When it is an AI's turn, you will need to click the **Play** button and then **Submit**. You do not need to place any tiles. The AI will then do the necessary work to place the tiles on the board and its score will be updated automatically. 
+      - The AI's tiles can be redrawn by the user, if the user wishes. 
+      - In the case that the AI cannot play a move with the given rack and board, it will automatically redraw the tiles and the turn will go to the next player. 
+      - If the AI receives a blank tile, it will set the letter on that tile to 'A' once it places it on the board. 
       
 10. CustomBoardHandler, a subclass of org.xml.sax.helpers.DefaultHandler, used to handle XML parsing for custom boards
       - CustomBoardHandler parses XML files based on the required formatting of custom board XML files
