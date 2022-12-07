@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
+ * This class tests the PlayerModel class of the Scrabble game.
+ *
  * @author Michael Kyrollos, 101183521
  * @author Yehan De Silva
  * @version 4.0
@@ -26,7 +28,7 @@ class PlayerModelTest {
     @BeforeEach
     void setUp() {
         newGame = new ScrabbleGameModel();
-        newGame.GAME_TILE_BAG.fillBag();
+        ScrabbleGameModel.GAME_TILE_BAG.fillBag();
         try {
             newBoardModel = new BoardModel(newGame);
         } catch (Exception e) {
@@ -93,11 +95,18 @@ class PlayerModelTest {
         TEST_TILE_BAG = new TileBag();
 
 //      Create 2 lists, one original, one with the tiles to redraw
-        ArrayList<Tile> redrawTiles;
-        ArrayList<Tile> originalTiles;
+        ArrayList<Tile> redrawTiles = new ArrayList<>();
+        ArrayList<Tile> originalTiles = new ArrayList<>();
 //      Clone original list into both
-        redrawTiles = (ArrayList) player1.getRack().getTiles().clone();
-        originalTiles = (ArrayList) player1.getRack().getTiles().clone();
+        try {
+            //noinspection unchecked
+            redrawTiles = (ArrayList<Tile>) player1.getRack().getTiles().clone();
+            //noinspection unchecked
+            originalTiles = (ArrayList<Tile>) player1.getRack().getTiles().clone();
+        }
+        catch (ClassCastException e) {
+            fail();
+        }
 //      ensure original rack is full and that other racks are equal
         assertTrue(originalTiles.containsAll(player1.getRack().getTiles()));
         assertTrue(redrawTiles.containsAll(player1.getRack().getTiles()));
@@ -111,16 +120,22 @@ class PlayerModelTest {
     }
 
     /*
-     * Testing the refilling of a rack where only some of the tiles are replaced.
+     * Testing the refilling of a rack where only some tiles are replaced.
      *
      */
     @Test
     void testSomeOfRackRefilled() {
 //      Create 2 lists, one original, one with the tiles to redraw
         ArrayList<Tile> redrawTiles = new ArrayList<>();
-        ArrayList<Tile> originalTiles;
+        ArrayList<Tile> originalTiles = new ArrayList<>();
 //      Clone original list into both
-        originalTiles = (ArrayList) player1.getRack().getTiles().clone();
+        try {
+            //noinspection unchecked
+            originalTiles = (ArrayList<Tile>) player1.getRack().getTiles().clone();
+        }
+        catch (ClassCastException e) {
+            fail();
+        }
         redrawTiles.add(player1.getRack().getTiles().get(0));
         redrawTiles.add(player1.getRack().getTiles().get(3));
 //      ensure original rack is full
@@ -207,6 +222,7 @@ class PlayerModelTest {
         assertEquals(15,player2.getScore());
 
         tiles.clear();
+        //noinspection ConstantConditions
         assertEquals(0, tiles.size());
 
         tiles.add(TEST_TILE_BAG.takeTile('O'));
