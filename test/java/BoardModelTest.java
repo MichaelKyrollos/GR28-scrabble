@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-
+/**
+ * This class is used to test the BoardModel class of the Scrabble Game.
+ *
+ * @author Michael Kyrollos, 101183521
+ * @version 4.0
+ * @date December 07, 2022
+ */
 class BoardModelTest {
     ScrabbleGameModel newGame;
     BoardModel newBoardModel;
@@ -15,7 +21,7 @@ class BoardModelTest {
     @BeforeEach
     void setUp() {
         newGame = new ScrabbleGameModel();
-        newGame.GAME_TILE_BAG.fillBag();
+        ScrabbleGameModel.GAME_TILE_BAG.fillBag();
         try {
             newBoardModel = new BoardModel(newGame);
         } catch (Exception e) {
@@ -50,8 +56,7 @@ class BoardModelTest {
                 newBoardModel.getSquares()[level][i].placeSquare(tiles.get(i - start_of_word));
             }
         }
-        PlayWordEvent playing = new PlayWordEvent(newGame, squaresForWord, tiles);
-        return playing;
+        return new PlayWordEvent(newGame, squaresForWord, tiles);
     }
 
 
@@ -120,6 +125,7 @@ class BoardModelTest {
 
         assertEquals(15, newBoardModel.placeWord(createWordEvent("PRINT", 8, 7, true)));
         tiles.clear();
+        //noinspection ConstantConditions
         assertEquals(0, tiles.size());
 
         tiles.add(TEST_TILE_BAG.takeTile('O'));
@@ -133,7 +139,7 @@ class BoardModelTest {
      * Test returned result when word is placed vertically but extends out of the board
      */
     @Test
-    void testPlaceWordOutofBoundsVertical() {
+    void testPlaceWordOutOfBoundsVertical() {
 //        For now doing this will throw an exception, the player is not able to click past the border within the
 //        UI but this test ensures that the board is not extended when words pass the board length
 
@@ -144,6 +150,7 @@ class BoardModelTest {
 
         assertEquals(18, newBoardModel.placeWord(createWordEvent("PLAY", 7, 7, true)));
         tiles.clear();
+        //noinspection ConstantConditions
         assertEquals(0, tiles.size());
 
         tiles.add(TEST_TILE_BAG.takeTile('A'));
@@ -173,7 +180,7 @@ class BoardModelTest {
      * Test returned result when word is placed horizontally but extends out of the board
      */
     @Test
-    void testPlaceWordOutofBoundsHorizontal() {
+    void testPlaceWordOutOfBoundsHorizontal() {
 //        For now doing this will throw an exception, the player is not able to click past the border within the
 //        UI but this test ensures that the board is not extended when words pass the board length
 
@@ -210,6 +217,7 @@ class BoardModelTest {
         assertEquals(8, newBoardModel.placeWord(createWordEvent("END", 7, 7, true)));
         tiles.clear();
 //        doing this in case tiles did not clear
+        //noinspection ConstantConditions
         assertEquals(0, tiles.size());
 
         tiles.add(TEST_TILE_BAG.takeTile('H'));
@@ -234,6 +242,7 @@ class BoardModelTest {
         assertEquals(18, newBoardModel.placeWord(createWordEvent("FAME", 7, 7, true)));
         tiles.clear();
 //        doing this in case tiles did not clear
+        //noinspection ConstantConditions
         assertEquals(0, tiles.size());
 
 
@@ -246,6 +255,7 @@ class BoardModelTest {
         assertEquals(27, newBoardModel.placeWord(createWordEvent("LEAVE", 8, 5, true)));
         tiles.clear();
 //        doing this in case tiles did not clear
+        //noinspection ConstantConditions
         assertEquals(0, tiles.size());
 
         tiles.add(TEST_TILE_BAG.takeTile('K'));
