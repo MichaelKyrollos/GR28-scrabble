@@ -4,19 +4,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * This class tests the Square class of the Scrabble game.
+ *
+ * @author Michael Kyrollos, 101183521
+ * @version 1.0
+ * @date November 11, 2022
+ */
 class SquareTest {
-    /**
-     * @author Michael Kyrollos, 101183521
-     * @version 1.0
-     * @date November 11, 2022
-     */
+
     Square square1;
     Square square2;
     Square square3;
     Tile tile1;
     Tile tile2;
     Tile tile3;
-
 
     @BeforeEach
     void setUp() {
@@ -47,7 +49,6 @@ class SquareTest {
         assertEquals(square1.getTile(), square3.getTile());
     }
 
-
     @Test
     void testPlaceTileOnSquare() {
         square1.placeSquare(tile1);
@@ -59,7 +60,6 @@ class SquareTest {
         square3.placeSquare(tile3);
         assertEquals(tile3, square3.getTile());
     }
-
 
     @Test
     void testSquareDeepCopyConstructorRealTile() {
@@ -85,5 +85,4 @@ class SquareTest {
         assertEquals(10, square2.getXCoord());
         assertEquals(12, square3.getXCoord());
     }
-
 }

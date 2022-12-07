@@ -67,6 +67,7 @@ class PlayerModelTest {
         }
         return new PlayWordEvent(newGame, squaresForWord, tiles);
     }
+
     @Test
     void testInitialPlayerScoreZero() {
         assertEquals(0,player1.getScore());
@@ -181,7 +182,6 @@ class PlayerModelTest {
         assertFalse(player1.playWord(createPlayWordEvent("ABC", 8, 10, true)));
     }
 
-
     /*
      * Testing the return of a single's player's score and 1 play
      */
@@ -231,7 +231,5 @@ class PlayerModelTest {
 
         assertTrue(player1.playWord(createPlayWordEvent("OUT", 7, 10, true)));
         assertEquals(22,player1.getScore());
-
     }
-
 }

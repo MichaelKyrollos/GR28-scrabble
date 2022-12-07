@@ -7,6 +7,13 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.util.Scanner;
 
+/**
+ * This class tests the ScrabbleDictionary of the Scrabble game.
+ *
+ * @author Yehan De Silva
+ * @version 4.0
+ * @date December 07, 2022
+ */
 class ScrabbleDictionaryTest {
 
     /**

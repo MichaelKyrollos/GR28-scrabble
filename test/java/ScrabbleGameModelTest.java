@@ -5,13 +5,16 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * This class tests the ScrabbleGameModel.
+ *
+ * @author Michael Kyrollos, 101183521
+ * @version 1.0
+ * @date November 11, 2022
+ */
 class ScrabbleGameModelTest {
 
-    /**
-     *@author Michael Kyrollos, 101183521
-     * @version 1.0
-     * @date November 11, 2022
-     */
     ScrabbleGameModel newScrabbleGameModel;
     ArrayList<Tile> tiles;
     TileBag TEST_TILE_BAG;
@@ -20,7 +23,7 @@ class ScrabbleGameModelTest {
     void setUp() {
         newScrabbleGameModel = new ScrabbleGameModel();
         newScrabbleGameModel.createGameBoard(null);
-        newScrabbleGameModel.GAME_TILE_BAG.fillBag();
+        ScrabbleGameModel.GAME_TILE_BAG.fillBag();
         TEST_TILE_BAG = new TileBag();
         tiles = new ArrayList<>();
     }
