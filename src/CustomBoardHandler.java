@@ -27,7 +27,7 @@ public class CustomBoardHandler extends DefaultHandler {
      * @date December 1, 2022
      */
     @Override
-    public void startDocument() throws SAXException {
+    public void startDocument() {
         allSquaresMap = new HashMap<>();
     }
 
@@ -39,7 +39,7 @@ public class CustomBoardHandler extends DefaultHandler {
      * @date December 1, 2022
      */
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
         if (qName.equals("coord")) {
             isCoord = true;
         } else {
@@ -57,7 +57,7 @@ public class CustomBoardHandler extends DefaultHandler {
      * @date December 1, 2022
      */
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(String uri, String localName, String qName) {
         if (qName.equals("coord")) {
             isCoord = false;
         }
