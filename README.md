@@ -15,7 +15,7 @@ The game is played on a 15x15 board, is compatible with 2-4 players and uses [th
 ## How to Run Project:
 1. Compile and build project 
 2. Run the program (From ScrabbleFrameView.java)
-3. User will be prompted for a custom XML board
+3. User will be prompted for a [custom XML board](#what-is-the-format-for-custom-board-xml-files)
       - If the user wants a custom board, the user will be prompted to choose an XML file
       - Otherwise, (Or if the custom XML board is invalid), the default scrabble board will be used
 4. Click "Let's Play!" to start the game (Or load a Scrabble game from the menu and begin playing)
@@ -27,17 +27,17 @@ The game is played on a 15x15 board, is compatible with 2-4 players and uses [th
       - Must be an integer between 0-(4 - # real players)
       - The program will keep asking for input until the user enters a valid input
 8. Game will be started once the number of players and their names have been entered and processed. 
-9. The game will cycle between all players, so each of them gets a turn
+9. The game will cycle between all players, so each of them gets a [turn](#player-options-during-their-turn)
 10. Game will end when either:
       - Player chooses to end game from the JMenu
       - No more tiles left to redraw and play the game
 
 ## Player Options During Their Turn 
-![image](https://user-images.githubusercontent.com/61627702/203466074-7e4ebfed-66e0-414d-8c5b-f3c35403f42e.png)
+![image](https://user-images.githubusercontent.com/69320325/206482898-b92d2aee-3e68-4939-bcce-665af86ec21c.png)
 
 | Button | Description                                                                                                         |
 |--------|---------------------------------------------------------------------------------------------------------------------|
-| Play   | Play tile one by one on to the board. Click "Submit" once finished.                                                 |   
+| Play   | Play tile [one by one](#the-word-i-am-playing-is-not-properly-recognized-by-the-program) on to the board. Click "Submit" once finished.                                                 |   
 | Redraw | Select all the tiles on player's rack that they wish to redraw. Returns them to the tile bag and redraws new tiles. |
 | Skip   | Skips player's turn and starts the next player's turn                                                               |
 
@@ -51,19 +51,19 @@ The game is played on a 15x15 board, is compatible with 2-4 players and uses [th
 
 ## Current Milestone - Milestone 4:
   - The game supports 2-4 players, with any combination of real and AI players
-  - Players can place a word, redraw tiles, skip their turn or end the game using a GUI
+  - Players can place a word, redraw tiles, skip their turn, undo, redo, save, load or end the game using a GUI
   - The game supports AI players
   - The game supports blank tiles, which allow the players to choose the letter of the tile themselves during gameplay
       - Blank tiles are worth 0 points
       - The letter of the blank tile cannot be changed after it has been placed on the board
   - The game board contains premium squares, which add bonus points to the placement of letters/words; there are 4 types
-      - Blue squares - x2 letter square - doubles the value of the letter placed on this square
-      - Green squares - x3 letter square - triples the value of the letter placed on this square
-      - Red squares - x2 word square - doubles the value of the word placed on this square
-      - Orange squares - x3 word square - triples the value of the word placed on this square
+      - ![#5DC3EB](https://placehold.co/15x15/5DC3EB/5DC3EB.png) `Blue squares - x2 letter square - Doubles the value of the letter placed on this square`
+      - ![#71D271](https://placehold.co/15x15/71D271/71D271.png) `Green squares - x3 letter square - Triples the value of the letter placed on this square`
+      - ![#FF7878](https://placehold.co/15x15/FF7878/FF7878.png) `Red squares - x2 word square - Doubles the value of the word placed on this square`
+      - ![#F3AA44](https://placehold.co/15x15/F3AA44/F3AA44.png) `Orange squares - x3 word square - Triples the value of the word placed on this square`
   - The game now supports custom boards, which the user can load using an XML file at the start of the game
       - Custom boards allow the user to customize the location of any and all premium squares
-      - An example of XML formatting for custom boards can be found in this project (src/resources/customBoardExample.xml)
+      - An example of XML formatting for custom boards can be found in this project [(src/resources/customBoardExample.xml)](#what-is-the-format-for-custom-board-xml-files)
       - See FAQ below for detailed instructions on creating custom board XML files
   - The game now supports undo/redo for each move made by a player (both real and AI)
   - The game now allows users to save their game, as well as load a previously saved game
@@ -142,17 +142,10 @@ The game is played on a 15x15 board, is compatible with 2-4 players and uses [th
 | XML                        | Used as a method to store information regarding premium squares. It can be parsed by an XML parser to extract the locations of all premium squares.                                                                                                                                                                                                                                                |
 
 ## FAQ:
-#### I am getting a warning that my project .class is either outdated or a newer version.  
-1. Delete .class files in your directory (within your file explorer), navigating to GR28-scrabble\out\production\G28-Scrabble\resources
-2. In IntelliJ, navigate to menu item Build->Recompile
-3. If above does not work, do Build->Rebuild
 
-#### Testing is not running.  
-- Download the JUnit library (Version used to write the tests is: 5.8.1)
-  
-#### Code is unexpectedly not running  
-- navigate to File->Project Structure, and ensure the settings are the same as the picture below 
-![image](https://user-images.githubusercontent.com/83596468/197912247-346bfddf-e590-463d-a137-1e8f4f48a2c7.png)
+#### The word I am playing is not properly recognized by the program
+Ensure you have selected **all** tiles that are part of your word, **including** tiles that have already been placed on the board. Selected tiles are highlighted with a white border. See below for the proper play of the word "ten" using the existing "t" on the board. 
+![image](https://user-images.githubusercontent.com/69320325/206480625-d7ea8311-85cf-4ce1-8465-5f747968fef7.png)
 
 #### What is the format for Custom Board XML Files
 - Coordinates should be enclosed in "coord" tags, with one coordinate per tag, with x and y coordinate values seperated by a comma (,)
@@ -185,5 +178,19 @@ The game is played on a 15x15 board, is compatible with 2-4 players and uses [th
 - The above XML results in the following custom board:
 ![image](https://user-images.githubusercontent.com/36240585/206084568-638f5e16-e8d4-40db-be29-84c2dbe8b186.png)
 
-### I cannot undo to get to moves I previously made after reloading a saved game.
+#### I cannot undo to get to moves I previously made after reloading a saved game.
 - The moves made before a game is saved are not saved, meaning that undoing past a game save is not supported
+
+#### I am getting a warning that my project .class is either outdated or a newer version.  
+1. Delete .class files in your directory (within your file explorer), navigating to GR28-scrabble\out\production\G28-Scrabble\resources
+2. In IntelliJ, navigate to menu item Build->Recompile
+3. If above does not work, do Build->Rebuild
+
+#### Testing is not running.  
+- Download the JUnit library (Version used to write the tests is: 5.8.1)
+  
+#### Code is unexpectedly not running  
+- navigate to File->Project Structure, and ensure the settings are the same as the picture below 
+![image](https://user-images.githubusercontent.com/83596468/197912247-346bfddf-e590-463d-a137-1e8f4f48a2c7.png)
+
+
