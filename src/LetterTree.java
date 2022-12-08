@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Scanner;
 /**
@@ -14,13 +15,13 @@ import java.util.Scanner;
  * @version 1.0
  * @date December 4th, 2022
  */
-public class LetterTree {
+public class LetterTree implements Serializable{
 
     /**
      * The default dictionary file to be used.
      */
     public static final File AI_DICTIONARY = new File(new File("").getAbsolutePath() + "/src/resources/default_dictionary.txt");
-    public static class LetterTreeNode {
+    public static class LetterTreeNode implements Serializable{
         public boolean isWord;
         public HashMap<Character,LetterTreeNode> children;
 
