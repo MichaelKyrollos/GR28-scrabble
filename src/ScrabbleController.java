@@ -353,7 +353,7 @@ public class ScrabbleController implements ActionListener {
             }
             squaresInWord = wordEvent.getSquaresInWord();
             tilesPlaced = wordEvent.getTilesPlaced();
-            for(int i=tilesPlaced.size()-1;i>0;i--){
+            for(int i=tilesPlaced.size()-1;i>=0;i--){
                 scrabbleModel.getCurrentPlayer().playTile(squaresInWord.get(i), tilesPlaced.get(i));
             }
         }
