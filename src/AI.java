@@ -29,7 +29,7 @@ public class AI {
     static AIBoard bestBoard;
     // Stores reference to the subclass
     private AIMove bestMove;
-    private final LetterTree dictionary;
+    private final transient LetterTree dictionary;
     private String direction;
     // map of the result of crossCheckResults
     private HashMap<List<Integer>, String>  crossCheckResults;
