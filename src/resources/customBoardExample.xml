@@ -1,14 +1,24 @@
 <board>
 	<doubleLetterSquares>
-		<coord>7,6</coord>	
+		<!--Enter coordinates for double letter squares here-->
+		<coord>0,0</coord>
 	</doubleLetterSquares>
 	<tripleLetterSquares>
-		<coord>7,8</coord>	
+		<!--Enter coordinates for triple letter squares here-->
+		<coord>1,0</coord>
+		<coord>1,1</coord>
 	</tripleLetterSquares>
 	<doubleWordSquares>
-		<coord>6,7</coord>	
+		<!--Enter coordinates for double word squares here-->
+		<coord>2,0</coord>
+		<coord>2,1</coord>
+		<coord>2,2</coord>
 	</doubleWordSquares>
 	<tripleWordSquares>
-		<coord>8,7</coord>	
+		<!--Enter coordinates for triple word squares here-->
+		<coord>3,0</coord>
+		<coord>3,1</coord>
+		<coord>3,2</coord>
+		<coord>3,3</coord>
 	</tripleWordSquares>
 </board>
