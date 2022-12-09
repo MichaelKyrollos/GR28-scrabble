@@ -79,11 +79,6 @@ The game is played on a 15x15 board, is compatible with 2-4 players and uses [th
   - Players can now unselect a selected existing square on the board while playing a word
   - Players no longer need to place words in order for it to be recognized
 
-## Known issues:
-1. ⚠️ Graphical Bug with tiles on player's rack
-      - Sometimes hides player tiles after a play they made is invalid, and they have multiple tiles with the same letter  
-      - Core functionality of the game is still intact
-
 ## Design Decisions Made  
 1. Delegation was used to ensure each class performs its rightful responsibilities and have high cohesion.
 2. Linear control flow between classes was preferred when coding. For example, when placing a word, the game validates the word in the dictionary and then delegates to player to continue placing the word. The player can than validate if they have the correct tiles and pass them along to the board to place.
