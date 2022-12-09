@@ -23,16 +23,16 @@ import static java.lang.Character.toUpperCase;
 public class ScrabbleController implements ActionListener {
 
     /** Corresponding model **/
-    private ScrabbleGameModel scrabbleModel;
+    private final ScrabbleGameModel scrabbleModel;
     /** ScrabbleFrame to modify visual elements only**/
-    private ScrabbleFrameView scrabbleFrame;
+    private final ScrabbleFrameView scrabbleFrame;
 
     private Tile selectedTile;
     private boolean isPlaying;
     private boolean isRedrawing;
 
     private ArrayList<Tile> tilesPlaced;
-    private ArrayList<Tile> tilesToRedraw;
+    private final ArrayList<Tile> tilesToRedraw;
     private ArrayList<Square> squaresInWord;
 
     /**
@@ -65,8 +65,7 @@ public class ScrabbleController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //If tile is selected
-        if (e.getSource() instanceof Tile) {
-            Tile tile = (Tile) e.getSource();
+        if (e.getSource() instanceof Tile tile) {
             //Tile is to be played
             if (isPlaying) {
                 playTileSelected(tile);
@@ -77,8 +76,7 @@ public class ScrabbleController implements ActionListener {
             }
         }
         //Square is to be played on
-        if (e.getSource() instanceof Square) {
-            Square square = (Square) e.getSource();
+        if (e.getSource() instanceof Square square) {
             if (isPlaying) {
                 playSquareSelected(square);
             }
@@ -196,9 +194,8 @@ public class ScrabbleController implements ActionListener {
     private void playSquareSelected(Square square) {
         if (square.getTile() == null && selectedTile != null) {
             // square is empty, so place the tile
-            if (selectedTile instanceof BlankTile) {
+            if (selectedTile instanceof BlankTile blankTile) {
                 // blank tile has been selected, so set the letter to what the user wants
-                BlankTile blankTile = (BlankTile) selectedTile;
                 boolean isCharLetter = false;
                 while (!isCharLetter) {
                     String tileLetter = JOptionPane.showInputDialog(scrabbleFrame, "Enter the letter " +
