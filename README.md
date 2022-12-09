@@ -71,6 +71,7 @@ The game is played on a 15x15 board, is compatible with 2-4 players and uses [th
 ### Changes Since Previous Deliverable - Milestone 3:
   - General refactoring and QC across all classes
   - Fixed functionality of AI players
+  - Added tear downs in all test classes to ensure all tests pass
   - Added global undo/redo functionality
   - Added the ability to save/load a game 
   - Added the ability to import custom boards
