@@ -20,24 +20,24 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
 
     /** Fields **/
     private ArrayList<PlayerCardView> playerCards;
-    private Container contentPane;
+    private final Container contentPane;
     private JPanel boardPanel;
     private JPanel boardContainerPanel;
     private JPanel playerPanel;
     private JPanel buttonsPanel;
-    private JLabel currentTurn;
+    private final JLabel currentTurn;
     private JPanel horizontalLabelPanel;
     private JPanel verticalLabelPanel;
-    private JButton playButton;
-    private JButton redrawButton;
-    private JButton skipButton;
-    private JMenuItem quitMenuItem;
-    private JMenuItem undoItem;
-    private JMenuItem redoItem;
-    private JMenuItem loadGame;
-    private JMenuItem saveGame;
-    private ScrabbleGameModel scrabbleModel;
-    private ScrabbleController scrabbleController;
+    private final JButton playButton;
+    private final JButton redrawButton;
+    private final JButton skipButton;
+    private final JMenuItem quitMenuItem;
+    private final JMenuItem undoItem;
+    private final JMenuItem redoItem;
+    private final JMenuItem loadGame;
+    private final JMenuItem saveGame;
+    private final ScrabbleGameModel scrabbleModel;
+    private final ScrabbleController scrabbleController;
     private boolean scrabbleGameStarted;
 
     /** Constants **/
@@ -524,12 +524,10 @@ public class ScrabbleFrameView extends JFrame implements ScrabbleView {
         currentTurn.setText("Current turn:   " + scrabbleModel.getCurrentPlayer().getName());
 
         //Enable/disable the undo item if there are turns to undo
-        if(scrabbleModel.getUndoStack().size() <= 1) {this.undoItem.setEnabled(false);}
-        else {this.undoItem.setEnabled(true);}
+        this.undoItem.setEnabled(scrabbleModel.getUndoStack().size() > 1);
 
         //Enable/disable the redo item if there are turns to redo
-        if(scrabbleModel.getRedoStack().isEmpty()) {this.redoItem.setEnabled(false);}
-        else {this.redoItem.setEnabled(true);}
+        this.redoItem.setEnabled(!scrabbleModel.getRedoStack().isEmpty());
 
         if (scrabbleModel.getGameStatusChanged()) {
             //Updating board
