@@ -39,8 +39,8 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
     /**
      * The stacks to hold game status' inorder to undo/redo.
      */
-    private transient Stack<ScrabbleGameStatus> undoStack;
-    private transient Stack<ScrabbleGameStatus> redoStack;
+    private final transient Stack<ScrabbleGameStatus> undoStack;
+    private final transient Stack<ScrabbleGameStatus> redoStack;
     private Boolean gameStatusChanged;
 
     /**
@@ -286,7 +286,6 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
     /**
      * Plays a word that was entered by the player, using the "play" button.
      *
-     *
      * @param playEvent the PlayWordEvent that was generated to play this word
      * @return true if the word was played successfully, false otherwise
      * @author Amin Zeina, 101186297
@@ -333,12 +332,11 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
 
     /**
      * Ends the current turn.
-     *
      * Switches the current player, updates the turn count, updates the view, enables the new current player's rack
      * tile buttons, and disables the previous player's rack tile buttons.
      *
      * @author Amin Zeina, 101186297
-     * @auuthor Yehan De Silva
+     * @author Yehan De Silva
      * @version 1.1
      * @date November 12, 2022
      */
@@ -398,9 +396,9 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
             this.messageScrabbleViews("The game has ended.\nPlayer " + winner.getName() +
                     " is the winner!" + " They had " + winner.getScore() + " points.");
         } else {
-            String tieMessage = "";
+            StringBuilder tieMessage = new StringBuilder();
             for (PlayerModel player: winners) {
-                tieMessage += "\n" + player.getName() + " - " + player.getScore() + " points";
+                tieMessage.append("\n").append(player.getName()).append(" - ").append(player.getScore()).append(" points");
             }
             this.messageScrabbleViews("The game has ended. The following players have tied:" + tieMessage);
          }
@@ -411,7 +409,6 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
     /**
      * Helper method for endGame method. Calculates the score of the players at the end of the game, following the
      * rules given on the Scrabble wiki:
-     *
      * "When the game ends, each player's score is reduced by the sum of their unused
      * letters; in addition, if a player has used all of their letters (known as "going out" or "playing out"),
      * the sum of all other players' unused letters is added to that player's score."
@@ -446,9 +443,7 @@ public class ScrabbleGameModel extends ScrabbleModel implements Serializable {
 
     /**
      * Helper method for endGame method. Determines the winner of the game, or "winners" if the game is tied.
-     *
      * If there is a tie, multiple players will be returned.
-     *
      *
      * @return a list of players at or tied for the highest score.
      */
