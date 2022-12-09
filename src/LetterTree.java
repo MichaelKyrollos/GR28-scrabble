@@ -68,7 +68,7 @@ public class LetterTree implements Serializable{
                 char[] word = scanner.next().trim().toLowerCase().toCharArray();
                 current_node = root;
                 for (char c : word) {
-                    Character key = c;
+                    Character key = new Character(c);
                     if (!current_node.children.containsKey(key)) {
                         LetterTreeNode newNode = new LetterTreeNode(false);
                         current_node.children.put(key, newNode);
@@ -92,7 +92,7 @@ public class LetterTree implements Serializable{
             LetterTreeNode current_node;
             current_node = root;
             for (char c : word.toCharArray()) {
-                Character key = c;
+                Character key = new Character(c);
                 if (!current_node.children.containsKey(key)) {
                     return null;
                 }
